@@ -14,7 +14,9 @@
   <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Dosis:300,400,500,,600,700,700i|Lato:300,300i,400,400i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Dosis:300,400,500,,600,700,700i|Lato:300,300i,400,400i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -23,6 +25,8 @@
   <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   <!-- Template Main CSS File -->
   <link href="/assets/css/style.css" rel="stylesheet">
@@ -67,7 +71,7 @@
       <div class="row">
         <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
           <h1>Welcome to your professional community</h1>
-          <div class="find_person">
+          <div class="find_person" (click)="findPerson()">
             <h4 class="title"><a href="">Find person you know</a><span class="arrow">&gt;</span></h4>
           </div>
           <div><a href="#about" class="btn-get-started scrollto">Get Started</a></div>
@@ -91,20 +95,24 @@
             <img src="/assets/img/people.jpg" class="img-fluid" alt="">
           </div>
 
-          <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
+          <div
+            class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
             <h3>Let the right people know you’re open to work</h3>
-            <p>With the Open To Work feature, you can privately tell recruiters or publicly share with the LinkedIn community that you are looking for new job opportunities.</p>
+            <p>With the Open To Work feature, you can privately tell recruiters or publicly share with the LinkedIn
+              community that you are looking for new job opportunities.</p>
 
             <div class="icon-box">
               <div class="icon"><i class="fa fa-comment"></i></div>
               <h4 class="title"><a href="">Conversations today could lead to opportunity tomorrow</a></h4>
-              <p class="description">Sending messages to people you know is a great way to strengthen relationships as you take the next step in your career.</p>
+              <p class="description">Sending messages to people you know is a great way to strengthen relationships as
+                you take the next step in your career.</p>
             </div>
 
             <div class="icon-box">
               <div class="icon"><i class="fa fa-building"></i></div>
               <h4 class="title"><a href="">Stay up to date on your industry</a></h4>
-              <p class="description">From live videos, to stories, to newsletters and more, LinkedIn is full of ways to stay up to date on the latest discussions in your industry.</p>
+              <p class="description">From live videos, to stories, to newsletters and more, LinkedIn is full of ways to
+                stay up to date on the latest discussions in your industry.</p>
             </div>
 
           </div>
@@ -125,7 +133,8 @@
               <div class="portfolio-info">
                 <h4>Connect with people who can help</h4>
                 <div class="portfolio-links">
-                  <a href="/assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
+                  <a href="/assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery"
+                    class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
                   <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
@@ -138,7 +147,8 @@
               <div class="portfolio-info">
                 <h4>Learn the skills you need to succeed</h4>
                 <div class="portfolio-links">
-                  <a href="/assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 2"><i class="bx bx-plus"></i></a>
+                  <a href="/assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery"
+                    class="portfolio-lightbox" title="App 2"><i class="bx bx-plus"></i></a>
                   <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
@@ -222,7 +232,8 @@
     </div>
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="/assets/vendor/purecounter/purecounter.js"></script>

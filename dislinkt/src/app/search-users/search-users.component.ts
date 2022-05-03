@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 
 @Component({
-  selector: 'app-front-page-component',
-  templateUrl: './front-page-component.component.html',
-  styleUrls: ['./front-page-component.component.scss']
+  selector: 'app-search-users',
+  templateUrl: './search-users.component.html',
+  styleUrls: ['./search-users.component.scss']
 })
-export class FrontPageComponentComponent implements OnInit {
+export class SearchUsersComponent implements OnInit {
 
   constructor(private router: Router) { }
 
@@ -21,8 +21,5 @@ export class FrontPageComponentComponent implements OnInit {
     this.router.navigate(['registration']);
   }
 
-  findPerson(){
-    this.router.navigate(['search-users']);
-  }
 
 }

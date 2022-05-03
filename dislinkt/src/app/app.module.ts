@@ -8,6 +8,7 @@ import { FrontPageComponentComponent } from './front-page-component/front-page-c
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { UserPageComponent } from './user-page/user-page.component';
+import { SearchUsersComponent } from './search-users/search-users.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { UserPageComponent } from './user-page/user-page.component';
     FrontPageComponentComponent,
     LoginComponent,
     RegistrationComponent,
-    UserPageComponent
+    UserPageComponent,
+    SearchUsersComponent
   ],
   imports: [
     BrowserModule,
