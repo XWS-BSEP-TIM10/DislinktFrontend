@@ -55,7 +55,7 @@
                     <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
                     <div class="vl"></div>
                     <li><a class="nav-link scrollto" (click)="registration()" style="cursor: pointer;">Join now</a></li>
-                    <li><a class="nav-link scrollto " (click)="login()" style="cursor: pointer;">Sign up</a></li>
+                    <li><a class="nav-link scrollto " (click)="login()" style="cursor: pointer;">Sign in</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
@@ -67,10 +67,14 @@
         <div id="formContent">
 
             <!-- Login Form -->
-            <form>
-                <input type="text" id="login" class="fadeIn second" name="login" placeholder="login">
-                <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
-                <input type="submit" class="fadeIn fourth" value="Log In">
+            <form #credentials="ngForm">
+                <input type="text" id="login" class="fadeIn second" name="firstName" placeholder="first name" ngModel>
+                <input type="text" id="login" class="fadeIn second" name="lastName" placeholder="last name" ngModel>
+                <input type="text" id="login" class="fadeIn second" name="email" placeholder="email" ngModel>
+                <input type="text" id="login" class="fadeIn second" name="phoneNumber" placeholder="phone number" ngModel>
+                <input type="text" id="login" class="fadeIn second" name="username" placeholder="username" ngModel>
+                <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" ngModel>
+                <input type="submit" class="fadeIn fourth" value="Sign up" (click)="registerUser(credentials)">
             </form>
         </div>
     </div>
