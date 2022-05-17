@@ -7,7 +7,8 @@ export const environment = {
   "baseUrlAuthentication": "http://localhost:8083/api/v1",
   "baseUrlConnections": "http://localhost:8082/api/v1",
   "baseUrlPost": "http://localhost:8084/api/v1",
-  "baseUrlProfile": "http://localhost:8081/api/v1"
+  "baseUrlProfile": "http://localhost:8081/api/v1",
+  "baseUrl": "https://localhost:8678/api/v1"
 };
 /*
  * For easier debugging in development mode, you can import the following file

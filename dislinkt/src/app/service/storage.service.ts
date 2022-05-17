@@ -21,4 +21,7 @@ export class StorageService {
     }
     return ""
   }
+  getToken() {
+    return sessionStorage.getItem("jwt")
+  }
 }

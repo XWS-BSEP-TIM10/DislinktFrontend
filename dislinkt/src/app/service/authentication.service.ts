@@ -15,11 +15,11 @@ export class AuthenticationService {
   constructor(private http: HttpClient) { }
 
   login(loginDTO: LoginDTO) {
-    return this.http.post(`${config.baseUrlAuthentication}${this.loginUrl}`, loginDTO)
+    return this.http.post(`${config.baseUrl}${this.loginUrl}`, loginDTO)
   }
 
   signup(registrationDTO: RegistrationDTO) {
-    return this.http.post(`${config.baseUrlAuthentication}${this.signupUrl}`, registrationDTO)
+    return this.http.post(`${config.baseUrl}${this.signupUrl}`, registrationDTO)
   }
 
 }
