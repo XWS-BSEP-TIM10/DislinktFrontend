@@ -1,50 +1,72 @@
-
 <div class="container">
-<div class="col-md-7">
+  <div class="col-md-7">
     <div class="social-feed-box">
-        <div class="social-avatar">
-            <a href="" class="pull-left">
-                <img alt="image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
+      <div class="social-avatar">
+        <a href="" class="pull-left">
+          <app-profile-picture
+            [ownerId]="post.ownerId"
+            [initials]="getInitials(post.firstName, post.lastName)"
+          ></app-profile-picture>
+        </a>
+        <div class="media-body">
+          <a href="#">
+            {{ post.firstName + " " + post.lastName }}
+          </a>
+          <small class="text-muted">{{ post.creationDate | date }}</small>
+        </div>
+      </div>
+      <div class="social-body">
+        <p>
+          {{ post.text }}
+        </p>
+        <img
+          *ngIf="post.image"
+          src="https://via.placeholder.com/650x280/FFB6C1/000000"
+          class="img-responsive"
+        />
+        <div class="btn-group">
+          <button class="btn btn-white btn-xs" (click)=" isLiked() ? removeReaction() : like()">
+            <i
+              class="fa fa-thumbs-up"
+              [style.color]="isLiked() ? 'green' : 'black'"
+            ></i>
+            Like {{ getNumOfLikes() }}
+          </button>
+          <button class="btn btn-white btn-xs"  (click)=" isDisliked() ? removeReaction() : dislike()">
+            <i
+              class="fa fa-thumbs-down"
+              [style.color]="isDisliked() ? 'red' : 'black'"
+            ></i>
+            Dislike {{ getNumOfDislikes() }}
+          </button>
+        </div>
+      </div>
+      <div class="social-footer">
+        <div class="social-comment" *ngFor="let comment of post.comments">
+          <a href="" class="pull-left">
+            <app-profile-picture
+              [ownerId]="comment.ownerId"
+              [initials]="getInitials(comment.firstName, comment.lastName)"
+            ></app-profile-picture>
+          </a>
+          <div class="media-body">
+            <a href="#">
+              {{ comment.firstName + " " + comment.lastName }}
             </a>
-            <div class="media-body">
-                <a href="#">
-                    {{post.ownerId }}
-                </a>
-                <small class="text-muted">{{post.creationDate | date}}</small>
-            </div>
-        </div>
-        <div class="social-body">
-            <p>
-                {{post.text}}
-            </p>
-            <img *ngIf="post.image" src="https://via.placeholder.com/650x280/FFB6C1/000000" class="img-responsive">
-            <div class="btn-group">
-                <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button>
-                <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-down"></i> Dislike</button>
-            </div>
-        </div>
-        <div class="social-footer">
-            <div class="social-comment" *ngFor="let comment of post.comments">
-                <a href="" class="pull-left">
-                    <img alt="image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
-                </a>
-                <div class="media-body">
-                    <a href="#">
-                        {{comment.ownerId}}
-                    </a>
-                    <br>
-                      {{comment.text}}
-                    <br>
-                </div>
-            </div>
-            <div class="social-comment">
-              <div class="media-body">
-                  <textarea class="form-control" placeholder="Write comment..."></textarea>
-              </div>
+            <br />
+            {{ comment.text }}
+            <br />
           </div>
         </div>
-
-
+        <div class="social-comment">
+          <div class="media-body">
+            <textarea
+              class="form-control"
+              placeholder="Write comment..."
+            ></textarea>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 </div>

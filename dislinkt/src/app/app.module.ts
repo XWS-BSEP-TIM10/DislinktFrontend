@@ -13,6 +13,7 @@ import { AuthInterceptorService } from './auth-interceptor.service';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PostComponent } from './post/post.component';
+import { ProfilePictureComponent } from './profile-picture/profile-picture.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { PostComponent } from './post/post.component';
     SearchUsersComponent,
     HomeComponent,
     NavbarComponent,
-    PostComponent
+    PostComponent,
+    ProfilePictureComponent
   ],
   imports: [
     BrowserModule,
