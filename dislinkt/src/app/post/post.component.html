@@ -1,0 +1,50 @@
+
+<div class="container">
+<div class="col-md-7">
+    <div class="social-feed-box">
+        <div class="social-avatar">
+            <a href="" class="pull-left">
+                <img alt="image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
+            </a>
+            <div class="media-body">
+                <a href="#">
+                    {{post.ownerId }}
+                </a>
+                <small class="text-muted">{{post.creationDate | date}}</small>
+            </div>
+        </div>
+        <div class="social-body">
+            <p>
+                {{post.text}}
+            </p>
+            <img *ngIf="post.image" src="https://via.placeholder.com/650x280/FFB6C1/000000" class="img-responsive">
+            <div class="btn-group">
+                <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button>
+                <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-down"></i> Dislike</button>
+            </div>
+        </div>
+        <div class="social-footer">
+            <div class="social-comment" *ngFor="let comment of post.comments">
+                <a href="" class="pull-left">
+                    <img alt="image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                </a>
+                <div class="media-body">
+                    <a href="#">
+                        {{comment.ownerId}}
+                    </a>
+                    <br>
+                      {{comment.text}}
+                    <br>
+                </div>
+            </div>
+            <div class="social-comment">
+              <div class="media-body">
+                  <textarea class="form-control" placeholder="Write comment..."></textarea>
+              </div>
+          </div>
+        </div>
+
+
+    </div>
+</div>
+</div>

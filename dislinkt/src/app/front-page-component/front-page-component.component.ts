@@ -13,13 +13,7 @@ export class FrontPageComponentComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  login(){
-    this.router.navigate(['login']);
-  }
 
-  registration(){
-    this.router.navigate(['registration']);
-  }
 
   findPerson(){
     this.router.navigate(['search-users']);

@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       this.storageService.storeTokenData(data.jwt);
       switch (this.storageService.getRoleFromToken()) {
         case 'ROLE_USER':
-          this.router.navigateByUrl('/user-page')
+          this.router.navigateByUrl('/home')
           break
         default:
           this.router.navigateByUrl('/')

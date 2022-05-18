@@ -10,6 +10,9 @@ import { RegistrationComponent } from './registration/registration.component';
 import { UserPageComponent } from './user-page/user-page.component';
 import { SearchUsersComponent } from './search-users/search-users.component';
 import { AuthInterceptorService } from './auth-interceptor.service';
+import { HomeComponent } from './home/home.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { PostComponent } from './post/post.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { AuthInterceptorService } from './auth-interceptor.service';
     LoginComponent,
     RegistrationComponent,
     UserPageComponent,
-    SearchUsersComponent
+    SearchUsersComponent,
+    HomeComponent,
+    NavbarComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,

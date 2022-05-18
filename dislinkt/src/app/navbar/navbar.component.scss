@@ -1,0 +1,23 @@
+.vl {
+  border-left: 3px solid gray;
+  margin-left: 5%;
+  height: 40px;
+}
+.find_person{
+  margin-top: 13%;
+  margin-bottom: 5%;
+  border: 1px lightgray solid;
+  max-width: 25em;
+  padding: 18px;
+  padding-bottom: 10px;
+}
+.find_person:hover{
+  border:none;
+  box-shadow: 5px 6px 5px 5px #a7a7a7;;
+}
+.arrow{
+  zoom: 1.5;
+  position: relative;
+  bottom: 0.2em;
+  float: right;
+}
