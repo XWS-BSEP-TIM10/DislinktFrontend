@@ -1,3 +1,4 @@
+import { SafeResourceUrl } from "@angular/platform-browser"
 import { Comment } from "./Comment"
 
 export interface Post {
@@ -10,5 +11,5 @@ export interface Post {
   dislikes: string[]
   comments: Comment[]
   creationDate: string
-  image?: string
+  image?: SafeResourceUrl
 }

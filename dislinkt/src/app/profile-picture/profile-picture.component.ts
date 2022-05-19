@@ -21,14 +21,7 @@ export class ProfilePictureComponent implements OnInit {
 
 
   getRandomColor() {
-  var hash = 0, i, chr;
-  if (this.ownerId.length === 0) return hash;
-  for (i = 0; i < this.ownerId.length; i++) {
-    chr   = this.ownerId.charCodeAt(i);
-    hash  = ((hash << 5) - hash) + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-
+    let hash = this.initials.charCodeAt(0) + this.initials.charCodeAt(1)
     return this.colors[hash % this.colors.length];
   }
 

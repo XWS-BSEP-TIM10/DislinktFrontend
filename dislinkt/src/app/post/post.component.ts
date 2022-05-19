@@ -14,29 +14,29 @@ export class PostComponent implements OnInit {
   @Input() post!: Post;
   userId!: string
   constructor(private postService: PostService, private storageService: StorageService) {
-    this.post = {
-      id: '628542aa1adebd7516d97fa5',
-      comments: [
-        {
-        text: "Nice",
-        ownerId: "652e00d7-9930-487e-89ee-1bae54bf55c2",
-        firstName: "Neko",
-        lastName: "Nekic"
-    }, {
-      text: "Good post",
-      ownerId: "652e00d7-9930-487e-89ee-1bae54bf55c2",
-      firstName: "Neko",
-      lastName: "Nekic"
-  }],
-      creationDate: '12/09/1999',
-      dislikes: [],
-      likes: [],
-      ownerId: 'pera',
-      firstName: "Pera",
-      lastName: "Peric",
-      text: 'Moj prvi post',
-      image: undefined
-    }
+  //   this.post = {
+  //     id: '6286264f833bdf5bd13bff54',
+  //     comments: [
+  //       {
+  //       text: "Nice",
+  //       ownerId: "652e00d7-9930-487e-89ee-1bae54bf55c2",
+  //       firstName: "Neko",
+  //       lastName: "Nekic"
+  //   }, {
+  //     text: "Good post",
+  //     ownerId: "652e00d7-9930-487e-89ee-1bae54bf55c2",
+  //     firstName: "Neko",
+  //     lastName: "Nekic"
+  // }],
+  //     creationDate: '12/09/1999',
+  //     dislikes: [],
+  //     likes: [],
+  //     ownerId: 'pera',
+  //     firstName: "Pera",
+  //     lastName: "Peric",
+  //     text: 'Moj prvi post',
+  //     image: undefined
+  //   }
   }
 
   isLiked() {
@@ -76,7 +76,7 @@ export class PostComponent implements OnInit {
 
   dislike() {
     if (this.isDisliked())
-    return
+      return
   let reactionDTO : ReactionDTO = {
     userId: this.userId,
     like: false

@@ -27,9 +27,9 @@ export class PostService {
     return this.http.post(`${config.baseUrl}${this.postUrl}/${postId}/comment`, commentDTO)
   }
   getPosts(id: string) {
-    return this.http.get(`${config.baseUrl}users/${id}/posts`)
+    return this.http.get(`${config.baseUrl}/users/${id}/posts`)
   }
   getFeed(id: string) {
-    return this.http.get(`${config.baseUrl}users/${id}/feed`)
+    return this.http.get(`${config.baseUrl}/users/${id}/feed`)
   }
 }

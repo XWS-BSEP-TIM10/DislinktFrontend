@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="post">
   <div class="col-md-7">
     <div class="social-feed-box">
       <div class="social-avatar">
@@ -12,7 +12,7 @@
           <a href="#">
             {{ post.firstName + " " + post.lastName }}
           </a>
-          <small class="text-muted">{{ post.creationDate | date }}</small>
+          <small class="text-muted">{{ post.creationDate}}</small>
         </div>
       </div>
       <div class="social-body">
@@ -21,7 +21,7 @@
         </p>
         <img
           *ngIf="post.image"
-          src="https://via.placeholder.com/650x280/FFB6C1/000000"
+          [src]="post.image"
           class="img-responsive"
         />
         <div class="btn-group">
