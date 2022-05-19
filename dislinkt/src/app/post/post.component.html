@@ -16,8 +16,7 @@
         </div>
       </div>
       <div class="social-body">
-        <p>
-          {{ post.text }}
+        <p [innerHTML]="post.text | linky">
         </p>
         <img
           *ngIf="post.image"
@@ -59,12 +58,14 @@
           </div>
         </div>
         <div class="social-comment">
-          <div class="media-body">
+          <form class="comment-section" [formGroup]="commentForm">
             <textarea
               class="form-control"
               placeholder="Write comment..."
+              formControlName="text"
             ></textarea>
-          </div>
+            <button class="fadeIn fourth send-button" (click)="createComment()">Send</button>
+          </form>
         </div>
       </div>
     </div>

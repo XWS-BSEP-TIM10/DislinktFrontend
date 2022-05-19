@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CommentDTO } from '../dto/CommentDTO';
 import { ReactionDTO } from '../dto/ReactionDTO';
 import { RemoveReactionDTO } from '../dto/RemoveReactionDTO';
 import { Post } from '../model/Post';
@@ -14,30 +16,12 @@ export class PostComponent implements OnInit {
   @Input() post!: Post;
   userId!: string
   constructor(private postService: PostService, private storageService: StorageService) {
-  //   this.post = {
-  //     id: '6286264f833bdf5bd13bff54',
-  //     comments: [
-  //       {
-  //       text: "Nice",
-  //       ownerId: "652e00d7-9930-487e-89ee-1bae54bf55c2",
-  //       firstName: "Neko",
-  //       lastName: "Nekic"
-  //   }, {
-  //     text: "Good post",
-  //     ownerId: "652e00d7-9930-487e-89ee-1bae54bf55c2",
-  //     firstName: "Neko",
-  //     lastName: "Nekic"
-  // }],
-  //     creationDate: '12/09/1999',
-  //     dislikes: [],
-  //     likes: [],
-  //     ownerId: 'pera',
-  //     firstName: "Pera",
-  //     lastName: "Peric",
-  //     text: 'Moj prvi post',
-  //     image: undefined
-  //   }
   }
+
+  commentForm = new FormGroup({
+    text: new FormControl('', Validators.required),
+  })
+
 
   isLiked() {
     return this.post.likes.includes(this.userId)
@@ -57,6 +41,20 @@ export class PostComponent implements OnInit {
   }
   ngOnInit(): void {
     this.userId = this.storageService.getIdFromToken();
+  }
+
+  createComment() {
+    if (this.commentForm.invalid)
+      return
+    let commentDTO : CommentDTO = {
+      userId: this.userId,
+      text: this.commentForm.get('text')?.value,
+    }
+    this.postService.createComment(this.post.id, commentDTO).subscribe((data:any) => {
+      this.post.comments = [...this.post.comments, data]
+      this.commentForm.get('text')?.setValue('')
+    })
+
   }
 
   like() {

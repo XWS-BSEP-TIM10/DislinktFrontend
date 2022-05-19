@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +14,7 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PostComponent } from './post/post.component';
 import { ProfilePictureComponent } from './profile-picture/profile-picture.component';
+import { LinkyModule } from 'ngx-linky';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,9 @@ import { ProfilePictureComponent } from './profile-picture/profile-picture.compo
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    LinkyModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
