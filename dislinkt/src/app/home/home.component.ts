@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
     this.userId = this.storageService.getIdFromToken();
     this.postService.getPosts(this.userId).subscribe((data:any) => {
       this.posts = data
-      this.posts = this.posts.map(post => post = {...post, image: this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + post.image)})
+      this.posts = this.posts.map(post => (post.image === '') ? post : {...post, image: this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + post.image)})
     })
   }
 }

@@ -9,6 +9,8 @@ import { PostService } from '../service/post.service';
 import { ProfileService } from '../service/profile.service';
 import * as moment from 'moment';
 import { UpdateProfileDTO } from '../dto/UpdateProfileDTO';
+import { AuthenticationService } from '../service/authentication.service';
+import { ChangePasswordDTO } from '../dto/ChangePasswordDTO';
 
 @Component({
   selector: 'app-user-page',
@@ -24,7 +26,8 @@ export class UserPageComponent implements OnInit {
     constructor(private route: ActivatedRoute,
        private postService: PostService,
         private sanitizer: DomSanitizer,
-        private profileService: ProfileService) { }
+        private profileService: ProfileService,
+        private authService: AuthenticationService) { }
     postForm = new FormGroup({
       text: new FormControl('', Validators.required)
     })
@@ -44,7 +47,7 @@ export class UserPageComponent implements OnInit {
   passwordForm = new FormGroup({
     currentPassword: new FormControl('', Validators.required),
     newPassword: new FormControl('', Validators.required),
-    newPasswrodRepeat: new FormControl('', Validators.required),
+    newPasswordRepeat: new FormControl('', Validators.required),
   })
 
 
@@ -58,7 +61,7 @@ export class UserPageComponent implements OnInit {
     this.userId = this.route.snapshot.paramMap.get('id') || "";
     this.postService.getPosts(this.userId).subscribe((data:any) => {
       this.posts = data
-      this.posts = this.posts.map(post => post = {...post, image: this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + post.image)})
+      this.posts = this.posts.map(post => (post.image === '') ? post : {...post, image: this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + post.image)})
     })
     this.profileService.getProfile(this.userId).subscribe((data:any) => {
       this.profile = data
@@ -121,10 +124,32 @@ export class UserPageComponent implements OnInit {
     let formData: FormData = new FormData();
     formData.append("post", new Blob([JSON.stringify(postDTO)], {
     type: "application/json"}));
-    formData.append("image", this.file);
+    formData.append("image", this.file ?? new File([""], "filename"));
     this.postService.createPost(formData).subscribe((data:any) => {
       window.location.reload()
   })
+  }
+
+  changePassword() {
+    if (this.passwordForm.invalid || this.passwordForm.get('newPassword')?.value !== this.passwordForm.get('newPasswordRepeat')?.value)
+      return
+    let changePasswordDTO : ChangePasswordDTO = {
+      userId: this.userId,
+      oldPassword: this.passwordForm.get('currentPassword')?.value,
+      newPassword: this.passwordForm.get('newPassword')?.value,
+      repeatedNewPassword: this.passwordForm.get('newPasswordRepeat')?.value
+    }
+    this.authService.changePassword(changePasswordDTO).subscribe((data:any) => {
+      alert('success')
+      this.passwordForm.get('currentPassword')?.setValue('')
+      this.passwordForm.get('newPassword')?.setValue('')
+      this.passwordForm.get('newPasswordRepeat')?.setValue('')
+    }, (err: Error) => {
+      alert('failure')
+      this.passwordForm.get('currentPassword')?.setValue('')
+      this.passwordForm.get('newPassword')?.setValue('')
+      this.passwordForm.get('newPasswordRepeat')?.setValue('')
+    })
   }
 
 

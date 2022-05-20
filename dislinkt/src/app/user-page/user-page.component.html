@@ -141,37 +141,36 @@
                     <button type="submit" (click)="updateProfile()" class="btn btn-primary">Submit</button>
                   </div>
                 </div>
-
+              </form>
                 <hr>
-
+                <form class="form-horizontal padding-10" [formGroup]="passwordForm">
                 <h4>Change Password</h4>
                 <fieldset class="mb-xl">
                   <div class="form-group">
                     <label class="col-md-3 control-label">Current Password</label>
                     <div class="col-md-8">
-                      <input type="password" class="form-control">
+                      <input type="password" class="form-control" formControlName="currentPassword">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">New Password</label>
                     <div class="col-md-8">
-                      <input type="password" class="form-control">
+                      <input type="password" class="form-control" formControlName="newPassword">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Repeat New Password</label>
                     <div class="col-md-8">
-                      <input type="password" class="form-control">
+                      <input type="password" class="form-control" formControlName="newPasswordRepeat">
                     </div>
                   </div>
                 </fieldset>
 
                 <div class="row">
                   <div class="col-md-9 col-md-offset-3">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" (click)="changePassword()">Submit</button>
                   </div>
                 </div>
-
               </form>
 
             </div>
