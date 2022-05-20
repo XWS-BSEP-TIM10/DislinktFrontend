@@ -9,9 +9,9 @@
           ></app-profile-picture>
         </a>
         <div class="media-body">
-          <a href="#">
-            {{ post.firstName + " " + post.lastName }}
-          </a>
+            <a  (click)="viewProfile(this.post.ownerId)">
+            <span class="post-owner-name">{{ post.firstName + " " + post.lastName }}</span>
+            </a>
           <small class="text-muted">{{ post.creationDate}}</small>
         </div>
       </div>
@@ -24,14 +24,14 @@
           class="img-responsive"
         />
         <div class="btn-group">
-          <button class="btn btn-white btn-xs" (click)=" isLiked() ? removeReaction() : like()">
+          <button class="btn btn-white btn-xs thumb-button" (click)=" isLiked() ? removeReaction() : like()">
             <i
-              class="fa fa-thumbs-up"
+              class="fa fa-thumbs-up "
               [style.color]="isLiked() ? 'green' : 'black'"
             ></i>
             Like {{ getNumOfLikes() }}
           </button>
-          <button class="btn btn-white btn-xs"  (click)=" isDisliked() ? removeReaction() : dislike()">
+          <button class="btn btn-white btn-xs thumb-button"  (click)=" isDisliked() ? removeReaction() : dislike()">
             <i
               class="fa fa-thumbs-down"
               [style.color]="isDisliked() ? 'red' : 'black'"
@@ -49,8 +49,8 @@
             ></app-profile-picture>
           </a>
           <div class="media-body">
-            <a href="#">
-              {{ comment.firstName + " " + comment.lastName }}
+            <a (click)="viewProfile(comment.ownerId)" >
+              <span class="comment-owner-name">{{ comment.firstName + " " + comment.lastName }}</span>
             </a>
             <br />
             {{ comment.text }}

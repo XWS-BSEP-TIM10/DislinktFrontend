@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CommentDTO } from '../dto/CommentDTO';
 import { ReactionDTO } from '../dto/ReactionDTO';
 import { RemoveReactionDTO } from '../dto/RemoveReactionDTO';
@@ -15,7 +16,7 @@ import { StorageService } from '../service/storage.service';
 export class PostComponent implements OnInit {
   @Input() post!: Post;
   userId!: string
-  constructor(private postService: PostService, private storageService: StorageService) {
+  constructor(private postService: PostService, private storageService: StorageService, private router: Router) {
   }
 
   commentForm = new FormGroup({
@@ -57,6 +58,8 @@ export class PostComponent implements OnInit {
 
   }
 
+
+
   like() {
     if (this.isLiked())
       return
@@ -97,6 +100,11 @@ export class PostComponent implements OnInit {
     }, (err: Error) => {
       void(0)
     })
+  }
+
+
+  viewProfile(ownerId: string) {
+    this.router.navigate([`users/${this.post.ownerId}`])
   }
 
 
