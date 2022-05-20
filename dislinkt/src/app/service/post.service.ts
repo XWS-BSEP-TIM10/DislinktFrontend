@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { config } from 'src/shared';
 import { CommentDTO } from '../dto/CommentDTO';
@@ -27,7 +27,7 @@ export class PostService {
     return this.http.post(`${config.baseUrl}${this.postUrl}/${postId}/comment`, commentDTO)
   }
   getPosts(id: string) {
-    return this.http.get(`${config.baseUrl}/users/${id}/posts`)
+    return this.http.get(`${config.baseUrl}/users/${id}${this.postUrl}`)
   }
   getFeed(id: string) {
     return this.http.get(`${config.baseUrl}/users/${id}/feed`)

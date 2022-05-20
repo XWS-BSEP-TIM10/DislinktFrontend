@@ -4,6 +4,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class StorageService {
+  clearToken() {
+    window.sessionStorage.setItem('jwt', "")
+  }
 
   constructor() { }
 

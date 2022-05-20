@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { StorageService } from '../service/storage.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,15 +9,35 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private storageService: StorageService) { }
 
   login(){
     this.router.navigate(['login']);
   }
 
+  logout() {
+    this.storageService.clearToken()
+    this.router.navigate([''])
+  }
+
   registration(){
     this.router.navigate(['registration']);
   }
+
+  getRole() {
+    return this.storageService.getRoleFromToken()
+  }
+
+  isLoggedIn() {
+    return this.storageService.getRoleFromToken() !== ""
+  }
+
+
+  goToUsersPage() {
+    let userId = this.storageService.getIdFromToken()
+    this.router.navigate([`users/${userId}`])
+  }
+
   ngOnInit(): void {
   }
 

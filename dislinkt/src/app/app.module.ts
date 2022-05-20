@@ -35,7 +35,9 @@ import { LinkyModule } from 'ngx-linky';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    LinkyModule
+    LinkyModule,
+
+
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
