@@ -18,6 +18,8 @@ import { LinkyModule } from 'ngx-linky';
 import { InterestComponent } from './interest/interest.component';
 import { InterestModalComponent } from './interest-modal/interest-modal.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ExperienceCardComponent } from './experience-card/experience-card.component';
+import { ExperienceModalComponent } from './experience-modal/experience-modal.component';
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     PostComponent,
     ProfilePictureComponent,
     InterestComponent,
-    InterestModalComponent
+    InterestModalComponent,
+    ExperienceCardComponent,
+    ExperienceModalComponent
   ],
   imports: [
     BrowserModule,

@@ -4,3 +4,11 @@
 @import '~bootstrap/scss/bootstrap';
 @import 'ng-bootstrap-to-bootstrap-3';
 
+
+
+.modal-dialog {
+  position: fixed !important;
+  left: 50% !important;
+  transform: translate(-50%, 0) !important;
+}
+

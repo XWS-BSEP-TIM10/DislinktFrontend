@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <div class="card mt-5">
+        <div class="card-body px-5">
+            <h4 class="institution">
+              {{experience.institution}}
+              <i class="fa fa-trash trash-can pull-right" [ngStyle]="{'color': 'red', 'cursor': 'pointer'}" (click)="deleteExperience()" aria-hidden="true"></i>
+              <i class="fa fa-pencil pull-right" [ngStyle]="{'margin-left': '5px', 'cursor': 'pointer'}" (click)="editExperience()" aria-hidden="true"></i>
+            </h4>
+
+            <h6 class="position">
+              {{experience.position}}
+              <div class="duration"
+                >{{experience.fromDate}} &ndash; {{experience.toDate ? experience.toDate : 'Present'}}
+            </div>
+            </h6>
+            <p class="description">
+              {{experience.description}}
+            </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

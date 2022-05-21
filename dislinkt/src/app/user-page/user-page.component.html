@@ -23,7 +23,7 @@
 
             <hr class="half-margins">
             <div class="skills-and-interests">
-            <div >Skills And Interests</div>
+            <div >Skills & Interests</div>
             <i class="fa fa-plus" [ngStyle]="{'color': '#057642', 'margin-left': '8px', 'cursor': 'pointer'}" (click)="addInterestModal()"  aria-hidden="true"></i>
             <i class="fa fa-pencil" [ngStyle]="{'color': '#057642', 'margin-left': '5px', 'cursor': 'pointer'}" (click)="toggleEdit()" aria-hidden="true"></i>
           </div>
@@ -192,107 +192,20 @@
       <div class="col-md-3">
         <!-- projects -->
         <section class="panel panel-default">
-          <header class="panel-heading">
-            <h2 class="panel-title elipsis">
-              <i class="fa fa-rss"></i> Projects
-            </h2>
-          </header>
+          <header class="experience-title">
 
-          <div class="panel-body noradius padding-10">
-            <ul class="bullet-list list-unstyled">
-              <li class="red">
-                <h3>Epona HTML5 Template</h3>
-                <span class="text-gray size-12">Lorem ipsum dolor sit amet, consectetuer adipiscing </span>
-              </li>
-              <li class="green">
-                <h3>Atropos Template</h3>
-                <span class="text-gray size-12">Lorem ipsum dolor sit amet, consectetuer adipiscing </span>
-              </li>
-              <li class="blue">
-                <h3>isisone Template</h3>
-                <span class="text-gray size-12">Lorem ipsum dolor sit amet, consectetuer adipiscing </span>
-              </li>
-              <li class="orange">
-                <h3>Deusone Template</h3>
-                <span class="text-gray size-12">Lorem ipsum dolor sit amet, consectetuer adipiscing </span>
-              </li>
-            </ul>
+            <div class="">
+              <i class="fa fa-rss"></i> Education & Experience
+              <i class="fa fa-plus" [ngStyle]="{ 'margin-left': '10px', 'cursor': 'pointer'}" (click)="addExperienceModal()"  aria-hidden="true"></i>
+            </div>
+          </header>
+          <hr>
+          <div class="experience-card-item" *ngFor="let experience of this.profile.experiences">
+            <app-experience-card [experience]="experience" (deleteEvent)="deleteExperience($event)" (editEvent)="editExperienceModal($event)"></app-experience-card>
           </div>
+
         </section>
         <!-- /projects -->
-
-        <!-- activity -->
-        <section class="panel panel-default">
-          <header class="panel-heading">
-            <h2 class="panel-title elipsis">
-              <i class="fa fa-rss"></i> Activity
-            </h2>
-          </header>
-
-          <div class="panel-body noradius padding-10">
-            <!-- activity list -->
-            <div class="row profile-activity">
-              <!-- activity item -->
-              <div class="col-xs-2 col-sm-1">
-                <time datetime="2014-06-29" class="datebox">
-                  <strong>Jun</strong>
-                  <span>29</span>
-                </time>
-              </div>
-
-              <div class="col-xs-10 col-sm-11">
-                <h6><a href="page-sidebar.html">Lorem ipsum dolor sit amet</a></h6>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                  tincidunt laoreet dolore magna aliquam tincidunt erat volutpat laoreet dolore magna aliquam
-                  tincidunt erat volutpat.
-                </p>
-              </div>
-              <!-- /activity item -->
-
-              <div class="col-sm-12">
-                <hr class="half-margins">
-              </div><!-- /activity separator -->
-
-              <!-- activity item -->
-              <div class="col-xs-2 col-sm-1">
-                <time datetime="2014-06-29" class="datebox">
-                  <strong>Jun</strong>
-                  <span>29</span>
-                </time>
-              </div>
-
-              <div class="col-xs-10 col-sm-11">
-                <h6><a href="page-sidebar.html">Sed diam nonummy nibh euismod</a></h6>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
-                  tincidunt laoreet dolore magna aliquam tincidunt erat volutpat laoreet dolore magna aliquam
-                  tincidunt erat volutpat.
-                </p>
-              </div>
-              <!-- /activity item -->
-
-              <div class="col-sm-12">
-                <hr class="half-margins">
-              </div><!-- /activity separator -->
-
-              <!-- paginatoin -->
-              <div class="text-center">
-                <ul class="pagination pagination-sm">
-                  <li class="disabled"><a href="#">Prev</a></li>
-                  <li class="active"><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">Next</a></li>
-                </ul>
-              </div>
-              <!-- /paginatoin -->
-            </div>
-            <!-- /activity list -->
-          </div>
-        </section>
-        <!-- /activity -->
       </div><!-- /COL 3 -->
     </div>
   </div>

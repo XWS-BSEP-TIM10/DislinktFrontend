@@ -15,6 +15,10 @@ import { InterestService } from '../service/interest.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InterestModalComponent } from '../interest-modal/interest-modal.component';
 import { CreateInterestDTO } from '../dto/CreateInterestDTO';
+import { ExperienceModalComponent } from '../experience-modal/experience-modal.component';
+import { CreateExperienceDTO } from '../dto/CreateExperienceDTO';
+import { ExperienceService } from '../service/experience.service';
+import { Experience } from '../model/Experience';
 
 
 @Component({
@@ -29,16 +33,17 @@ export class UserPageComponent implements OnInit {
   posts!: Post[]
   editMode: boolean = false
   file!: File
-    constructor(private route: ActivatedRoute,
-       private postService: PostService,
-        private sanitizer: DomSanitizer,
-        private profileService: ProfileService,
-        private authService: AuthenticationService,
-        private interestService: InterestService,
-        private modalService: NgbModal) { }
-    postForm = new FormGroup({
-      text: new FormControl('', Validators.required)
-    })
+  constructor(private route: ActivatedRoute,
+    private postService: PostService,
+    private sanitizer: DomSanitizer,
+    private profileService: ProfileService,
+    private authService: AuthenticationService,
+    private interestService: InterestService,
+    private modalService: NgbModal,
+    private experienceService: ExperienceService) { }
+  postForm = new FormGroup({
+    text: new FormControl('', Validators.required)
+  })
 
   profileForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -67,18 +72,18 @@ export class UserPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id') || "";
-    this.postService.getPosts(this.userId).subscribe((data:any) => {
+    this.postService.getPosts(this.userId).subscribe((data: any) => {
       this.posts = data
-      this.posts = this.posts.map(post => (post.image === '') ? post : {...post, image: this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + post.image)})
+      this.posts = this.posts.map(post => (post.image === '') ? post : { ...post, image: this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + post.image) })
     })
-    this.profileService.getProfile(this.userId).subscribe((data:any) => {
+    this.profileService.getProfile(this.userId).subscribe((data: any) => {
       this.profile = data
       this.profileForm.get('firstName')?.setValue(this.profile.firstName)
       this.profileForm.get('lastName')?.setValue(this.profile.lastName)
       this.profileForm.get('email')?.setValue(this.profile.email)
       this.profileForm.get('phoneNumber')?.setValue(this.profile.phoneNumber)
       this.profileForm.get('gender')?.setValue(this.profile.gender)
-      this.profileForm.get('dateOfBirth')?.setValue(moment(this.profile.dateOfBirth, 'DD/MM/YYYY').format('YYYY-DD-MM'))
+      this.profileForm.get('dateOfBirth')?.setValue(moment(this.profile.dateOfBirth, 'DD/MM/YYYY').format('YYYY-MM-DD'))
       this.profileForm.get('username')?.setValue(this.profile.username)
       this.profileForm.get('biography')?.setValue(this.profile.biography)
     })
@@ -98,56 +103,57 @@ export class UserPageComponent implements OnInit {
   updateProfile() {
     if (this.profileForm.invalid)
       return
-    let profileDTO : UpdateProfileDTO = {
+    let profileDTO: UpdateProfileDTO = {
       uuid: this.userId,
       firstName: this.profileForm.get('firstName')?.value,
       lastName: this.profileForm.get('lastName')?.value,
       email: this.profileForm.get('email')?.value,
       phoneNumber: this.profileForm.get('phoneNumber')?.value,
       gender: this.profileForm.get('gender')?.value,
-      dateOfBirth: moment(this.profileForm.get('dateOfBirth')?.value, 'YYYY-DD-MM').format('DD/MM/YYYY'),
+      dateOfBirth: moment(this.profileForm.get('dateOfBirth')?.value, 'YYYY-MM-DD').format('DD/MM/YYYY'),
       username: this.profileForm.get('username')?.value,
       biography: this.profileForm.get('biography')?.value
     }
-    this.profileService.putProfile(profileDTO).subscribe((data:any) => {
+    this.profileService.putProfile(profileDTO).subscribe((data: any) => {
       this.profile = data
       this.profileForm.get('firstName')?.setValue(this.profile.firstName)
       this.profileForm.get('lastName')?.setValue(this.profile.lastName)
       this.profileForm.get('email')?.setValue(this.profile.email)
       this.profileForm.get('phoneNumber')?.setValue(this.profile.phoneNumber)
       this.profileForm.get('gender')?.setValue(this.profile.gender)
-      this.profileForm.get('dateOfBirth')?.setValue(moment(this.profile.dateOfBirth, 'DD/MM/YYYY').format('YYYY-DD-MM'))
+      this.profileForm.get('dateOfBirth')?.setValue(moment(this.profile.dateOfBirth, 'DD/MM/YYYY').format('YYYY-MM-DD'))
       this.profileForm.get('username')?.setValue(this.profile.username)
       this.profileForm.get('biography')?.setValue(this.profile.biography)
     })
   }
 
   createPost() {
-  if (this.postForm.invalid)
-    return
-  let postDTO : CreatePostDTO = {
-    ownerId: this.userId,
-    text: this.postForm.get('text')?.value,
-  }
+    if (this.postForm.invalid)
+      return
+    let postDTO: CreatePostDTO = {
+      ownerId: this.userId,
+      text: this.postForm.get('text')?.value,
+    }
     let formData: FormData = new FormData();
     formData.append("post", new Blob([JSON.stringify(postDTO)], {
-    type: "application/json"}));
+      type: "application/json"
+    }));
     formData.append("image", this.file ?? new File([""], "filename"));
-    this.postService.createPost(formData).subscribe((data:any) => {
+    this.postService.createPost(formData).subscribe((data: any) => {
       window.location.reload()
-  })
+    })
   }
 
   changePassword() {
     if (this.passwordForm.invalid || this.passwordForm.get('newPassword')?.value !== this.passwordForm.get('newPasswordRepeat')?.value)
       return
-    let changePasswordDTO : ChangePasswordDTO = {
+    let changePasswordDTO: ChangePasswordDTO = {
       userId: this.userId,
       oldPassword: this.passwordForm.get('currentPassword')?.value,
       newPassword: this.passwordForm.get('newPassword')?.value,
       repeatedNewPassword: this.passwordForm.get('newPasswordRepeat')?.value
     }
-    this.authService.changePassword(changePasswordDTO).subscribe((data:any) => {
+    this.authService.changePassword(changePasswordDTO).subscribe((data: any) => {
       alert('success')
       this.passwordForm.get('currentPassword')?.setValue('')
       this.passwordForm.get('newPassword')?.setValue('')
@@ -166,26 +172,72 @@ export class UserPageComponent implements OnInit {
   }
 
   deleteInterest(id: number) {
-    this.interestService.deleteInterest(id, this.userId).subscribe((data:any) => {
+    this.interestService.deleteInterest(id, this.userId).subscribe((data: any) => {
       this.profile.interests = this.profile.interests.filter(interest => interest.id !== id)
     })
   }
 
+
   addInterestModal() {
     const modalRef = this.modalService.open(InterestModalComponent, { centered: true });
-    modalRef.result.then((result:any) => {
+    modalRef.result.then((result: any) => {
       if (result) {
-      let createInterestDTO : CreateInterestDTO = {
-        userId: this.userId,
-        description: result
+        let createInterestDTO: CreateInterestDTO = {
+          userId: this.userId,
+          description: result
+        }
+        this.interestService.addInterest(createInterestDTO).subscribe((data: any) => {
+          if (!this.profile.interests.some(interest => interest.id === data.id))
+            this.profile.interests = [... this.profile.interests, data]
+        })
       }
-      this.interestService.addInterest(createInterestDTO).subscribe((data:any) => {
-        this.profile.interests = [... this.profile.interests, data]
-      })
-      }
-      }, (reason: any) => {
+    }, (reason: any) => {
 
-      });
+    });
+  }
+
+  addExperienceModal() {
+    const modalRef = this.modalService.open(ExperienceModalComponent, { centered: true });
+    modalRef.result.then((result: CreateExperienceDTO) => {
+      if (result) {
+        let createExperienceDTO = result
+        createExperienceDTO.fromDate =  moment(result.fromDate, 'YYYY-MM-DD').format('DD/MM/YYYY')
+        createExperienceDTO.toDate = result.toDate ?  moment(result.toDate, 'YYYY-MM-DD').format('DD/MM/YYYY') : ''
+        createExperienceDTO.userId = this.userId
+        this.experienceService.addExperience(createExperienceDTO).subscribe((data: any) => {
+
+          this.profile.experiences = [... this.profile.experiences, data]
+        })
+      }
+    }, (reason: any) => {
+
+    });
+  }
+
+  editExperienceModal(experience: Experience) {
+    const modalRef = this.modalService.open(ExperienceModalComponent, { centered: true });
+    modalRef.componentInstance.experience = experience;
+    modalRef.result.then((result: CreateExperienceDTO) => {
+      if (result) {
+        let createExperienceDTO = result
+        createExperienceDTO.fromDate =  moment(result.fromDate, 'YYYY-MM-DD').format('DD/MM/YYYY')
+        createExperienceDTO.toDate = result.toDate ?  moment(result.toDate, 'YYYY-MM-DD').format('DD/MM/YYYY') : ''
+        createExperienceDTO.userId = this.userId
+
+        this.experienceService.updateExperience(experience.id, createExperienceDTO).subscribe((data: any) => {
+          this.profile.experiences = this.profile.experiences.filter(exp => exp.id !== experience.id)
+          this.profile.experiences = [... this.profile.experiences, data]
+        })
+      }
+    }, (reason: any) => {
+
+    });
+  }
+
+  deleteExperience(id: number) {
+    this.experienceService.deleteInterest(id).subscribe((data:any) => {
+      this.profile.experiences = this.profile.experiences.filter(exp => exp.id !== id)
+    })
   }
 
 

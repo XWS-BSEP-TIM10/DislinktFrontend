@@ -1,0 +1,33 @@
+.container{
+  padding: 20px !important;
+}
+
+
+.dialog-form {
+  padding-bottom: 30px !important;
+}
+
+
+button {
+  margin: 5px;
+}
+
+
+.experience-title {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+
+.modal-dialog {
+  position: absolute;
+  top: 1000px;
+  right: 100px;
+  bottom: 0;
+  left: 0;
+  z-index: 10040;
+  overflow: auto;
+  overflow-y: auto;
+}
+
+
