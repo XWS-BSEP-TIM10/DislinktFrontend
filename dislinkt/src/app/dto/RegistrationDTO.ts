@@ -7,5 +7,6 @@ export interface RegistrationDTO {
     dateOfBirth: string
     username: string 
     password: string
+    confirmPassword: string
     biography: string
   }

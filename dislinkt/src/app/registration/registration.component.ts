@@ -23,6 +23,7 @@ export class RegistrationComponent implements OnInit {
   isSubmitted = false;
   responseError = "";
   passwordError = "";
+  confirmPasswordError = "";
   sendRequest = false;
   gender = "";
   
@@ -34,7 +35,8 @@ export class RegistrationComponent implements OnInit {
     username: new FormControl('', Validators.required),
     password: new FormControl('', [Validators.required, isContainsLowercase,
       isContainsNumber, isContainsSymbol, isContainsUppercase,
-      isValidLengthPassword, isWhitespace])
+      isValidLengthPassword, isWhitespace]),
+    confirmPassword: new FormControl('', [Validators.required])
   })
 
   ngOnInit(): void {
@@ -55,13 +57,19 @@ export class RegistrationComponent implements OnInit {
   registerUser() {
     this.isSubmitted = true;
     this.passwordError = "";
+    this.confirmPasswordError = "";
     this.responseError = "";
     if (this.registerForm.invalid) {
       return
     }
     
-    
+    var password = this.registerForm.get('password')?.value;
+    var confirmPassword = this.registerForm.get('confirmPassword')?.value;
 
+    if(password != confirmPassword) {
+      this.confirmPasswordError = "The password conformation does not match";
+      return
+    }
     /*if(1 ==1){
       this.passwordError = "Password should not contain username!"
       return
@@ -84,6 +92,7 @@ export class RegistrationComponent implements OnInit {
       dateOfBirth: "09/09/1999",
       username: this.registerForm.get('username')?.value,
       password: this.registerForm.get('password')?.value,
+      confirmPassword: this.registerForm.get('confirmPassword')?.value,
       biography: ""
     }
     this.authService.signup(registrationDTO).subscribe((response) => {
@@ -97,15 +106,15 @@ export class RegistrationComponent implements OnInit {
    })
   }
 
-  handleClick() {
-    var x = (document.getElementById("password") as HTMLInputElement);
+  togglePass(id : string, toggleId: string) {
+    var x = (document.getElementById(id) as HTMLInputElement);
     if (x.type === "password") {
       x.type = "text";
     } else {
       x.type = "password";
     }
     
-    const elem = document.querySelector( '#togglePassword' ) as HTMLElement;
+    const elem = document.querySelector( '#' + toggleId ) as HTMLElement;
     elem.classList.toggle('bi-eye');
   }
 
