@@ -1,15 +1,93 @@
 <div class="wrapper fadeInDown">
   <div id="formContent">
 
-    <!-- Login Form -->
-    <form #credentials="ngForm">
-      <input type="text" id="login" class="fadeIn second" name="firstName" placeholder="first name" ngModel>
-      <input type="text" id="login" class="fadeIn second" name="lastName" placeholder="last name" ngModel>
-      <input type="text" id="login" class="fadeIn second" name="email" placeholder="email" ngModel>
-      <input type="text" id="login" class="fadeIn second" name="phoneNumber" placeholder="phone number" ngModel>
-      <input type="text" id="login" class="fadeIn second" name="username" placeholder="username" ngModel>
-      <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" ngModel>
-      <input type="submit" class="fadeIn fourth" value="Sign up" (click)="registerUser(credentials)">
+    <form [formGroup]="registerForm">
+      <input type="text" class="fadeIn second" placeholder="first name" formControlName="firstName">
+      <div *ngIf="isValid(f.firstName)"
+        class="alert alert-danger">
+        <div *ngIf="f.firstName.hasError('required')">
+          First name is required.
+        </div>
+      </div>
+      <input type="text" class="fadeIn second" placeholder="last name" formControlName="lastName">
+      <div *ngIf="isValid(f.lastName)"
+        class="alert alert-danger">
+        <div *ngIf="f.lastName.hasError('required')">
+          Last name is required.
+        </div>
+      </div>
+      <input type="text" class="fadeIn second" placeholder="email" formControlName="email">
+      <div *ngIf="isValid(f.email)"
+        class="alert alert-danger">
+        <div *ngIf="f.email.hasError('required')">
+          Email is required.
+        </div>
+        <div *ngIf="f.email.hasError('email')">
+          Email is not valid.
+        </div>
+      </div>
+      <input type="text" class="fadeIn second" placeholder="phone number" formControlName="phoneNumber">
+      <div *ngIf="isValid(f.phoneNumber)"
+        class="alert alert-danger">
+        <div *ngIf="f.phoneNumber.errors?.required">
+          Phone number is required.
+        </div>
+        <div *ngIf="f.phoneNumber.errors?.invalidNumber">
+          Phone number could start with + and must be 8-15 Digits Long.
+        </div>
+      </div>
+      <div style="margin-top: 2%; margin-bottom: 2%; margin-right: 15%;">
+        <!--<label style="font-weight: normal; font-size: medium;"> gender: </label>-->
+        <div style="margin-left: 15%;" class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="maleRadio" value="male" checked>
+          <label class="form-check-label" for="inlineRadio1" style="font-weight: normal; font-size: medium;">male</label>
+        </div>
+        <div class="form-check form-check-inline" style="margin-left: 10%;">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="femaleRadio" value="female">
+          <label class="form-check-label" for="inlineRadio2" style="font-weight: normal; font-size: medium;">female</label>
+        </div>
+      </div>
+      <input type="text" class="fadeIn second" placeholder="username" formControlName="username">
+      <div *ngIf="isValid(f.username)"
+        class="alert alert-danger">
+        <div *ngIf="f.username.hasError('required')">
+          Username is required.
+        </div>
+      </div>
+      <div *ngIf="responseError" class="alert alert-danger">
+        {{responseError}}
+      </div>
+      <input style="margin-left: 5%;" type="password" id="password" class="fadeIn third" placeholder="password" formControlName="password">
+      <i class="bi bi-eye-slash" id="togglePassword" (click) = "handleClick()"></i>
+      <div *ngIf="isValid(f.password)"
+      class="alert alert-danger">
+        <div *ngIf="f.password.errors?.required">
+          Password is required.
+        </div>
+        <div *ngIf="f.password.errors?.whiteSpace">
+          Password must not contain Whitespaces.
+        </div>
+        <div *ngIf="f.password.errors?.containsUppercase">
+          Password must have at least one Uppercase Character.
+        </div>
+        <div *ngIf="f.password.errors?.containsLowercase">
+          Password must have at least one Lowercase Character.
+        </div>
+        <div *ngIf="f.password.errors?.containsNumber">
+          Password must contain at least one Digit.
+        </div>
+        <div *ngIf="f.password.errors?.containsSimbol">
+          Password must contain at least one Special Symbol.
+        </div>
+        <div *ngIf="f.password.errors?.validLengthPass">
+          Password must be at least 10 Characters Long.
+        </div>
+      </div>
+      <div *ngIf="passwordError" class="alert alert-danger">
+        {{passwordError}}
+      </div>
+      <div *ngIf="sendRequest" class="loader"></div>
+      <input type="submit" class="fadeIn fourth" value="Sign Up" (click)="registerUser()" />
     </form>
   </div>
 </div>
