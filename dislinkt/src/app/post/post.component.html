@@ -30,6 +30,7 @@
               [style.color]="isLiked() ? 'green' : 'black'"
             ></i>
             Like {{ getNumOfLikes() }}
+
           </button>
           <button class="btn btn-white btn-xs thumb-button"  (click)=" isDisliked() ? removeReaction() : dislike()">
             <i
