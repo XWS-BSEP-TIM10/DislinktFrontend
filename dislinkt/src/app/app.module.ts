@@ -15,6 +15,10 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { PostComponent } from './post/post.component';
 import { ProfilePictureComponent } from './profile-picture/profile-picture.component';
 import { LinkyModule } from 'ngx-linky';
+import { InterestComponent } from './interest/interest.component';
+import { InterestModalComponent } from './interest-modal/interest-modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -27,7 +31,9 @@ import { LinkyModule } from 'ngx-linky';
     HomeComponent,
     NavbarComponent,
     PostComponent,
-    ProfilePictureComponent
+    ProfilePictureComponent,
+    InterestComponent,
+    InterestModalComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +42,7 @@ import { LinkyModule } from 'ngx-linky';
     FormsModule,
     ReactiveFormsModule,
     LinkyModule,
+    NgbModule,
 
 
   ],
@@ -44,6 +51,7 @@ import { LinkyModule } from 'ngx-linky';
     useClass: AuthInterceptorService,
     multi: true
 }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ InterestModalComponent ]
 })
 export class AppModule { }

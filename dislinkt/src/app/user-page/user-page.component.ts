@@ -11,6 +11,11 @@ import * as moment from 'moment';
 import { UpdateProfileDTO } from '../dto/UpdateProfileDTO';
 import { AuthenticationService } from '../service/authentication.service';
 import { ChangePasswordDTO } from '../dto/ChangePasswordDTO';
+import { InterestService } from '../service/interest.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { InterestModalComponent } from '../interest-modal/interest-modal.component';
+import { CreateInterestDTO } from '../dto/CreateInterestDTO';
+
 
 @Component({
   selector: 'app-user-page',
@@ -22,12 +27,15 @@ export class UserPageComponent implements OnInit {
   userId!: string
   overview: boolean = true
   posts!: Post[]
+  editMode: boolean = false
   file!: File
     constructor(private route: ActivatedRoute,
        private postService: PostService,
         private sanitizer: DomSanitizer,
         private profileService: ProfileService,
-        private authService: AuthenticationService) { }
+        private authService: AuthenticationService,
+        private interestService: InterestService,
+        private modalService: NgbModal) { }
     postForm = new FormGroup({
       text: new FormControl('', Validators.required)
     })
@@ -150,6 +158,34 @@ export class UserPageComponent implements OnInit {
       this.passwordForm.get('newPassword')?.setValue('')
       this.passwordForm.get('newPasswordRepeat')?.setValue('')
     })
+  }
+
+
+  toggleEdit() {
+    this.editMode = !this.editMode
+  }
+
+  deleteInterest(id: number) {
+    this.interestService.deleteInterest(id, this.userId).subscribe((data:any) => {
+      this.profile.interests = this.profile.interests.filter(interest => interest.id !== id)
+    })
+  }
+
+  addInterestModal() {
+    const modalRef = this.modalService.open(InterestModalComponent, { centered: true });
+    modalRef.result.then((result:any) => {
+      if (result) {
+      let createInterestDTO : CreateInterestDTO = {
+        userId: this.userId,
+        description: result
+      }
+      this.interestService.addInterest(createInterestDTO).subscribe((data:any) => {
+        this.profile.interests = [... this.profile.interests, data]
+      })
+      }
+      }, (reason: any) => {
+
+      });
   }
 
 

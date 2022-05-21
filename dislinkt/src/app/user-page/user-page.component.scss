@@ -60,6 +60,25 @@ background-color:#fff !important;
 }
 
 
+
+.skills-and-interests {
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+}
+
+.interest-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.interest-item {
+  margin: 5px;
+}
+
+
 /** Comments
 *************************************************** **/
 #comments {

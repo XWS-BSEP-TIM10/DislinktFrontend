@@ -22,7 +22,16 @@
             <!-- /About -->
 
             <hr class="half-margins">
-
+            <div class="skills-and-interests">
+            <div >Skills And Interests</div>
+            <i class="fa fa-plus" [ngStyle]="{'color': '#057642', 'margin-left': '8px', 'cursor': 'pointer'}" (click)="addInterestModal()"  aria-hidden="true"></i>
+            <i class="fa fa-pencil" [ngStyle]="{'color': '#057642', 'margin-left': '5px', 'cursor': 'pointer'}" (click)="toggleEdit()" aria-hidden="true"></i>
+          </div>
+          <div class="interest-container">
+            <div *ngFor="let interest of profile.interests" class="interest-item">
+            <app-interest  [editMode]="editMode" [interest]="interest" (deleteEvent)="deleteInterest($event)"></app-interest>
+          </div>
+          </div>
           </div>
         </section>
       </div><!-- /COL 1 -->
