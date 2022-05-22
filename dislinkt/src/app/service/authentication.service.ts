@@ -1,6 +1,6 @@
 import { config } from "src/shared"
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { LoginDTO } from "../dto/LoginDTO";
 import { RegistrationDTO } from "../dto/RegistrationDTO";
 import { NewPasswordDTO } from "../dto/NewPasswordDto";
@@ -19,6 +19,8 @@ export class AuthenticationService {
   private sendPasswordlessLoginEmailUrl = "/auth/passwordless"
   private changePasswordRecoveryUrl = "/auth/recover/changePassword"
   private passwordlessLoginUrl = "/auth/login/passwordless"
+  private checkTokenUrl = "/auth/checkToken"
+  private refreshTokenUrl = "/auth/refreshToken"
 
   constructor(private http: HttpClient) { }
 
@@ -52,6 +54,17 @@ export class AuthenticationService {
 
   passwordlessLogin(token: String){
     return this.http.get(`${config.baseUrl}${this.passwordlessLoginUrl}/${token}`)
+  }
+
+  checkToken(token: String){
+    return this.http.get(`${config.baseUrl}${this.checkTokenUrl}/${token}`)
+  }
+
+  refreshToken(refreshToken: any){
+    const headers= new HttpHeaders()
+  .set('Authorization', `Bearer ${refreshToken}`)
+  .set('Anonymous', 'true')
+    return this.http.get(`${config.baseUrl}${this.refreshTokenUrl}`, { 'headers': headers })
   }
 
 }

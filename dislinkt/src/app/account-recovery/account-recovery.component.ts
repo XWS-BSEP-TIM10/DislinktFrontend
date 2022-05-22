@@ -20,6 +20,7 @@ export class AccountRecoveryComponent implements OnInit {
   isSubmitted = false;
   passwordError = "";
   confirmPasswordError = "";
+  tokenValid = false;
 
   constructor(private router: Router, private authService: AuthenticationService) { }
 
@@ -34,6 +35,12 @@ export class AccountRecoveryComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.authService.checkToken(decodeURI(window.location.pathname.split("/")[2])).subscribe(
+      (data: any) => {
+        this.tokenValid = true;
+      }, (err: Error) => {
+        this.tokenValid = false;
+      });
   }
 
   changePassword() {

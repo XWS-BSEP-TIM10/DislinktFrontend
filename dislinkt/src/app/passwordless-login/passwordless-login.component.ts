@@ -17,7 +17,7 @@ export class PasswordlessLoginComponent implements OnInit {
   ngOnInit(): void {
     this.authService.passwordlessLogin(decodeURI(window.location.pathname.split("/")[3])).subscribe(
       (data: any) => {
-        this.storageService.storeTokenData(data.jwt);
+        this.storageService.storeTokenData(data.jwt,data.refreshToken);
         switch (this.storageService.getRoleFromToken()) {
           case 'ROLE_USER':
             this.router.navigateByUrl('/home')

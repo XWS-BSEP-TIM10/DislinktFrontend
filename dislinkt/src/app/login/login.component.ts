@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
   loginUser(credentials: NgForm) {
     let loginDTO: LoginDTO = { username: credentials.value.username, password: credentials.value.password };
     this.authService.login(loginDTO).subscribe((data: any) => {
-      this.storageService.storeTokenData(data.jwt);
+      this.storageService.storeTokenData(data.jwt, data.refreshToken);
       switch (this.storageService.getRoleFromToken()) {
         case 'ROLE_USER':
           this.router.navigateByUrl('/home')

@@ -1,4 +1,4 @@
-<div class="wrapper fadeInDown">
+<div class="wrapper fadeInDown" *ngIf="tokenValid">
     <div id="formContent">
         <form [formGroup]="recoveryForm">
             <input type="password" id="password1" class="fadeIn second" name="newPassword" placeholder="new password"
@@ -40,3 +40,5 @@
         </form>
     </div>
 </div>
+
+<h1 *ngIf="!tokenValid" class="activationMessage">Activation link invalid! <br/></h1>
