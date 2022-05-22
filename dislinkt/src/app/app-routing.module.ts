@@ -6,13 +6,15 @@ import { RegistrationComponent } from './registration/registration.component';
 import { UserPageComponent } from './user-page/user-page.component';
 import { SearchUsersComponent } from './search-users/search-users.component';
 import { HomeComponent } from './home/home.component';
+import { AccountActivatedComponent } from './account-activated/account-activated.component';
 
 const routes: Routes = [{path:'', component: FrontPageComponentComponent},
                         {path:'login', component:LoginComponent},
                         {path:'registration', component: RegistrationComponent},
                         {path:'users/:id', component: UserPageComponent},
                         {path:'search-users', component: SearchUsersComponent},
-                        {path:'home', component: HomeComponent}
+                        {path:'home', component: HomeComponent},
+                        {path: 'confirm/:token?', component: AccountActivatedComponent}
                       ];
 
 @NgModule({

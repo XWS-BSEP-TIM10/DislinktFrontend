@@ -13,6 +13,7 @@ export class AuthenticationService {
   private loginUrl = "/auth/login"
   private signupUrl = "/auth/signup"
   private changePasswordUrl = "/auth/changePassword"
+  private acctivateAccountUrl = "/auth/confirm"
 
   constructor(private http: HttpClient) { }
 
@@ -26,6 +27,10 @@ export class AuthenticationService {
 
   changePassword(changePasswordDTO: ChangePasswordDTO) {
     return this.http.put(`${config.baseUrl}${this.changePasswordUrl}`, changePasswordDTO)
+  }
+
+  acctivateAccount(token: String) {
+    return this.http.get(`${config.baseUrl}${this.acctivateAccountUrl}/${token}`)
   }
 
 }
