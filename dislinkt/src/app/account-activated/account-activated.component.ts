@@ -8,16 +8,16 @@ import { AuthenticationService } from '../service/authentication.service';
 })
 export class AccountActivatedComponent implements OnInit {
 
-  acctivationSucced: any = null;
+  activationSucceeded: any = null;
 
   constructor(private authService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.authService.activateAccount(decodeURI(window.location.pathname.split("/")[2])).subscribe(
       (data: any) => {
-        this.acctivationSucced = true;
+        this.activationSucceeded = true;
       }, (err: Error) => {
-        this.acctivationSucced = false;
+        this.activationSucceeded = false;
       });
   }
 

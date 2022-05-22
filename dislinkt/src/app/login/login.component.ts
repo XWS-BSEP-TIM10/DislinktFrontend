@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
 
   isSubmitted = false;
   forgottenPassword: boolean = false;
+  passwordless: boolean = false;
 
   constructor(private authService: AuthenticationService, private storageService: StorageService, private router: Router) { }
 
@@ -53,6 +54,12 @@ export class LoginComponent implements OnInit {
 
   forgotPassword() {
     this.forgottenPassword = true;
+    this.passwordless = false;
+  }
+
+  passwordlessLogin() {
+    this.passwordless = true;
+    this.forgottenPassword = false;
   }
 
   sendRecoveryMail() {
@@ -65,6 +72,21 @@ export class LoginComponent implements OnInit {
     this.authService.sendRecoveryEmail(email).subscribe(
       (data: any) => {
         alert("Recovery link sent to your mail")
+      }, (err: Error) => {
+        alert("An error occured, please try again...")
+      });
+  }
+
+  sendPasswordlessEmail() {
+    this.isSubmitted = true;
+    if (this.emailRecoveryForm.invalid) {
+      return
+    }
+    this.passwordless = false;
+    var email = encodeURI(this.emailRecoveryForm.get('email')?.value);
+    this.authService.sendPasswordlessLoginEmail(email).subscribe(
+      (data: any) => {
+        alert("Link for passwordless login sent to your mail")
       }, (err: Error) => {
         alert("An error occured, please try again...")
       });

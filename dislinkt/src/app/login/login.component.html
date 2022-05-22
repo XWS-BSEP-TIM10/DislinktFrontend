@@ -1,13 +1,15 @@
 <div class="wrapper fadeInDown">
   <div id="formContent">
     <!-- Login Form -->
-    <form #credentials="ngForm" *ngIf="!forgottenPassword">
+    <form #credentials="ngForm" *ngIf="!forgottenPassword && !passwordless">
       <input type="text" id="login" class="fadeIn second" name="username" placeholder="username" ngModel />
       <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" ngModel />
       <input type="submit" class="fadeIn fourth" value="Sign In" (click)="loginUser(credentials)" />
 
       <div id="formFooter">
-        <a class="underlineHover" (click)="forgotPassword()" id="loginSubmit">Forgot Password?</a>
+        <a class="underlineHover" (click)="forgotPassword()" id="loginSubmit">Forgot Password?</a> 
+        <br/>
+        <a class="underlineHover" (click)="passwordlessLogin()" id="loginSubmit">Passwordless login?</a>
       </div>
     </form>
 
@@ -22,6 +24,19 @@
         </div>
       </div>
       <input type="submit" class="fadeIn fourth" value="Send email" (click)="sendRecoveryMail()" />
+    </form>
+
+    <form *ngIf="passwordless" [formGroup]="emailRecoveryForm">
+      <input type="text" id="mail" class="fadeIn second" name="email" placeholder="email" formControlName="email" />
+      <div *ngIf="isValid(f.email)" class="alert alert-danger">
+        <div *ngIf="f.email.hasError('required')">
+          Email is required.
+        </div>
+        <div *ngIf="f.email.hasError('email')">
+          Email is not valid.
+        </div>
+      </div>
+      <input type="submit" class="fadeIn fourth" value="Send email" (click)="sendPasswordlessEmail()" />
     </form>
   </div>
 </div>

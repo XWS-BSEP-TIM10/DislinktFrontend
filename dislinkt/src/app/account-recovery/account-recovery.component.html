@@ -4,28 +4,31 @@
             <input type="password" id="password1" class="fadeIn second" name="newPassword" placeholder="new password"
                 formControlName="newPassword" />
             <i class="bi bi-eye-slash" id="togglePassword1" (click)="togglePass('password1','togglePassword1')"></i>
-            <div *ngIf="isValid(f.password)" class="alert alert-danger">
-                <div *ngIf="f.password.errors?.required">
+            <div *ngIf="isValid(f.newPassword)" class="alert alert-danger">
+                <div *ngIf="f.newPassword.errors?.required">
                     Password is required.
                 </div>
-                <div *ngIf="f.password.errors?.whiteSpace">
+                <div *ngIf="f.newPassword.errors?.whiteSpace">
                     Password must not contain Whitespaces.
                 </div>
-                <div *ngIf="f.password.errors?.containsUppercase">
+                <div *ngIf="f.newPassword.errors?.containsUppercase">
                     Password must have at least one Uppercase Character.
                 </div>
-                <div *ngIf="f.password.errors?.containsLowercase">
+                <div *ngIf="f.newPassword.errors?.containsLowercase">
                     Password must have at least one Lowercase Character.
                 </div>
-                <div *ngIf="f.password.errors?.containsNumber">
+                <div *ngIf="f.newPassword.errors?.containsNumber">
                     Password must contain at least one Digit.
                 </div>
-                <div *ngIf="f.password.errors?.containsSimbol">
+                <div *ngIf="f.newPassword.errors?.containsSimbol">
                     Password must contain at least one Special Symbol.
                 </div>
-                <div *ngIf="f.password.errors?.validLengthPass">
+                <div *ngIf="f.newPassword.errors?.validLengthPass">
                     Password must be at least 10 Characters Long.
                 </div>
+            </div>
+            <div *ngIf="passwordError" class="alert alert-danger">
+                {{passwordError}}
             </div>
             <input type="password" id="password2" class="fadeIn third" name="repeatedNewPassword"
                 placeholder="repeated new password" formControlName="repeatedNewPassword" />

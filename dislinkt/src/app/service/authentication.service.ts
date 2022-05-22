@@ -16,7 +16,9 @@ export class AuthenticationService {
   private changePasswordUrl = "/auth/changePassword"
   private acctivateAccountUrl = "/auth/confirm"
   private sendRecoveryEmailUrl = "/auth/recover"
+  private sendPasswordlessLoginEmailUrl = "/auth/passwordless"
   private changePasswordRecoveryUrl = "/auth/recover/changePassword"
+  private passwordlessLoginUrl = "/auth/login/passwordless"
 
   constructor(private http: HttpClient) { }
 
@@ -42,6 +44,14 @@ export class AuthenticationService {
 
   changePasswordRecovery(token: String, newPasswordDTO: NewPasswordDTO) {
     return this.http.put(`${config.baseUrl}${this.changePasswordRecoveryUrl}/${token}`, newPasswordDTO)
+  }
+
+  sendPasswordlessLoginEmail(email: String) {
+    return this.http.get(`${config.baseUrl}${this.sendPasswordlessLoginEmailUrl}?email=${email}`)
+  }
+
+  passwordlessLogin(token: String){
+    return this.http.get(`${config.baseUrl}${this.passwordlessLoginUrl}/${token}`)
   }
 
 }

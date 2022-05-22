@@ -18,6 +18,7 @@ import { isWhitespace } from '../validators/isWhitespace-validator'
 export class AccountRecoveryComponent implements OnInit {
 
   isSubmitted = false;
+  passwordError = "";
   confirmPasswordError = "";
 
   constructor(private router: Router, private authService: AuthenticationService) { }
@@ -37,11 +38,13 @@ export class AccountRecoveryComponent implements OnInit {
 
   changePassword() {
     this.isSubmitted = true;
+    this.passwordError = "";
+    this.confirmPasswordError = "";
 
     if (this.recoveryForm.invalid) {
       return
     }
-
+    
     var password = this.recoveryForm.get('newPassword')?.value;
     var repeatedPassword = this.recoveryForm.get('repeatedNewPassword')?.value;
 
@@ -54,7 +57,7 @@ export class AccountRecoveryComponent implements OnInit {
       newPassword: this.recoveryForm.get('newPassword')?.value,
       repeatedNewPassword: this.recoveryForm.get('repeatedNewPassword')?.value
     }
-    alert(newPasswordDTO)
+    
     this.authService.changePasswordRecovery(decodeURI(window.location.pathname.split("/")[2]), newPasswordDTO).subscribe((data: any) => {
       alert('success')
       this.recoveryForm.get('newPassword')?.setValue('')

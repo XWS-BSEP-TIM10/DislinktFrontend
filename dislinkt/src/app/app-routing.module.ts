@@ -7,7 +7,8 @@ import { UserPageComponent } from './user-page/user-page.component';
 import { SearchUsersComponent } from './search-users/search-users.component';
 import { HomeComponent } from './home/home.component';
 import { AccountActivatedComponent } from './account-activated/account-activated.component';
-import { AccountRecoveryComponent } from './account-recovery/account-recovery.component'
+import { AccountRecoveryComponent } from './account-recovery/account-recovery.component';
+import { PasswordlessLoginComponent } from './passwordless-login/passwordless-login.component';
 
 const routes: Routes = [{path:'', component: FrontPageComponentComponent},
                         {path:'login', component:LoginComponent},
@@ -16,7 +17,8 @@ const routes: Routes = [{path:'', component: FrontPageComponentComponent},
                         {path:'search-users', component: SearchUsersComponent},
                         {path:'home', component: HomeComponent},
                         {path: 'confirm/:token?', component: AccountActivatedComponent},
-                        {path: 'recover/:token?', component: AccountRecoveryComponent}
+                        {path: 'recover/:token?', component: AccountRecoveryComponent},
+                        {path: 'login/passwordless/:token?', component: PasswordlessLoginComponent}
                       ];
 
 @NgModule({
