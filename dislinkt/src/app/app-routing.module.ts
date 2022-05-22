@@ -7,6 +7,7 @@ import { UserPageComponent } from './user-page/user-page.component';
 import { SearchUsersComponent } from './search-users/search-users.component';
 import { HomeComponent } from './home/home.component';
 import { AccountActivatedComponent } from './account-activated/account-activated.component';
+import { AccountRecoveryComponent } from './account-recovery/account-recovery.component'
 
 const routes: Routes = [{path:'', component: FrontPageComponentComponent},
                         {path:'login', component:LoginComponent},
@@ -14,7 +15,8 @@ const routes: Routes = [{path:'', component: FrontPageComponentComponent},
                         {path:'users/:id', component: UserPageComponent},
                         {path:'search-users', component: SearchUsersComponent},
                         {path:'home', component: HomeComponent},
-                        {path: 'confirm/:token?', component: AccountActivatedComponent}
+                        {path: 'confirm/:token?', component: AccountActivatedComponent},
+                        {path: 'recover/:token?', component: AccountRecoveryComponent}
                       ];
 
 @NgModule({

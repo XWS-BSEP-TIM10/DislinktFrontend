@@ -21,6 +21,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ExperienceCardComponent } from './experience-card/experience-card.component';
 import { ExperienceModalComponent } from './experience-modal/experience-modal.component';
 import { AccountActivatedComponent } from './account-activated/account-activated.component';
+import { AccountRecoveryComponent } from './account-recovery/account-recovery.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { AccountActivatedComponent } from './account-activated/account-activated
     InterestModalComponent,
     ExperienceCardComponent,
     ExperienceModalComponent,
-    AccountActivatedComponent
+    AccountActivatedComponent,
+    AccountRecoveryComponent
   ],
   imports: [
     BrowserModule,

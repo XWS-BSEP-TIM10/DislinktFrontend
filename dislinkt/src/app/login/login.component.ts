@@ -4,6 +4,7 @@ import { LoginDTO } from '../dto/LoginDTO';
 import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../service/authentication.service';
 import { StorageService } from '../service/storage.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -12,10 +13,16 @@ import { StorageService } from '../service/storage.service';
 })
 export class LoginComponent implements OnInit {
 
-  email: string = '';
-  password: string = '';
+  isSubmitted = false;
+  forgottenPassword: boolean = false;
 
   constructor(private authService: AuthenticationService, private storageService: StorageService, private router: Router) { }
+
+  emailRecoveryForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email])
+  })
+
+  get f() { return this.emailRecoveryForm.controls; }
 
   ngOnInit(): void {
   }
@@ -42,5 +49,29 @@ export class LoginComponent implements OnInit {
     }, (err: Error) => {
       alert("Incorrect credentials!")
     })
+  }
+
+  forgotPassword() {
+    this.forgottenPassword = true;
+  }
+
+  sendRecoveryMail() {
+    this.isSubmitted = true;
+    if (this.emailRecoveryForm.invalid) {
+      return
+    }
+    this.forgottenPassword = false;
+    var email = encodeURI(this.emailRecoveryForm.get('email')?.value);
+    this.authService.sendRecoveryEmail(email).subscribe(
+      (data: any) => {
+        alert("Recovery link sent to your mail")
+      }, (err: Error) => {
+        alert("An error occured, please try again...")
+      });
+  }
+
+  isValid(value: any): boolean {
+    return (value.invalid && value.touched) || (value.dirty && value.invalid) ||
+      (value.untouched && this.isSubmitted);
   }
 }

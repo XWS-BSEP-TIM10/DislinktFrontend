@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LoginDTO } from "../dto/LoginDTO";
 import { RegistrationDTO } from "../dto/RegistrationDTO";
+import { NewPasswordDTO } from "../dto/NewPasswordDto";
 import { ChangePasswordDTO } from "../dto/ChangePasswordDTO";
 
 @Injectable({
@@ -14,6 +15,8 @@ export class AuthenticationService {
   private signupUrl = "/auth/signup"
   private changePasswordUrl = "/auth/changePassword"
   private acctivateAccountUrl = "/auth/confirm"
+  private sendRecoveryEmailUrl = "/auth/recover"
+  private changePasswordRecoveryUrl = "/auth/recover/changePassword"
 
   constructor(private http: HttpClient) { }
 
@@ -29,8 +32,16 @@ export class AuthenticationService {
     return this.http.put(`${config.baseUrl}${this.changePasswordUrl}`, changePasswordDTO)
   }
 
-  acctivateAccount(token: String) {
+  activateAccount(token: String) {
     return this.http.get(`${config.baseUrl}${this.acctivateAccountUrl}/${token}`)
+  }
+
+  sendRecoveryEmail(email: String) {
+    return this.http.get(`${config.baseUrl}${this.sendRecoveryEmailUrl}?email=${email}`)
+  }
+
+  changePasswordRecovery(token: String, newPasswordDTO: NewPasswordDTO) {
+    return this.http.put(`${config.baseUrl}${this.changePasswordRecoveryUrl}/${token}`, newPasswordDTO)
   }
 
 }
