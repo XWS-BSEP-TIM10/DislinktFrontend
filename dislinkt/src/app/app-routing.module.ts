@@ -16,9 +16,9 @@ const routes: Routes = [{path:'', component: FrontPageComponentComponent},
                         {path:'users/:id', component: UserPageComponent},
                         {path:'search-users', component: SearchUsersComponent},
                         {path:'home', component: HomeComponent},
-                        {path: 'confirm/:token?', component: AccountActivatedComponent},
-                        {path: 'recover/:token?', component: AccountRecoveryComponent},
-                        {path: 'login/passwordless/:token?', component: PasswordlessLoginComponent}
+                        {path: 'confirm/:token', component: AccountActivatedComponent},
+                        {path: 'recover/:token', component: AccountRecoveryComponent},
+                        {path: 'login/passwordless/:token', component: PasswordlessLoginComponent}
                       ];
 
 @NgModule({

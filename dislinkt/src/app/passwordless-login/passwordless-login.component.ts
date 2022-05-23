@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../service/authentication.service';
 import { StorageService } from '../service/storage.service';
 import { Router, NavigationStart } from '@angular/router';
+import { ActivatedRoute } from '@angular/router'; 
 
 @Component({
   selector: 'app-passwordless-login',
@@ -12,10 +13,11 @@ export class PasswordlessLoginComponent implements OnInit {
 
   passwordlessSucceeded: boolean = true;
 
-  constructor(private authService: AuthenticationService, private storageService: StorageService, private router: Router) { }
+  constructor(private authService: AuthenticationService, private storageService: StorageService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.authService.passwordlessLogin(decodeURI(window.location.pathname.split("/")[3])).subscribe(
+    let token = decodeURI(this.route.snapshot.paramMap.get('token') || "")
+    this.authService.passwordlessLogin(token).subscribe(
       (data: any) => {
         this.storageService.storeTokenData(data.jwt,data.refreshToken);
         switch (this.storageService.getRoleFromToken()) {
