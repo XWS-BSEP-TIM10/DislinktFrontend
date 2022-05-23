@@ -102,6 +102,8 @@ export class RegistrationComponent implements OnInit {
       this.sendRequest = false;
       if(error.status == 409){
         this.responseError = "Username already exists!"
+      } else if(error.status == 400){
+        this.passwordError = error.error.password;
       }
    })
   }
