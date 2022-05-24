@@ -19,6 +19,7 @@ import { ExperienceModalComponent } from '../experience-modal/experience-modal.c
 import { CreateExperienceDTO } from '../dto/CreateExperienceDTO';
 import { ExperienceService } from '../service/experience.service';
 import { Experience } from '../model/Experience';
+import { StorageService } from '../service/storage.service';
 
 
 @Component({
@@ -40,7 +41,8 @@ export class UserPageComponent implements OnInit {
     private authService: AuthenticationService,
     private interestService: InterestService,
     private modalService: NgbModal,
-    private experienceService: ExperienceService) { }
+    private experienceService: ExperienceService,
+    private storageService: StorageService) { }
   postForm = new FormGroup({
     text: new FormControl('', Validators.required)
   })
@@ -65,6 +67,7 @@ export class UserPageComponent implements OnInit {
 
 
   profile!: Profile
+
 
 
 
@@ -99,6 +102,10 @@ export class UserPageComponent implements OnInit {
     this.file = files[0]
   }
 
+
+  isProfileOwner() {
+    return this.userId === this.storageService.getIdFromToken()
+  }
 
   updateProfile() {
     if (this.profileForm.invalid)

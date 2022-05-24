@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="social-body">
-        <p [innerHTML]="post.text | linky">
+        <p class="text" [innerHTML]="post.text | linky">
         </p>
         <img
           *ngIf="post.image"
@@ -43,7 +43,7 @@
       </div>
       <div class="social-footer">
         <div class="social-comment" *ngFor="let comment of post.comments">
-          <a href="" class="pull-left">
+          <a (click)="viewProfile(comment.ownerId)" class="pull-left">
             <app-profile-picture
               [ownerId]="comment.ownerId"
               [initials]="getInitials(comment.firstName, comment.lastName)"

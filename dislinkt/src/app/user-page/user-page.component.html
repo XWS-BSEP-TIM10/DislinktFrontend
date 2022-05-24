@@ -5,9 +5,15 @@
       <div class="col-md-3">
         <section class="panel">
           <div class="panel-body noradius padding-10">
-            <figure class="margin-bottom-10"><!-- image -->
+            <!-- <figure class="margin-bottom-10 pfp-container"> -->
+            <div class="pfp-container">
               <app-profile-picture [scale]="7" [initials]="getInitials(profile.firstName, profile.lastName)"></app-profile-picture>
-            </figure><!-- /image -->
+            </div>
+            <!-- </figure> -->
+
+            <div class="connection-container" *ngIf="!isProfileOwner()">
+                Connected
+            </div>
 
             <hr class="half-margins">
 
@@ -24,12 +30,12 @@
             <hr class="half-margins">
             <div class="skills-and-interests">
             <div >Skills & Interests</div>
-            <i class="fa fa-plus" [ngStyle]="{'color': '#057642', 'margin-left': '8px', 'cursor': 'pointer'}" (click)="addInterestModal()"  aria-hidden="true"></i>
-            <i class="fa fa-pencil" [ngStyle]="{'color': '#057642', 'margin-left': '5px', 'cursor': 'pointer'}" (click)="toggleEdit()" aria-hidden="true"></i>
+            <i class="fa fa-plus" [ngStyle]="{'color': '#057642', 'margin-left': '8px', 'cursor': 'pointer'}" *ngIf="isProfileOwner()" (click)="addInterestModal()"  aria-hidden="true"></i>
+            <i class="fa fa-pencil" [ngStyle]="{'color': '#057642', 'margin-left': '5px', 'cursor': 'pointer'}" *ngIf="isProfileOwner()" (click)="toggleEdit()" aria-hidden="true"></i>
           </div>
           <div class="interest-container">
             <div *ngFor="let interest of profile.interests" class="interest-item">
-            <app-interest  [editMode]="editMode" [interest]="interest" (deleteEvent)="deleteInterest($event)"></app-interest>
+            <app-interest  [editMode]="editMode" [interest]="interest" *ngIf="isProfileOwner()" (deleteEvent)="deleteInterest($event)"></app-interest>
           </div>
           </div>
           </div>
@@ -42,10 +48,10 @@
         <div class="tabs white nomargin-top">
           <ul class="nav nav-tabs tabs-primary">
             <li [ngClass]="overview ? 'active' : ''">
-              <a routerLink="./" fragment="overview" (click)="overview = true" data-toggle="tab">Overview</a>
+              <a [ngStyle]="{'cursor': 'pointer'}"  (click)="overview = true" data-toggle="tab">Overview</a>
             </li>
             <li [ngClass]="overview ? '' : 'active'">
-              <a routerLink="./" fragment="edit" (click)="overview = false" data-toggle="tab">Edit</a>
+              <a [ngStyle]="{'cursor': 'pointer'}" (click)="overview = false" data-toggle="tab">Profile</a>
             </li>
           </ul>
 
@@ -53,7 +59,7 @@
 
             <!-- Overview -->
             <div id="overview" [ngClass]="overview ? 'tab-pane active' : 'tab-pane'">
-              <form class="well" [formGroup]="postForm">
+              <form class="well" [formGroup]="postForm" *ngIf="isProfileOwner()">
                 <textarea rows="2" class="form-control" formControlName="text" placeholder="What's on your mind?"></textarea>
                 <div class="margin-top-10">
                   <button type="submit" class="btn btn-sm btn-primary pull-right" (click)="createPost()">Post</button>
@@ -82,42 +88,42 @@
                   <div class="form-group">
                     <label class="col-md-3 control-label" >Username</label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" formControlName="username">
+                      <input type="text" class="form-control" formControlName="username" [readonly]="!isProfileOwner()">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" >First Name</label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" formControlName="firstName">
+                      <input type="text" class="form-control" formControlName="firstName" [readonly]="!isProfileOwner()">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" >Last Name</label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" formControlName="lastName">
+                      <input type="text" class="form-control" formControlName="lastName" [readonly]="!isProfileOwner()">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" >Email</label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" formControlName="email">
+                      <input type="text" class="form-control" formControlName="email" [readonly]="!isProfileOwner()">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" >Phone Number</label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" formControlName="phoneNumber">
+                      <input type="text" class="form-control" formControlName="phoneNumber" [readonly]="!isProfileOwner()">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" >Gender</label>
                     <div class="col-md-8">
                       <label class="gender-radio-button">
-                        <input type="radio" value="MALE" formControlName="gender">
+                        <input type="radio" value="MALE" formControlName="gender" [attr.disabled]="!isProfileOwner()? '' : null">
                           <span>Male</span>
                       </label>
                       <label class="gender-radio-button">
-                        <input type="radio" value="FEMALE" formControlName="gender">
+                        <input type="radio" value="FEMALE" formControlName="gender" [attr.disabled]="!isProfileOwner()? '' : null">
                           <span>Female</span>
                       </label>
                     </div>
@@ -125,13 +131,13 @@
                   <div class="form-group">
                     <label class="col-md-3 control-label" >Date of Birth</label>
                     <div class="col-md-8">
-                      <input type="date" class="form-control" formControlName="dateOfBirth">
+                      <input type="date" class="form-control" formControlName="dateOfBirth" [readonly]="!isProfileOwner()">
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label" >Biography</label>
                     <div class="col-md-8">
-                      <textarea class="form-control" formControlName="biography"></textarea>
+                      <textarea class="form-control" formControlName="biography" [readonly]="!isProfileOwner()"></textarea>
                     </div>
                   </div>
 
@@ -139,7 +145,7 @@
                     <label class="col-xs-3 control-label">Public Profile</label>
                     <div class="col-md-8">
                       <label class="checkbox">
-                        <input type="checkbox" value="1" checked="checked" id="profilePublic">
+                        <input type="checkbox" value="1" checked="checked" id="profilePublic" [attr.disabled]="!isProfileOwner()? '' : null">
                         <i></i>
                       </label>
                     </div>
@@ -147,12 +153,12 @@
                 </fieldset>
                 <div class="row">
                   <div class="col-md-9 col-md-offset-3">
-                    <button type="submit" (click)="updateProfile()" class="btn btn-primary">Submit</button>
+                    <button type="submit" (click)="updateProfile()" *ngIf="isProfileOwner()" class="btn btn-primary">Submit</button>
                   </div>
                 </div>
               </form>
                 <hr>
-                <form class="form-horizontal padding-10" [formGroup]="passwordForm">
+                <form *ngIf="isProfileOwner()" class="form-horizontal padding-10" [formGroup]="passwordForm">
                 <h4>Change Password</h4>
                 <fieldset class="mb-xl">
                   <div class="form-group">
@@ -194,14 +200,14 @@
         <section class="panel panel-default">
           <header class="experience-title">
 
-            <div class="">
+            <div class="education-and-experience">
               <i class="fa fa-rss"></i> Education & Experience
-              <i class="fa fa-plus" [ngStyle]="{ 'margin-left': '10px', 'cursor': 'pointer'}" (click)="addExperienceModal()"  aria-hidden="true"></i>
+              <i class="fa fa-plus" [ngStyle]="{ 'margin-left': '10px', 'cursor': 'pointer'}" *ngIf="isProfileOwner()" (click)="addExperienceModal()"  aria-hidden="true"></i>
             </div>
           </header>
           <hr>
           <div class="experience-card-item" *ngFor="let experience of this.profile.experiences">
-            <app-experience-card [experience]="experience" (deleteEvent)="deleteExperience($event)" (editEvent)="editExperienceModal($event)"></app-experience-card>
+            <app-experience-card [experience]="experience" [userId]="userId" (deleteEvent)="deleteExperience($event)" (editEvent)="editExperienceModal($event)"></app-experience-card>
           </div>
 
         </section>

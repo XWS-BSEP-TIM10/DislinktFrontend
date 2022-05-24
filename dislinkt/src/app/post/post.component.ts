@@ -41,6 +41,7 @@ export class PostComponent implements OnInit {
     return firstName.charAt(0) + lastName.charAt(0)
   }
   ngOnInit(): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.userId = this.storageService.getIdFromToken();
   }
 
@@ -104,7 +105,7 @@ export class PostComponent implements OnInit {
 
 
   viewProfile(ownerId: string) {
-    this.router.navigate([`users/${this.post.ownerId}`])
+    this.router.navigate([`users/${ownerId}`])
   }
 
 
