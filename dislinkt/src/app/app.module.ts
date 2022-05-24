@@ -23,6 +23,7 @@ import { ExperienceModalComponent } from './experience-modal/experience-modal.co
 import { AccountActivatedComponent } from './account-activated/account-activated.component';
 import { AccountRecoveryComponent } from './account-recovery/account-recovery.component';
 import { PasswordlessLoginComponent } from './passwordless-login/passwordless-login.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { PasswordlessLoginComponent } from './passwordless-login/passwordless-lo
     ExperienceModalComponent,
     AccountActivatedComponent,
     AccountRecoveryComponent,
-    PasswordlessLoginComponent
+    PasswordlessLoginComponent,
+    AdminPageComponent
   ],
   imports: [
     BrowserModule,
