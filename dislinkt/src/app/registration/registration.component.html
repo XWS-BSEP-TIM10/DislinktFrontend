@@ -57,7 +57,7 @@
       <div *ngIf="responseError" class="alert alert-danger">
         {{responseError}}
       </div>
-      <input style="margin-left: 5%;" type="password" id="password1" class="fadeIn third" placeholder="password" formControlName="password">
+      <input (input) = "checkPass()" style="margin-left: 5%;" type="password" id="password1" class="fadeIn third" placeholder="password" formControlName="password">
       <i class="bi bi-eye-slash" id="togglePassword1" (click) = "togglePass('password1','togglePassword1')"></i>
       <div *ngIf="isValid(f.password)"
       class="alert alert-danger">
@@ -85,6 +85,9 @@
       </div>
       <div *ngIf="passwordError" class="alert alert-danger">
         {{passwordError}}
+      </div>
+      <div *ngIf="passwordStrength" id= "strenght" [class] = "strengthClass">
+        {{passwordStrength}}
       </div>
       <input style="margin-left: 5%;" type="password" id="password2" class="fadeIn third" placeholder="confirm password" formControlName="confirmPassword">
       <i class="bi bi-eye-slash" id="togglePassword2" (click) = "togglePass('password2', 'togglePassword2')"></i>
