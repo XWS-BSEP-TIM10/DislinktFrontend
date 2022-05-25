@@ -29,6 +29,7 @@ export class RegistrationComponent implements OnInit {
   gender = "";
   passwordStrength = "";
   strengthClass = "";
+  emailError="";
 
   registerForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -82,6 +83,7 @@ export class RegistrationComponent implements OnInit {
     this.passwordError = "";
     this.confirmPasswordError = "";
     this.responseError = "";
+    this.emailError = "";
     if (this.registerForm.invalid) {
       return
     }
@@ -94,7 +96,7 @@ export class RegistrationComponent implements OnInit {
       return
     }
 
-    const result = zxcvbn(password?.value);
+    const result = zxcvbn(password);
 
     if (result.score != 3 && result.score != 4) {
       return
@@ -126,7 +128,10 @@ export class RegistrationComponent implements OnInit {
       (error) => {
         this.sendRequest = false;
         if (error.status == 409) {
-          this.responseError = error.body
+          if(error.error.toString().includes("Username"))
+            this.responseError = error.error.toString()
+          else
+            this.emailError = error.error.toString()
         } else if (error.status == 400) {
           this.passwordError = error.error.password;
         }

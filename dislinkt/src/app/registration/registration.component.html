@@ -26,6 +26,9 @@
           Email is not valid.
         </div>
       </div>
+      <div *ngIf="emailError" class="alert alert-danger">
+        {{emailError}}
+      </div>
       <input type="text" class="fadeIn second" placeholder="phone number" formControlName="phoneNumber">
       <div *ngIf="isValid(f.phoneNumber)"
         class="alert alert-danger">

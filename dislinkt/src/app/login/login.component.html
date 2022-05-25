@@ -2,6 +2,9 @@
   <div id="formContent">
     <!-- Login Form -->
     <form #credentials="ngForm" *ngIf="!forgottenPassword && !passwordless">
+      <div *ngIf="signInError" class="alert alert-danger">
+        {{signInError}}
+      </div>
       <input type="text" id="login" class="fadeIn second" name="username" placeholder="username" ngModel />
       <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" ngModel />
       <input type="submit" class="fadeIn fourth" value="Sign In" (click)="loginUser(credentials)" />

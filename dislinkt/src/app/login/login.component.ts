@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   isSubmitted = false;
   forgottenPassword: boolean = false;
   passwordless: boolean = false;
+  signInError = "";
 
   constructor(private authService: AuthenticationService, private storageService: StorageService, private router: Router) { }
 
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser(credentials: NgForm) {
+    this.signInError = ""
     let loginDTO: LoginDTO = { username: credentials.value.username, password: credentials.value.password };
     this.authService.login(loginDTO).subscribe((data: any) => {
       this.storageService.storeTokenData(data.jwt, data.refreshToken);
@@ -48,7 +50,7 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('/')
       }
     }, (err: Error) => {
-      alert("Incorrect credentials!")
+      this.signInError = "Oops! The username and password combination is incorrect. Please try again!"
     })
   }
 
