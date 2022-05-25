@@ -16,7 +16,7 @@ export class AdminGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       if (this.storageService.getRoleFromToken() === 'ROLE_ADMIN')
       return true
-    this.router.navigate(['/login']);
+    this.router.navigate(['/']);
     return false
   }
 
