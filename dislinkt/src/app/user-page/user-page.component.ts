@@ -20,6 +20,8 @@ import { CreateExperienceDTO } from '../dto/CreateExperienceDTO';
 import { ExperienceService } from '../service/experience.service';
 import { Experience } from '../model/Experience';
 import { StorageService } from '../service/storage.service';
+import { ConnectionService } from '../service/connection.service';
+import { CreateConnectionDTO } from '../dto/CreateConnectionDTO';
 
 
 @Component({
@@ -34,6 +36,7 @@ export class UserPageComponent implements OnInit {
   posts!: Post[]
   editMode: boolean = false
   file!: File
+  connectionStatus: string = ""
   constructor(private route: ActivatedRoute,
     private postService: PostService,
     private sanitizer: DomSanitizer,
@@ -42,7 +45,8 @@ export class UserPageComponent implements OnInit {
     private interestService: InterestService,
     private modalService: NgbModal,
     private experienceService: ExperienceService,
-    private storageService: StorageService) { }
+    private storageService: StorageService,
+    private connectionService: ConnectionService) { }
   postForm = new FormGroup({
     text: new FormControl('', Validators.required)
   })
@@ -75,6 +79,12 @@ export class UserPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id') || "";
+    if (this.userId !== this.storageService.getIdFromToken()) {
+      this.connectionService.getConnectionStatus(this.storageService.getIdFromToken(), this.userId).subscribe((data:any) => {
+        this.connectionStatus = data.connectionStatus
+        console.log(this.connectionStatus)
+      })
+    }
     this.postService.getPosts(this.userId).subscribe((data: any) => {
       this.posts = data
       this.posts = this.posts.map(post => (post.image === '') ? post : { ...post, image: this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + post.image) })
@@ -244,6 +254,19 @@ export class UserPageComponent implements OnInit {
   deleteExperience(id: number) {
     this.experienceService.deleteInterest(id).subscribe((data:any) => {
       this.profile.experiences = this.profile.experiences.filter(exp => exp.id !== id)
+    })
+  }
+
+
+  follow() {
+    if (this.connectionStatus)
+      return
+    let createConnectionDTO : CreateConnectionDTO = {
+      initiatorId: this.storageService.getIdFromToken(),
+      receiverId: this.userId
+    }
+    this.connectionService.createConnection(createConnectionDTO).subscribe(data => {
+      this.connectionStatus = "CONNECTED"
     })
   }
 
