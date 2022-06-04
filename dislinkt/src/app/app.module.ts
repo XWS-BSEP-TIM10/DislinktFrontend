@@ -24,6 +24,7 @@ import { AccountActivatedComponent } from './account-activated/account-activated
 import { AccountRecoveryComponent } from './account-recovery/account-recovery.component';
 import { PasswordlessLoginComponent } from './passwordless-login/passwordless-login.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
+import { JobAdCardComponent } from './job-ad-card/job-ad-card.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
     AccountActivatedComponent,
     AccountRecoveryComponent,
     PasswordlessLoginComponent,
-    AdminPageComponent
+    AdminPageComponent,
+    JobAdCardComponent
   ],
   imports: [
     BrowserModule,

@@ -17,7 +17,7 @@
             <div
               class="connection-container"
               (click)="follow()"
-              [ngStyle]="{'cursor': connectionStatus === '' ? 'pointer' : ''}"
+              [ngStyle]="{ cursor: connectionStatus === '' ? 'pointer' : '' }"
               *ngIf="!isProfileOwner()"
             >
               <span *ngIf="connectionStatus === 'CONNECTED'">Following</span>
@@ -83,20 +83,28 @@
       <div class="col-md-6">
         <div class="tabs white nomargin-top">
           <ul class="nav nav-tabs tabs-primary">
-            <li [ngClass]="overview ? 'active' : ''">
+            <li [ngClass]="tab === 1 ? 'active' : ''">
               <a
                 [ngStyle]="{ cursor: 'pointer' }"
-                (click)="overview = true"
+                (click)="tab = 1"
                 data-toggle="tab"
                 >Overview</a
               >
             </li>
-            <li [ngClass]="overview ? '' : 'active'">
+            <li [ngClass]="tab === 2 ? 'active' : ''">
               <a
                 [ngStyle]="{ cursor: 'pointer' }"
-                (click)="overview = false"
+                (click)="tab = 2"
                 data-toggle="tab"
                 >Profile</a
+              >
+            </li>
+            <li *ngIf="isProfileOwner()" [ngClass]="tab === 3 ? 'active' : ''">
+              <a
+                [ngStyle]="{ cursor: 'pointer' }"
+                (click)="tab = 3"
+                data-toggle="tab"
+                >Add Job Ad</a
               >
             </li>
           </ul>
@@ -105,7 +113,7 @@
             <!-- Overview -->
             <div
               id="overview"
-              [ngClass]="overview ? 'tab-pane active' : 'tab-pane'"
+              [ngClass]="tab === 1 ? 'tab-pane active' : 'tab-pane'"
             >
               <form
                 class="well"
@@ -145,14 +153,17 @@
               <hr class="invisible half-margins" />
 
               <div>
-                <app-post *ngFor="let post of posts" [post]="post"></app-post>
+                <div *ngFor="let item of postsAndJobAds">
+                <app-job-ad-card [jobAd]="item" *ngIf="item.company"></app-job-ad-card>
+                <app-post [post]="item" *ngIf="item.text"></app-post>
+                </div>
               </div>
             </div>
 
             <!-- Edit -->
             <div
               id="edit"
-              [ngClass]="overview ? 'tab-pane' : 'tab-pane active'"
+              [ngClass]="tab === 2 ? 'tab-pane active' : 'tab-pane'"
             >
               <form
                 class="form-horizontal padding-10"
@@ -339,6 +350,98 @@
                       type="submit"
                       class="btn btn-primary"
                       (click)="changePassword()"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              id="job-ad"
+              [ngClass]="tab === 3 ? 'tab-pane active' : 'tab-pane'"
+            >
+            <form
+                class="form-horizontal padding-10"
+                [formGroup]="newJobAdForm"
+              >
+                <h4>New Job Ad</h4>
+                <fieldset>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Title</label>
+                    <div class="col-md-8">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="title"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Position</label>
+                    <div class="col-md-8">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="position"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Description</label>
+                    <div class="col-md-8">
+                      <textarea type="text"
+                      class="form-control"
+                      formControlName="description"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Company</label>
+                    <div class="col-md-8">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="company"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Requirement</label>
+                    <div class="col-md-8 requirements-input">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="requirement"
+                      />
+                      <button class="btn btn-primary" (click)="addRequirement()">Add</button>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-md-3 control-label" *ngIf="requirements.length > 0">Requirements</label>
+                    <div class="col-md-8 requirements-input">
+                      <div class="requirement-list">
+                        <app-interest
+                          [editMode]="true"
+                          (deleteEvent)="deleteRequirement($event)"
+                          [interest]="{ id: -1, description: requirement }"
+                          *ngFor="let requirement of requirements"
+                        ></app-interest>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+                </fieldset>
+                <div class="row">
+                  <div class="col-md-9 col-md-offset-3">
+                    <button
+                      type="submit"
+                      (click)="createJobAd()"
+                      *ngIf="isProfileOwner()"
+                      class="btn btn-primary"
                     >
                       Submit
                     </button>
