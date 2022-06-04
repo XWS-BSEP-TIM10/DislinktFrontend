@@ -20,4 +20,8 @@ export class JobAdService {
   getJobAds(userId: string) {
     return this.http.get(`${config.baseUrl}/users/${userId}${this.jobAdUrl}`)
   }
+
+  getAllJobAds(search: string) {
+    return this.http.get(`${config.baseUrl}${this.jobAdUrl}`, {params:{search:search}})
+  }
 }

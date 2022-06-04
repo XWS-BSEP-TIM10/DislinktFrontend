@@ -107,12 +107,12 @@ export class UserPageComponent implements OnInit {
     }
     this.jobAdService.getJobAds(this.userId).subscribe((data:any) => {
       this.jobAds = data
-      this.postsAndJobAds = this.postsAndJobAds.concat(this.jobAds).sort((a:any,b:any) => moment(b.creationDate, 'DD/MM/YYYY').toDate().getTime() - moment(a.creationDate, 'DD/MM/YYYY').toDate().getTime() )
+      this.postsAndJobAds = this.postsAndJobAds.concat(this.jobAds).sort((a:any,b:any) => moment(b.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() - moment(a.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() )
     })
     this.postService.getPosts(this.userId).subscribe((data: any) => {
       this.posts = data
       this.posts = this.posts.map(post => (post.image === '') ? post : { ...post, image: this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + post.image) })
-      this.postsAndJobAds = this.postsAndJobAds.concat(this.posts).sort((a:any,b:any) => moment(b.creationDate, 'DD/MM/YYYY').toDate().getTime() - moment(a.creationDate, 'DD/MM/YYYY').toDate().getTime() )
+      this.postsAndJobAds = this.postsAndJobAds.concat(this.posts).sort((a:any,b:any) => moment(b.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() - moment(a.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() )
 
     })
     this.profileService.getProfile(this.userId).subscribe((data: any) => {

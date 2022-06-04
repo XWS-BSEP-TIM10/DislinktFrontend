@@ -12,6 +12,7 @@ import { PasswordlessLoginComponent } from './passwordless-login/passwordless-lo
 import { AuthenticationGuard } from './auth-guards/authentication.guard';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { AdminGuard } from './auth-guards/admin.guard';
+import { JobAdPageComponent } from './job-ad-page/job-ad-page.component';
 
 const routes: Routes = [{path:'', component: FrontPageComponentComponent},
                         {path:'login', component:LoginComponent},
@@ -22,6 +23,7 @@ const routes: Routes = [{path:'', component: FrontPageComponentComponent},
                         {path:'admin', component: AdminPageComponent, canActivate:[AuthenticationGuard, AdminGuard]},
                         {path: 'confirm/:token', component: AccountActivatedComponent},
                         {path: 'recover/:token', component: AccountRecoveryComponent},
+                        {path: 'job-ads', component: JobAdPageComponent},
                         {path: 'login/passwordless/:token', component: PasswordlessLoginComponent}
                       ];
 

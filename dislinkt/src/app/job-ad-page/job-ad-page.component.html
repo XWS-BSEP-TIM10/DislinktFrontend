@@ -1,18 +1,13 @@
 <div class="component-container">
-  <h2>User Search</h2>
+  <h2>Job Ads</h2>
   <form [formGroup]="searchForm">
-    <div class=" search-bar">
+    <div class="input-group pull-right search-bar">
       <input
         type="text"
         class="form-control input-text"
-        placeholder="First Name"
-        formControlName="firstName"
-      />
-      <input
-        type="text"
-        class="form-control input-text"
-        placeholder="Last Name"
-        formControlName="lastName"
+        placeholder="Search"
+        formControlName="value"
+        id="txtSearch"
       />
       <div class="input-group-btn">
         <button class="btn btn-primary" type="submit" (click)="search()">
@@ -22,7 +17,10 @@
     </div>
   </form>
   <hr class="w-100 half-margins" />
-  <div class="profiles-container">
-    <app-profile-card [profile]="profile" [userId]="profile.id" *ngFor="let profile of profiles"></app-profile-card>
+  <div class="job-ad-container">
+    <app-job-ad-card
+      [jobAd]="jobAd"
+      *ngFor="let jobAd of jobAds"
+    ></app-job-ad-card>
   </div>
 </div>

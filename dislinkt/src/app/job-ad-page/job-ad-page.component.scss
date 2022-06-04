@@ -9,16 +9,13 @@
 .search-bar {
   margin-top: 20px;
   max-width: 800px;
-  display: flex;
-
 }
-
 
 .input-text {
-  min-width: 200px;
+  min-width: 300px;
 }
 
-.profiles-container {
+.job-ad-container {
   margin-left: 8%;
   margin-right: 8%;
   justify-content: start;
@@ -26,6 +23,7 @@
   flex-wrap: wrap;
 }
 
-app-profile-card {
-  margin: 10px;
+app-job-ad-card {
+  max-width: 500px;
+  min-height: 350px;
 }

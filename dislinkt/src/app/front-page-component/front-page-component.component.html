@@ -9,8 +9,8 @@
       <div class="row">
         <div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
           <h1>Welcome to your professional community</h1>
-          <div class="find_person" (click)="findPerson()">
-            <h4 class="title"><a href="">Find person you know</a><span class="arrow">&gt;</span></h4>
+          <div class="find_person" (click)="findPerson()" [ngStyle]="{'cursor':'pointer'}">
+            <h4 class="title"><a>Find person you know</a><span class="arrow">&gt;</span></h4>
           </div>
           <div><a href="#about" class="btn-get-started scrollto">Get Started</a></div>
         </div>

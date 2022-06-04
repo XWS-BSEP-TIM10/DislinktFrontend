@@ -25,6 +25,8 @@ import { AccountRecoveryComponent } from './account-recovery/account-recovery.co
 import { PasswordlessLoginComponent } from './passwordless-login/passwordless-login.component';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { JobAdCardComponent } from './job-ad-card/job-ad-card.component';
+import { JobAdPageComponent } from './job-ad-page/job-ad-page.component';
+import { ProfileCardComponent } from './profile-card/profile-card.component';
 
 
 @NgModule({
@@ -47,7 +49,9 @@ import { JobAdCardComponent } from './job-ad-card/job-ad-card.component';
     AccountRecoveryComponent,
     PasswordlessLoginComponent,
     AdminPageComponent,
-    JobAdCardComponent
+    JobAdCardComponent,
+    JobAdPageComponent,
+    ProfileCardComponent
   ],
   imports: [
     BrowserModule,

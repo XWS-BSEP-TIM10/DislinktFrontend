@@ -1,20 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Experience } from '../model/Experience';
 import { JobAd } from '../model/JobAd';
+import { Profile } from '../model/Profile';
 import { StorageService } from '../service/storage.service';
 
 @Component({
-  selector: 'app-job-ad-card',
-  templateUrl: './job-ad-card.component.html',
-  styleUrls: ['./job-ad-card.component.scss']
+  selector: 'app-profile-card',
+  templateUrl: './profile-card.component.html',
+  styleUrls: ['./profile-card.component.scss']
 })
-export class JobAdCardComponent implements OnInit {
+export class ProfileCardComponent implements OnInit {
 
-  @Input() jobAd!: JobAd
+  @Input() profile!: Profile
   @Input() userId!: string
-  @Output() deleteEvent = new EventEmitter<string>();
-  @Output() editEvent = new EventEmitter<JobAd>();
   constructor(private storageService: StorageService, private router: Router) { }
 
   ngOnInit(): void {
@@ -22,14 +20,6 @@ export class JobAdCardComponent implements OnInit {
 
   viewProfile(ownerId: string) {
     this.router.navigate([`users/${ownerId}`])
-  }
-
-  deleteExperience() {
-    this.deleteEvent.emit(this.jobAd.id);
-  }
-
-  editExperience() {
-    this.editEvent.emit(this.jobAd)
   }
 
   isProfileOwner() {
@@ -40,4 +30,3 @@ export class JobAdCardComponent implements OnInit {
     return firstName.charAt(0) + lastName.charAt(0)
   }
 }
-

@@ -27,7 +27,7 @@
           <p class="description">
             {{ jobAd.description }}
           </p>
-          <div class="requirements">
+          <div class="requirements" *ngIf="jobAd.requirements.length > 0">
             <hr class="w-100 half-margins" />
             <h4>Requirements:</h4>
             <div class="requirement-list">
