@@ -39,6 +39,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
 }

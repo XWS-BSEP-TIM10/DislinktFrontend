@@ -1,0 +1,26 @@
+<div class="component-container">
+  <h2>Job Ads</h2>
+  <form [formGroup]="searchForm">
+    <div class="input-group pull-right search-bar">
+      <input
+        type="text"
+        class="form-control input-text"
+        placeholder="Search"
+        formControlName="value"
+        id="txtSearch"
+      />
+      <div class="input-group-btn">
+        <button class="btn btn-primary" type="submit" (click)="search()">
+          <span class="glyphicon glyphicon-search"></span>
+        </button>
+      </div>
+    </div>
+  </form>
+  <hr class="w-100 half-margins" />
+  <div class="job-ad-container">
+    <app-job-ad-card
+      [jobAd]="jobAd"
+      *ngFor="let jobAd of jobAds"
+    ></app-job-ad-card>
+  </div>
+</div>

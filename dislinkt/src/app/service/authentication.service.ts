@@ -60,6 +60,11 @@ export class AuthenticationService {
     return this.http.get(`${config.baseUrl}${this.checkTokenUrl}/${token}`)
   }
 
+  generateAPIToken(userId: string) {
+    return this.http.post(`${config.baseUrl}/auth/api-token`, {userId: userId})
+
+  }
+
   refreshToken(refreshToken: any){
     const headers= new HttpHeaders()
   .set('Authorization', `Bearer ${refreshToken}`)

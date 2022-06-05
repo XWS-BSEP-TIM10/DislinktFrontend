@@ -5,8 +5,8 @@
         <div class="card-body px-5">
             <h4 class="institution">
               {{experience.institution}}
-              <i class="fa fa-trash trash-can pull-right" [ngStyle]="{'color': 'red', 'cursor': 'pointer'}" (click)="deleteExperience()" aria-hidden="true"></i>
-              <i class="fa fa-pencil pull-right" [ngStyle]="{'margin-left': '5px', 'cursor': 'pointer'}" (click)="editExperience()" aria-hidden="true"></i>
+              <i class="fa fa-trash trash-can pull-right" [ngStyle]="{'color': 'red', 'cursor': 'pointer'}" *ngIf="isProfileOwner()" (click)="deleteExperience()" aria-hidden="true"></i>
+              <i class="fa fa-pencil pull-right" [ngStyle]="{'margin-left': '5px', 'cursor': 'pointer'}" *ngIf="isProfileOwner()" (click)="editExperience()" aria-hidden="true"></i>
             </h4>
 
             <h6 class="position">

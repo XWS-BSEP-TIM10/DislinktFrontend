@@ -1,0 +1,22 @@
+<div class="card-container">
+  <div class="social-avatar">
+    <a class="pull-left">
+      <app-profile-picture
+      [scale]="1.2"
+        [ownerId]="userId"
+        [initials]="getInitials(profile.firstName, profile.lastName)"
+      ></app-profile-picture>
+    </a>
+    <div class="media-body">
+      <a (click)="viewProfile(userId)">
+        <span class="post-owner-name">{{
+          profile.firstName + " " + profile.lastName
+        }}</span>
+      </a>
+    </div>
+    <hr class="w-100 half-margins" />
+    <p>
+      {{profile.biography}}
+    </p>
+  </div>
+</div>

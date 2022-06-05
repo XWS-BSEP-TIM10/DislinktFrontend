@@ -21,4 +21,8 @@ export class ProfileService {
     return this.http.put(`${config.baseUrl}${this.profileUrl}`, updateProfileDTO)
   }
 
+  getProfiles(firstName:string, lastName:string) {
+    return this.http.get(`${config.baseUrl}${this.profileUrl}/find`, {params:{first_name:firstName, last_name:lastName}})
+  }
+
 }

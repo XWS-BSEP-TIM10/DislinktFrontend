@@ -5,133 +5,277 @@
       <div class="col-md-3">
         <section class="panel">
           <div class="panel-body noradius padding-10">
-            <figure class="margin-bottom-10"><!-- image -->
-              <app-profile-picture [scale]="7" [initials]="getInitials(profile.firstName, profile.lastName)"></app-profile-picture>
-            </figure><!-- /image -->
+            <!-- <figure class="margin-bottom-10 pfp-container"> -->
+            <div class="pfp-container">
+              <app-profile-picture
+                [scale]="7"
+                [initials]="getInitials(profile.firstName, profile.lastName)"
+              ></app-profile-picture>
+            </div>
+            <!-- </figure> -->
 
-            <hr class="half-margins">
+            <div
+              class="connection-container"
+              (click)="follow()"
+              [ngStyle]="{ cursor: connectionStatus === '' ? 'pointer' : '' }"
+              *ngIf="!isProfileOwner()"
+            >
+              <span *ngIf="connectionStatus === 'CONNECTED'">Following</span>
+              <span *ngIf="connectionStatus === ''">Follow</span>
+            </div>
+
+            <hr class="half-margins" />
 
             <!-- About -->
             <h3 class="text-black">
-
-              {{profile.firstName + " " + profile.lastName}}
+              {{ profile.firstName + " " + profile.lastName }}
             </h3>
             <p class="size-12">
-              {{profile.biography}}
+              {{ profile.biography }}
             </p>
             <!-- /About -->
 
-            <hr class="half-margins">
+            <hr class="half-margins" />
             <div class="skills-and-interests">
-            <div >Skills & Interests</div>
-            <i class="fa fa-plus" [ngStyle]="{'color': '#057642', 'margin-left': '8px', 'cursor': 'pointer'}" (click)="addInterestModal()"  aria-hidden="true"></i>
-            <i class="fa fa-pencil" [ngStyle]="{'color': '#057642', 'margin-left': '5px', 'cursor': 'pointer'}" (click)="toggleEdit()" aria-hidden="true"></i>
-          </div>
-          <div class="interest-container">
-            <div *ngFor="let interest of profile.interests" class="interest-item">
-            <app-interest  [editMode]="editMode" [interest]="interest" (deleteEvent)="deleteInterest($event)"></app-interest>
-          </div>
-          </div>
+              <div>Skills & Interests</div>
+              <i
+                class="fa fa-plus"
+                [ngStyle]="{
+                  color: '#057642',
+                  'margin-left': '8px',
+                  cursor: 'pointer'
+                }"
+                *ngIf="isProfileOwner()"
+                (click)="addInterestModal()"
+                aria-hidden="true"
+              ></i>
+              <i
+                class="fa fa-pencil"
+                [ngStyle]="{
+                  color: '#057642',
+                  'margin-left': '5px',
+                  cursor: 'pointer'
+                }"
+                *ngIf="isProfileOwner()"
+                (click)="toggleEdit()"
+                aria-hidden="true"
+              ></i>
+            </div>
+            <div class="interest-container">
+              <div
+                *ngFor="let interest of profile.interests"
+                class="interest-item"
+              >
+                <app-interest
+                  [editMode]="editMode"
+                  [interest]="interest"
+                  *ngIf="isProfileOwner()"
+                  (deleteEvent)="deleteInterest($event)"
+                ></app-interest>
+              </div>
+            </div>
           </div>
         </section>
-      </div><!-- /COL 1 -->
+      </div>
+      <!-- /COL 1 -->
 
       <!-- COL 2 -->
-      <div class="col-md-6">
-
+      <div class="col-md-6 col2">
         <div class="tabs white nomargin-top">
           <ul class="nav nav-tabs tabs-primary">
-            <li [ngClass]="overview ? 'active' : ''">
-              <a routerLink="./" fragment="overview" (click)="overview = true" data-toggle="tab">Overview</a>
+            <li [ngClass]="tab === 1 ? 'active' : ''">
+              <a
+                [ngStyle]="{ cursor: 'pointer' }"
+                (click)="tab = 1"
+                data-toggle="tab"
+                >Overview</a
+              >
             </li>
-            <li [ngClass]="overview ? '' : 'active'">
-              <a routerLink="./" fragment="edit" (click)="overview = false" data-toggle="tab">Edit</a>
+            <li [ngClass]="tab === 2 ? 'active' : ''">
+              <a
+                [ngStyle]="{ cursor: 'pointer' }"
+                (click)="tab = 2"
+                data-toggle="tab"
+                >Profile</a
+              >
+            </li>
+            <li *ngIf="isProfileOwner()" [ngClass]="tab === 3 ? 'active' : ''">
+              <a
+                [ngStyle]="{ cursor: 'pointer' }"
+                (click)="tab = 3"
+                data-toggle="tab"
+                >Add Job Ad</a
+              >
+            </li>
+            <li *ngIf="isProfileOwner()" [ngClass]="tab === 4 ? 'active' : ''">
+              <a
+                [ngStyle]="{ cursor: 'pointer' }"
+                (click)="tab = 4"
+                data-toggle="tab"
+                >Agent API Token</a
+              >
             </li>
           </ul>
 
           <div class="tab-content">
-
             <!-- Overview -->
-            <div id="overview" [ngClass]="overview ? 'tab-pane active' : 'tab-pane'">
-              <form class="well" [formGroup]="postForm">
-                <textarea rows="2" class="form-control" formControlName="text" placeholder="What's on your mind?"></textarea>
+            <div
+              id="overview"
+              [ngClass]="tab === 1 ? 'tab-pane active' : 'tab-pane'"
+            >
+              <form
+                class="well"
+                [formGroup]="postForm"
+                *ngIf="isProfileOwner()"
+              >
+                <textarea
+                  rows="2"
+                  class="form-control"
+                  formControlName="text"
+                  placeholder="What's on your mind?"
+                ></textarea>
                 <div class="margin-top-10">
-                  <button type="submit" class="btn btn-sm btn-primary pull-right" (click)="createPost()">Post</button>
-                  <input type="file" id="file-upload" class="file-upload" data-toggle="tooltip" data-placement="bottom" title="" (change)="fileChange($event)" accept=".jpg" data-original-title="Add Photo">
-                  <label for="file-upload"><i  class="fa fa-camera"></i></label>
-                  <label *ngIf="file">{{file.name}}</label>
+                  <button
+                    type="submit"
+                    class="btn btn-sm btn-primary pull-right"
+                    (click)="createPost()"
+                  >
+                    Post
+                  </button>
+                  <input
+                    type="file"
+                    id="file-upload"
+                    class="file-upload"
+                    data-toggle="tooltip"
+                    data-placement="bottom"
+                    title=""
+                    (change)="fileChange($event)"
+                    accept=".jpg"
+                    data-original-title="Add Photo"
+                  />
+                  <label for="file-upload"><i class="fa fa-camera"></i></label>
+                  <label *ngIf="file">{{ file.name }}</label>
                 </div>
               </form>
 
-              <hr class="invisible half-margins">
+              <hr class="invisible half-margins" />
 
               <div>
-                <app-post *ngFor="let post of posts" [post]="post"></app-post>
+                <div *ngFor="let item of postsAndJobAds">
+                <app-job-ad-card [jobAd]="item" *ngIf="item.company"></app-job-ad-card>
+                <app-post [post]="item" *ngIf="item.text"></app-post>
+                </div>
               </div>
-
-
-
             </div>
 
             <!-- Edit -->
-            <div id="edit" [ngClass]="overview ? 'tab-pane' : 'tab-pane active'" >
-
-              <form class="form-horizontal padding-10" [formGroup]="profileForm">
+            <div
+              id="edit"
+              [ngClass]="tab === 2 ? 'tab-pane active' : 'tab-pane'"
+            >
+              <form
+                class="form-horizontal padding-10"
+                [formGroup]="profileForm"
+              >
                 <h4>Personal Information</h4>
                 <fieldset>
                   <div class="form-group">
-                    <label class="col-md-3 control-label" >Username</label>
+                    <label class="col-md-3 control-label">Username</label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" formControlName="username">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="username"
+                        [readonly]="!isProfileOwner()"
+                      />
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-3 control-label" >First Name</label>
+                    <label class="col-md-3 control-label">First Name</label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" formControlName="firstName">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="firstName"
+                        [readonly]="!isProfileOwner()"
+                      />
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-3 control-label" >Last Name</label>
+                    <label class="col-md-3 control-label">Last Name</label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" formControlName="lastName">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="lastName"
+                        [readonly]="!isProfileOwner()"
+                      />
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-3 control-label" >Email</label>
+                    <label class="col-md-3 control-label">Email</label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" formControlName="email">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="email"
+                        [readonly]="!isProfileOwner()"
+                      />
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-3 control-label" >Phone Number</label>
+                    <label class="col-md-3 control-label">Phone Number</label>
                     <div class="col-md-8">
-                      <input type="text" class="form-control" formControlName="phoneNumber">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="phoneNumber"
+                        [readonly]="!isProfileOwner()"
+                      />
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-3 control-label" >Gender</label>
+                    <label class="col-md-3 control-label">Gender</label>
                     <div class="col-md-8">
                       <label class="gender-radio-button">
-                        <input type="radio" value="MALE" formControlName="gender">
-                          <span>Male</span>
+                        <input
+                          type="radio"
+                          value="MALE"
+                          formControlName="gender"
+                          [attr.disabled]="!isProfileOwner() ? '' : null"
+                        />
+                        <span>Male</span>
                       </label>
                       <label class="gender-radio-button">
-                        <input type="radio" value="FEMALE" formControlName="gender">
-                          <span>Female</span>
+                        <input
+                          type="radio"
+                          value="FEMALE"
+                          formControlName="gender"
+                          [attr.disabled]="!isProfileOwner() ? '' : null"
+                        />
+                        <span>Female</span>
                       </label>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-3 control-label" >Date of Birth</label>
+                    <label class="col-md-3 control-label">Date of Birth</label>
                     <div class="col-md-8">
-                      <input type="date" class="form-control" formControlName="dateOfBirth">
+                      <input
+                        type="date"
+                        class="form-control"
+                        formControlName="dateOfBirth"
+                        [readonly]="!isProfileOwner()"
+                      />
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-3 control-label" >Biography</label>
+                    <label class="col-md-3 control-label">Biography</label>
                     <div class="col-md-8">
-                      <textarea class="form-control" formControlName="biography"></textarea>
+                      <textarea
+                        class="form-control"
+                        formControlName="biography"
+                        [readonly]="!isProfileOwner()"
+                      ></textarea>
                     </div>
                   </div>
 
@@ -139,7 +283,13 @@
                     <label class="col-xs-3 control-label">Public Profile</label>
                     <div class="col-md-8">
                       <label class="checkbox">
-                        <input type="checkbox" value="1" checked="checked" id="profilePublic">
+                        <input
+                          type="checkbox"
+                          value="1"
+                          checked="checked"
+                          id="profilePublic"
+                          [attr.disabled]="!isProfileOwner() ? '' : null"
+                        />
                         <i></i>
                       </label>
                     </div>
@@ -147,66 +297,239 @@
                 </fieldset>
                 <div class="row">
                   <div class="col-md-9 col-md-offset-3">
-                    <button type="submit" (click)="updateProfile()" class="btn btn-primary">Submit</button>
+                    <button
+                      type="submit"
+                      (click)="updateProfile()"
+                      *ngIf="isProfileOwner()"
+                      class="btn btn-primary"
+                    >
+                      Submit
+                    </button>
                   </div>
                 </div>
               </form>
-                <hr>
-                <form class="form-horizontal padding-10" [formGroup]="passwordForm">
+              <hr />
+              <form
+                *ngIf="isProfileOwner()"
+                class="form-horizontal padding-10"
+                [formGroup]="passwordForm"
+              >
                 <h4>Change Password</h4>
                 <fieldset class="mb-xl">
                   <div class="form-group">
-                    <label class="col-md-3 control-label">Current Password</label>
+                    <label class="col-md-3 control-label"
+                      >Current Password</label
+                    >
                     <div class="col-md-8">
-                      <input type="password" class="form-control" formControlName="currentPassword">
+                      <input
+                        type="password"
+                        class="form-control"
+                        formControlName="currentPassword"
+                      />
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">New Password</label>
                     <div class="col-md-8">
-                      <input type="password" class="form-control" formControlName="newPassword">
+                      <input
+                        type="password"
+                        class="form-control"
+                        formControlName="newPassword"
+                      />
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-3 control-label">Repeat New Password</label>
+                    <label class="col-md-3 control-label"
+                      >Repeat New Password</label
+                    >
                     <div class="col-md-8">
-                      <input type="password" class="form-control" formControlName="newPasswordRepeat">
+                      <input
+                        type="password"
+                        class="form-control"
+                        formControlName="newPasswordRepeat"
+                      />
                     </div>
                   </div>
                 </fieldset>
 
                 <div class="row">
                   <div class="col-md-9 col-md-offset-3">
-                    <button type="submit" class="btn btn-primary" (click)="changePassword()">Submit</button>
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      (click)="changePassword()"
+                    >
+                      Submit
+                    </button>
                   </div>
                 </div>
               </form>
+            </div>
+            <div
+              id="job-ad"
+              [ngClass]="tab === 3 ? 'tab-pane active' : 'tab-pane'"
+            >
+            <form
+                class="form-horizontal padding-10"
+                [formGroup]="newJobAdForm"
+              >
+                <h4>New Job Ad</h4>
+                <fieldset>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Title</label>
+                    <div class="col-md-8">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="title"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Position</label>
+                    <div class="col-md-8">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="position"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Description</label>
+                    <div class="col-md-8">
+                      <textarea type="text"
+                      class="form-control"
+                      formControlName="description"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Company</label>
+                    <div class="col-md-8">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="company"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Requirement</label>
+                    <div class="col-md-8 requirements-input">
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="requirement"
+                      />
+                      <button class="btn btn-primary" (click)="addRequirement()">Add</button>
+                    </div>
+                  </div>
 
+                  <div class="form-group">
+                    <label class="col-md-3 control-label" *ngIf="requirements.length > 0">Requirements</label>
+                    <div class="col-md-8 requirements-input">
+                      <div class="requirement-list">
+                        <app-interest
+                          [editMode]="true"
+                          (deleteEvent)="deleteRequirement($event)"
+                          [interest]="{ id: -1, description: requirement }"
+                          *ngFor="let requirement of requirements"
+                        ></app-interest>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+                </fieldset>
+                <div class="row">
+                  <div class="col-md-9 col-md-offset-3">
+                    <button
+                      type="submit"
+                      (click)="createJobAd()"
+                      *ngIf="isProfileOwner()"
+                      class="btn btn-primary"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              id="job-ad"
+              [ngClass]="tab === 4 ? 'tab-pane active' : 'tab-pane'"
+            >
+            <form
+                class="form-horizontal padding-10"
+                [formGroup]="apiTokenForm"
+              >
+                <h4>Agent API Token Generation</h4>
+                <fieldset>
+
+
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">API Token</label>
+                    <div class="col-md-8">
+                      <textarea type="text"
+                      class="form-control API-token-textarea"
+                      formControlName="token"></textarea>
+                    </div>
+                  </div>
+
+                </fieldset>
+                <div class="row">
+                  <div class="col-md-9 col-md-offset-3">
+                    <button
+                      type="submit"
+                      (click)="generateAPIToken()"
+                      *ngIf="isProfileOwner()"
+                      class="btn btn-primary"
+                    >
+                      Generate
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-
-      </div><!-- /COL 2 -->
+      </div>
+      <!-- /COL 2 -->
 
       <!-- COL 3 -->
       <div class="col-md-3">
         <!-- projects -->
         <section class="panel panel-default">
           <header class="experience-title">
-
-            <div class="">
+            <div class="education-and-experience">
               <i class="fa fa-rss"></i> Education & Experience
-              <i class="fa fa-plus" [ngStyle]="{ 'margin-left': '10px', 'cursor': 'pointer'}" (click)="addExperienceModal()"  aria-hidden="true"></i>
+              <i
+                class="fa fa-plus"
+                [ngStyle]="{ 'margin-left': '10px', cursor: 'pointer' }"
+                *ngIf="isProfileOwner()"
+                (click)="addExperienceModal()"
+                aria-hidden="true"
+              ></i>
             </div>
           </header>
-          <hr>
-          <div class="experience-card-item" *ngFor="let experience of this.profile.experiences">
-            <app-experience-card [experience]="experience" (deleteEvent)="deleteExperience($event)" (editEvent)="editExperienceModal($event)"></app-experience-card>
+          <hr />
+          <div
+            class="experience-card-item"
+            *ngFor="let experience of this.profile.experiences"
+          >
+            <app-experience-card
+              [experience]="experience"
+              [userId]="userId"
+              (deleteEvent)="deleteExperience($event)"
+              (editEvent)="editExperienceModal($event)"
+            ></app-experience-card>
           </div>
-
         </section>
         <!-- /projects -->
-      </div><!-- /COL 3 -->
+      </div>
+      <!-- /COL 3 -->
     </div>
   </div>
-  </div>
+</div>

@@ -11,6 +11,7 @@ export class FrontPageComponentComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
 

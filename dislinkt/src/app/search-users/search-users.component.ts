@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { FormGroup, FormControl } from '@angular/forms';
+import { Profile } from '../model/Profile';
+import { ProfileService } from '../service/profile.service';
 
 @Component({
   selector: 'app-search-users',
@@ -7,19 +9,28 @@ import { Router, NavigationStart } from '@angular/router';
   styleUrls: ['./search-users.component.scss']
 })
 export class SearchUsersComponent implements OnInit {
+  constructor(private profileService: ProfileService) { }
 
-  constructor(private router: Router) { }
+  profiles!: Profile[]
+
+  searchForm = new FormGroup({
+    firstName: new FormControl(''),
+    lastName: new FormControl('')
+  })
 
   ngOnInit(): void {
+    this.profileService.getProfiles(this.searchForm.get('firstName')?.value, this.searchForm.get('firstName')?.value).subscribe((data:any) => {
+      this.profiles = data
+    })
+
   }
 
-  login(){
-    this.router.navigate(['login']);
-  }
 
-  registration(){
-    this.router.navigate(['registration']);
-  }
+  search() {
+    this.profileService.getProfiles(this.searchForm.get('firstName')?.value, this.searchForm.get('firstName')?.value).subscribe((data:any) => {
+      this.profiles = data
+    })
 
+  }
 
 }

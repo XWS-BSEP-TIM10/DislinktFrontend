@@ -9,6 +9,7 @@ import { isContainsSymbol } from '../validators/isContainsSymbol-validator'
 import { isContainsUppercase } from '../validators/isContainsUppercase-validator'
 import { isValidLengthPassword } from '../validators/isValidLengthPassword-validator'
 import { isWhitespace } from '../validators/isWhitespace-validator'
+import { ActivatedRoute } from '@angular/router'; 
 
 @Component({
   selector: 'app-account-recovery',
@@ -22,7 +23,7 @@ export class AccountRecoveryComponent implements OnInit {
   confirmPasswordError = "";
   tokenValid = false;
 
-  constructor(private router: Router, private authService: AuthenticationService) { }
+  constructor(private router: Router, private authService: AuthenticationService, private route: ActivatedRoute) { }
 
   recoveryForm = new FormGroup({
     newPassword: new FormControl('', [Validators.required, isContainsLowercase,
@@ -35,7 +36,8 @@ export class AccountRecoveryComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.authService.checkToken(decodeURI(window.location.pathname.split("/")[2])).subscribe(
+    let token = decodeURI(this.route.snapshot.paramMap.get('token') || "")
+    this.authService.checkToken(token).subscribe(
       (data: any) => {
         this.tokenValid = true;
       }, (err: Error) => {
@@ -64,8 +66,8 @@ export class AccountRecoveryComponent implements OnInit {
       newPassword: this.recoveryForm.get('newPassword')?.value,
       repeatedNewPassword: this.recoveryForm.get('repeatedNewPassword')?.value
     }
-    
-    this.authService.changePasswordRecovery(decodeURI(window.location.pathname.split("/")[2]), newPasswordDTO).subscribe((data: any) => {
+    let token = decodeURI(this.route.snapshot.paramMap.get('token') || "")
+    this.authService.changePasswordRecovery(token, newPasswordDTO).subscribe((data: any) => {
       alert('success')
       this.recoveryForm.get('newPassword')?.setValue('')
       this.recoveryForm.get('repeatedNewPassword')?.setValue('')

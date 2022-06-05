@@ -28,10 +28,11 @@ export class ExperienceModalComponent implements OnInit {
     if (this.experience) {
       this.experienceForm.get('institution')?.setValue(this.experience.institution)
       this.experienceForm.get('position')?.setValue(this.experience.position)
-      this.experienceForm.get('fromDate')?.setValue(moment(this.experience.fromDate, 'DD/MM/YYYY').format('YYYY-MM-DD'))
-      this.experienceForm.get('toDate')?.setValue(moment(this.experience.toDate, 'DD/MM/YYYY').format('YYYY-MM-DD'))
+      this.experienceForm.get('fromDate')?.setValue(moment(this.experience.fromDate, 'DD/MM/YYYY').format('YYYY-MM-DD') )
+      this.experienceForm.get('toDate')?.setValue(this.experience.toDate ? moment(this.experience.toDate, 'DD/MM/YYYY').format('YYYY-MM-DD') : '')
       this.experienceForm.get('description')?.setValue(this.experience.description)
     }
+    console.log(this.experience)
   }
 
 

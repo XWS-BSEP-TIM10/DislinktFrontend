@@ -23,6 +23,10 @@ import { ExperienceModalComponent } from './experience-modal/experience-modal.co
 import { AccountActivatedComponent } from './account-activated/account-activated.component';
 import { AccountRecoveryComponent } from './account-recovery/account-recovery.component';
 import { PasswordlessLoginComponent } from './passwordless-login/passwordless-login.component';
+import { AdminPageComponent } from './admin-page/admin-page.component';
+import { JobAdCardComponent } from './job-ad-card/job-ad-card.component';
+import { JobAdPageComponent } from './job-ad-page/job-ad-page.component';
+import { ProfileCardComponent } from './profile-card/profile-card.component';
 
 
 @NgModule({
@@ -43,7 +47,11 @@ import { PasswordlessLoginComponent } from './passwordless-login/passwordless-lo
     ExperienceModalComponent,
     AccountActivatedComponent,
     AccountRecoveryComponent,
-    PasswordlessLoginComponent
+    PasswordlessLoginComponent,
+    AdminPageComponent,
+    JobAdCardComponent,
+    JobAdPageComponent,
+    ProfileCardComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="row">
+    <div class="col-5">
+      <div class="card ml-2px">
+        <div class="card-body px-4">
+          <div class="social-avatar">
+            <a class="pull-left">
+              <app-profile-picture
+                [ownerId]="userId"
+                [initials]="getInitials(jobAd.firstName, jobAd.lastName)"
+              ></app-profile-picture>
+            </a>
+            <div class="media-body">
+              <a (click)="viewProfile(this.jobAd.userId)">
+                <span class="post-owner-name">{{
+                  jobAd.firstName + " " + jobAd.lastName
+                }}</span>
+              </a>
+              <small class="text-muted">{{ jobAd.creationDate }}</small>
+            </div>
+          </div>
+          <h4 class="title-h">
+            {{ jobAd.title }}
+          </h4>
+
+          <h6 class="position">{{ jobAd.position }} at {{ jobAd.company }}</h6>
+          <p class="description">
+            {{ jobAd.description }}
+          </p>
+          <div class="requirements" *ngIf="jobAd.requirements.length > 0">
+            <hr class="w-100 half-margins" />
+            <h4>Requirements:</h4>
+            <div class="requirement-list">
+              <app-interest
+                [interest]="{ id: -1, description: requirement }"
+                *ngFor="let requirement of jobAd.requirements"
+              ></app-interest>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
