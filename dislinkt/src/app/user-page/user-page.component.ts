@@ -59,7 +59,8 @@ export class UserPageComponent implements OnInit {
     private storageService: StorageService,
     private connectionService: ConnectionService,
     private jobAdService: JobAdService,
-    private router: Router) { }
+    private router: Router,
+    private authenticationService: AuthenticationService) { }
   postForm = new FormGroup({
     text: new FormControl('', Validators.required)
   })
@@ -88,6 +89,10 @@ export class UserPageComponent implements OnInit {
     description: new FormControl('', Validators.required),
     company: new FormControl('', Validators.required),
     requirement: new FormControl('')
+  })
+
+  apiTokenForm = new FormGroup({
+    token: new FormControl(''),
   })
 
 
@@ -326,6 +331,13 @@ export class UserPageComponent implements OnInit {
 
   getInitials(firstName: string, lastName: string) {
     return firstName.charAt(0) + lastName.charAt(0)
+  }
+
+
+  generateAPIToken() {
+    this.authenticationService.generateAPIToken(this.userId).subscribe((data:any) => {
+      this.apiTokenForm.get('token')?.setValue(data.token)
+    })
   }
 
   reloadComponent() {
