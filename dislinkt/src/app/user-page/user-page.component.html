@@ -328,19 +328,52 @@
                       />
                     </div>
                   </div>
+                  <div *ngIf="oldPasswordError" class="alert alert-danger">
+                    {{oldPasswordError}}
+                  </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">New Password</label>
                     <div class="col-md-8">
                       <input
+                        (input) = "checkPass()"
                         type="password"
                         class="form-control"
                         formControlName="newPassword"
                       />
                     </div>
                   </div>
+                  <div *ngIf="isValid(f.newPassword) && !isSubmitted" class="alert alert-danger">
+                    <div *ngIf="f.newPassword.errors?.required && !isSubmitted">
+                        Password is required.
+                    </div>
+                    <div *ngIf="f.newPassword.errors?.whiteSpace && !f.newPassword.errors?.required">
+                        Password must not contain Whitespaces.
+                    </div>
+                    <div *ngIf="f.newPassword.errors?.containsUppercase && !f.newPassword.errors?.required">
+                        Password must have at least one Uppercase Character.
+                    </div>
+                    <div *ngIf="f.newPassword.errors?.containsLowercase && !f.newPassword.errors?.required">
+                        Password must have at least one Lowercase Character.
+                    </div>
+                    <div *ngIf="f.newPassword.errors?.containsNumber && !f.newPassword.errors?.required">
+                        Password must contain at least one Digit.
+                    </div>
+                    <div *ngIf="f.newPassword.errors?.containsSimbol && !f.newPassword.errors?.required">
+                        Password must contain at least one Special Symbol.
+                    </div>
+                    <div *ngIf="f.newPassword.errors?.validLengthPass && !f.newPassword.errors?.required">
+                        Password must be at least 10 Characters Long.
+                    </div>
+                  </div>
+                  <div *ngIf="passwordError && !f.newPassword.errors?.required" class="alert alert-danger">
+                      {{passwordError}}
+                  </div>
+                  <div *ngIf="passwordStrength && !f.newPassword.errors?.required" id= "strenght" [class] = "strengthClass">
+                      {{passwordStrength}}
+                  </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label"
-                      >Repeat New Password</label
+                      >Confirm New Password</label
                     >
                     <div class="col-md-8">
                       <input
@@ -349,6 +382,9 @@
                         formControlName="newPasswordRepeat"
                       />
                     </div>
+                  </div>
+                  <div *ngIf="confirmPasswordError" class="alert alert-danger">
+                    {{confirmPasswordError}}
                   </div>
                 </fieldset>
 

@@ -9,8 +9,8 @@ import { isContainsSymbol } from '../validators/isContainsSymbol-validator'
 import { isContainsUppercase } from '../validators/isContainsUppercase-validator'
 import { isValidLengthPassword } from '../validators/isValidLengthPassword-validator'
 import { isWhitespace } from '../validators/isWhitespace-validator'
-import { phoneNumberValidator } from '../validators/phoneNumber-validator';
-import * as zxcvbn from 'zxcvbn';
+import { phoneNumberValidator } from '../validators/phoneNumber-validator'
+import * as zxcvbn from 'zxcvbn'
 
 @Component({
   selector: 'app-registration',

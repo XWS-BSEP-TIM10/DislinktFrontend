@@ -26,6 +26,13 @@ import { Interest } from '../model/Interest';
 import { JobAdService } from '../service/job-ad.service';
 import { CreateJobDTO } from '../dto/CreateJobAdDTO';
 import { JobAd } from '../model/JobAd';
+import { isContainsLowercase } from '../validators/isContainsLowercase-validator'
+import { isContainsNumber } from '../validators/isContainsNumber-validator'
+import { isContainsSymbol } from '../validators/isContainsSymbol-validator'
+import { isContainsUppercase } from '../validators/isContainsUppercase-validator'
+import { isValidLengthPassword } from '../validators/isValidLengthPassword-validator'
+import { isWhitespace } from '../validators/isWhitespace-validator'
+import * as zxcvbn from 'zxcvbn'
 
 
 @Component({
@@ -79,9 +86,13 @@ export class UserPageComponent implements OnInit {
 
   passwordForm = new FormGroup({
     currentPassword: new FormControl('', Validators.required),
-    newPassword: new FormControl('', Validators.required),
+    newPassword: new FormControl('', [Validators.required, isContainsLowercase,
+      isContainsNumber, isContainsSymbol, isContainsUppercase,
+      isValidLengthPassword, isWhitespace]),
     newPasswordRepeat: new FormControl('', Validators.required),
   })
+
+  get f() { return this.passwordForm.controls; }
 
   newJobAdForm = new FormGroup({
     title: new FormControl('', Validators.required),
@@ -97,11 +108,12 @@ export class UserPageComponent implements OnInit {
 
 
   profile!: Profile
-
-
-
-
-
+  oldPasswordError = "";
+  passwordError = "";
+  confirmPasswordError = "";
+  passwordStrength = "";
+  strengthClass = "";
+  isSubmitted = false;
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id') || "";
@@ -191,9 +203,39 @@ export class UserPageComponent implements OnInit {
     })
   }
 
-  changePassword() {
-    if (this.passwordForm.invalid || this.passwordForm.get('newPassword')?.value !== this.passwordForm.get('newPasswordRepeat')?.value)
+  checkPass() {
+    this.isSubmitted = false;
+    let password = this.passwordForm.get('newPassword');
+    if (!password?.valid) {
+      this.passwordStrength = "";
       return
+    }
+
+    const result = zxcvbn(password?.value);
+    let strength = "";
+    switch (result.score) {
+      case 0: { this.strengthClass = "alert alert-danger"; strength = "Worst"; break;}
+      case 1: { this.strengthClass = "alert alert-danger"; strength = "Bad"; break;}
+      case 2: {this.strengthClass = "alert alert-warning"; strength = "Weak"; break;}
+      case 3: {this.strengthClass = "alert alert-info"; strength = "Good"; break;}
+      default: {this.strengthClass = "alert alert-success"; strength = "Strong"; break;}
+        
+    }
+    this.passwordStrength = "Strength: " + strength + " " + result.feedback.warning + ". " + result.feedback.suggestions;
+  }
+
+  changePassword() {
+    let password = this.passwordForm.get('newPassword')?.value
+    let repeatedPassword = this.passwordForm.get('newPasswordRepeat')?.value
+    if (password != repeatedPassword) {
+      this.confirmPasswordError = "The password conformation does not match";
+      return
+    } else {
+      this.confirmPasswordError = ""
+    }
+    if (this.passwordForm.invalid)
+      return
+
     let changePasswordDTO: ChangePasswordDTO = {
       userId: this.userId,
       oldPassword: this.passwordForm.get('currentPassword')?.value,
@@ -205,11 +247,14 @@ export class UserPageComponent implements OnInit {
       this.passwordForm.get('currentPassword')?.setValue('')
       this.passwordForm.get('newPassword')?.setValue('')
       this.passwordForm.get('newPasswordRepeat')?.setValue('')
+      this.oldPasswordError = "";
+      this.passwordError = "";
+      this.confirmPasswordError = "";
+      this.passwordStrength = "";
+      this.strengthClass = "";
+      this.isSubmitted = true;
     }, (err: Error) => {
-      alert('failure')
-      this.passwordForm.get('currentPassword')?.setValue('')
-      this.passwordForm.get('newPassword')?.setValue('')
-      this.passwordForm.get('newPasswordRepeat')?.setValue('')
+      this.oldPasswordError = "Wrong password!"
     })
   }
 
@@ -344,6 +389,11 @@ export class UserPageComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigate([`./users/${this.userId}`]);
-}
+  }
+
+  isValid(value: any): boolean {
+    return (value.invalid && value.touched) || (value.dirty && value.invalid) ||
+      (value.untouched && this.isSubmitted);
+  }
 
 }
