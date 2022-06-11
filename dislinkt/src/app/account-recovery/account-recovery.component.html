@@ -1,7 +1,7 @@
 <div class="wrapper fadeInDown" *ngIf="tokenValid">
     <div id="formContent">
         <form [formGroup]="recoveryForm">
-            <input type="password" id="password1" class="fadeIn second" name="newPassword" placeholder="new password"
+            <input (input) = "checkPass()" type="password" id="password1" class="fadeIn second" name="newPassword" placeholder="new password"
                 formControlName="newPassword" />
             <i class="bi bi-eye-slash" id="togglePassword1" (click)="togglePass('password1','togglePassword1')"></i>
             <div *ngIf="isValid(f.newPassword)" class="alert alert-danger">
@@ -29,6 +29,9 @@
             </div>
             <div *ngIf="passwordError" class="alert alert-danger">
                 {{passwordError}}
+            </div>
+            <div *ngIf="passwordStrength" id= "strenght" [class] = "strengthClass">
+                {{passwordStrength}}
             </div>
             <input type="password" id="password2" class="fadeIn third" name="repeatedNewPassword"
                 placeholder="repeated new password" formControlName="repeatedNewPassword" />
