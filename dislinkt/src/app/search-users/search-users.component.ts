@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Profile } from '../model/Profile';
 import { ProfileService } from '../service/profile.service';
 
@@ -13,9 +13,9 @@ export class SearchUsersComponent implements OnInit {
 
   profiles!: Profile[]
 
-  searchForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl('')
+  searchForm = new UntypedFormGroup({
+    firstName: new UntypedFormControl(''),
+    lastName: new UntypedFormControl('')
   })
 
   ngOnInit(): void {

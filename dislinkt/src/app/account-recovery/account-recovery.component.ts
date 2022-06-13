@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Router, NavigationStart } from '@angular/router';
 import { AuthenticationService } from '../service/authentication.service';
 import { NewPasswordDTO } from "../dto/NewPasswordDto";
@@ -28,11 +28,11 @@ export class AccountRecoveryComponent implements OnInit {
 
   constructor(private router: Router, private authService: AuthenticationService, private route: ActivatedRoute) { }
 
-  recoveryForm = new FormGroup({
-    newPassword: new FormControl('', [Validators.required, isContainsLowercase,
+  recoveryForm = new UntypedFormGroup({
+    newPassword: new UntypedFormControl('', [Validators.required, isContainsLowercase,
       isContainsNumber, isContainsSymbol, isContainsUppercase,
       isValidLengthPassword, isWhitespace]),
-    repeatedNewPassword: new FormControl('', [Validators.required])
+    repeatedNewPassword: new UntypedFormControl('', [Validators.required])
   })
 
   get f() { return this.recoveryForm.controls; }

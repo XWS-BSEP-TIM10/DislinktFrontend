@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import { CreateExperienceDTO } from '../dto/CreateExperienceDTO';
@@ -16,12 +16,12 @@ export class ExperienceModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) { }
 
 
-  experienceForm = new FormGroup({
-    institution: new FormControl('', Validators.required),
-    position: new FormControl('', Validators.required),
-    fromDate: new FormControl('', Validators.required),
-    toDate: new FormControl(''),
-    description: new FormControl('', Validators.required),
+  experienceForm = new UntypedFormGroup({
+    institution: new UntypedFormControl('', Validators.required),
+    position: new UntypedFormControl('', Validators.required),
+    fromDate: new UntypedFormControl('', Validators.required),
+    toDate: new UntypedFormControl(''),
+    description: new UntypedFormControl('', Validators.required),
   })
 
   ngOnInit(): void {
