@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { JobAd } from '../model/JobAd';
 import { JobAdService } from '../service/job-ad.service';
 
@@ -14,8 +14,8 @@ export class JobAdPageComponent implements OnInit {
 
   jobAds!: JobAd[]
 
-  searchForm = new FormGroup({
-    value: new FormControl('')
+  searchForm = new UntypedFormGroup({
+    value: new UntypedFormControl('')
   })
 
   ngOnInit(): void {

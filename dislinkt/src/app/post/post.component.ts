@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommentDTO } from '../dto/CommentDTO';
 import { ReactionDTO } from '../dto/ReactionDTO';
@@ -19,8 +19,8 @@ export class PostComponent implements OnInit {
   constructor(private postService: PostService, private storageService: StorageService, private router: Router) {
   }
 
-  commentForm = new FormGroup({
-    text: new FormControl('', Validators.required),
+  commentForm = new UntypedFormGroup({
+    text: new UntypedFormControl('', Validators.required),
   })
 
 

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { AuthenticationService } from '../service/authentication.service';
 import { RegistrationDTO } from '../dto/RegistrationDTO';
 import { isContainsLowercase } from '../validators/isContainsLowercase-validator'
@@ -31,16 +31,16 @@ export class RegistrationComponent implements OnInit {
   strengthClass = "";
   emailError="";
 
-  registerForm = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    phoneNumber: new FormControl('', [Validators.required, phoneNumberValidator]),
-    username: new FormControl('', Validators.required),
-    password: new FormControl('', [Validators.required, isContainsLowercase,
+  registerForm = new UntypedFormGroup({
+    firstName: new UntypedFormControl('', Validators.required),
+    lastName: new UntypedFormControl('', Validators.required),
+    email: new UntypedFormControl('', [Validators.required, Validators.email]),
+    phoneNumber: new UntypedFormControl('', [Validators.required, phoneNumberValidator]),
+    username: new UntypedFormControl('', Validators.required),
+    password: new UntypedFormControl('', [Validators.required, isContainsLowercase,
       isContainsNumber, isContainsSymbol, isContainsUppercase,
       isValidLengthPassword, isWhitespace]),
-    confirmPassword: new FormControl('', [Validators.required])
+    confirmPassword: new UntypedFormControl('', [Validators.required])
   })
 
   ngOnInit(): void {

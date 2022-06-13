@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -13,8 +13,8 @@ export class InterestModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) { }
 
 
-  interestForm = new FormGroup({
-    description: new FormControl('', Validators.required),
+  interestForm = new UntypedFormGroup({
+    description: new UntypedFormControl('', Validators.required),
   })
 
   ngOnInit(): void {

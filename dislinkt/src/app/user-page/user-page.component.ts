@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, FormArray } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreatePostDTO } from '../dto/CreatePostDTO';
@@ -68,42 +68,42 @@ export class UserPageComponent implements OnInit {
     private jobAdService: JobAdService,
     private router: Router,
     private authenticationService: AuthenticationService) { }
-  postForm = new FormGroup({
-    text: new FormControl('', Validators.required)
+  postForm = new UntypedFormGroup({
+    text: new UntypedFormControl('', Validators.required)
   })
 
-  profileForm = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    phoneNumber: new FormControl('', Validators.required),
-    gender: new FormControl('', Validators.required),
-    dateOfBirth: new FormControl('', Validators.required),
-    username: new FormControl('', Validators.required),
-    biography: new FormControl('', Validators.required),
+  profileForm = new UntypedFormGroup({
+    firstName: new UntypedFormControl('', Validators.required),
+    lastName: new UntypedFormControl('', Validators.required),
+    email: new UntypedFormControl('', [Validators.required, Validators.email]),
+    phoneNumber: new UntypedFormControl('', Validators.required),
+    gender: new UntypedFormControl('', Validators.required),
+    dateOfBirth: new UntypedFormControl('', Validators.required),
+    username: new UntypedFormControl('', Validators.required),
+    biography: new UntypedFormControl('', Validators.required),
   })
 
 
-  passwordForm = new FormGroup({
-    currentPassword: new FormControl('', Validators.required),
-    newPassword: new FormControl('', [Validators.required, isContainsLowercase,
+  passwordForm = new UntypedFormGroup({
+    currentPassword: new UntypedFormControl('', Validators.required),
+    newPassword: new UntypedFormControl('', [Validators.required, isContainsLowercase,
       isContainsNumber, isContainsSymbol, isContainsUppercase,
       isValidLengthPassword, isWhitespace]),
-    newPasswordRepeat: new FormControl('', Validators.required),
+    newPasswordRepeat: new UntypedFormControl('', Validators.required),
   })
 
   get f() { return this.passwordForm.controls; }
 
-  newJobAdForm = new FormGroup({
-    title: new FormControl('', Validators.required),
-    position: new FormControl('', Validators.required),
-    description: new FormControl('', Validators.required),
-    company: new FormControl('', Validators.required),
-    requirement: new FormControl('')
+  newJobAdForm = new UntypedFormGroup({
+    title: new UntypedFormControl('', Validators.required),
+    position: new UntypedFormControl('', Validators.required),
+    description: new UntypedFormControl('', Validators.required),
+    company: new UntypedFormControl('', Validators.required),
+    requirement: new UntypedFormControl('')
   })
 
-  apiTokenForm = new FormGroup({
-    token: new FormControl(''),
+  apiTokenForm = new UntypedFormGroup({
+    token: new UntypedFormControl(''),
   })
 
 

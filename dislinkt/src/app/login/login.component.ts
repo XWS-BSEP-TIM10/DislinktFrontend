@@ -4,7 +4,7 @@ import { LoginDTO } from '../dto/LoginDTO';
 import { NgForm } from '@angular/forms';
 import { AuthenticationService } from '../service/authentication.service';
 import { StorageService } from '../service/storage.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -20,8 +20,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthenticationService, private storageService: StorageService, private router: Router) { }
 
-  emailRecoveryForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email])
+  emailRecoveryForm = new UntypedFormGroup({
+    email: new UntypedFormControl('', [Validators.required, Validators.email])
   })
 
   get f() { return this.emailRecoveryForm.controls; }

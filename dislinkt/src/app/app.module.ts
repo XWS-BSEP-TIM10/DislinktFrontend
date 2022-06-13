@@ -30,46 +30,43 @@ import { ProfileCardComponent } from './profile-card/profile-card.component';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FrontPageComponentComponent,
-    LoginComponent,
-    RegistrationComponent,
-    UserPageComponent,
-    SearchUsersComponent,
-    HomeComponent,
-    NavbarComponent,
-    PostComponent,
-    ProfilePictureComponent,
-    InterestComponent,
-    InterestModalComponent,
-    ExperienceCardComponent,
-    ExperienceModalComponent,
-    AccountActivatedComponent,
-    AccountRecoveryComponent,
-    PasswordlessLoginComponent,
-    AdminPageComponent,
-    JobAdCardComponent,
-    JobAdPageComponent,
-    ProfileCardComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    LinkyModule,
-    NgbModule,
-
-
-  ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthInterceptorService,
-    multi: true
-}],
-  bootstrap: [AppComponent],
-  entryComponents: [ InterestModalComponent ]
+    declarations: [
+        AppComponent,
+        FrontPageComponentComponent,
+        LoginComponent,
+        RegistrationComponent,
+        UserPageComponent,
+        SearchUsersComponent,
+        HomeComponent,
+        NavbarComponent,
+        PostComponent,
+        ProfilePictureComponent,
+        InterestComponent,
+        InterestModalComponent,
+        ExperienceCardComponent,
+        ExperienceModalComponent,
+        AccountActivatedComponent,
+        AccountRecoveryComponent,
+        PasswordlessLoginComponent,
+        AdminPageComponent,
+        JobAdCardComponent,
+        JobAdPageComponent,
+        ProfileCardComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule,
+        LinkyModule,
+        NgbModule,
+    ],
+    providers: [{
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptorService,
+            multi: true
+        }],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
