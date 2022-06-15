@@ -7,10 +7,15 @@
       </div>
       <input type="text" id="login" class="fadeIn second" name="username" placeholder="username" ngModel />
       <input type="password" id="password" class="fadeIn third" name="password" placeholder="password" ngModel />
+      <div *ngIf="codeError" class="alert alert-danger">
+        {{codeError}}
+      </div>
+      <input *ngIf="is2FAEnabled" type="text" id="code" class="fadeIn third" name="code" placeholder="code" ngModel />
+
       <input type="submit" class="fadeIn fourth" value="Sign In" (click)="loginUser(credentials)" />
 
       <div id="formFooter">
-        <a class="underlineHover" (click)="forgotPassword()" id="loginSubmit">Forgot Password?</a> 
+        <a class="underlineHover" (click)="forgotPassword()" id="loginSubmit">Forgot Password?</a>
         <br/>
         <a class="underlineHover" (click)="passwordlessLogin()" id="loginSubmit">Passwordless login?</a>
       </div>

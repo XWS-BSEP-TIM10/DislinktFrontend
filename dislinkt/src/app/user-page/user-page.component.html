@@ -309,6 +309,50 @@
                 </div>
               </form>
               <hr />
+              <form *ngIf="isProfileOwner()"
+                class="form-horizontal padding-10"
+                [formGroup]="twoFAForm"
+              >
+                <h4>Two Factor Authentication</h4>
+                <fieldset>
+
+                  <div class="form-group">
+                    <label class="col-xs-3 control-label">2FA Enabled</label>
+                    <div class="col-md-8">
+                      <label class="checkbox">
+                        <input
+                          type="checkbox"
+                          value="0"
+                          id="2faenabled"
+                          formControlName="twoFAEnabled">
+                        <i></i>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Secret</label>
+                    <div class="col-md-8">
+                      <input type="text"
+                      class="form-control"
+                      formControlName="secret">
+                    </div>
+                  </div>
+
+                </fieldset>
+                <div class="row">
+                  <div class="col-md-9 col-md-offset-3">
+                    <button
+                      type="submit"
+                      (click)="change2FAStatus()"
+                      *ngIf="isProfileOwner()"
+                      class="btn btn-primary"
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <hr *ngIf="isProfileOwner()"/>
               <form
                 *ngIf="isProfileOwner()"
                 class="form-horizontal padding-10"

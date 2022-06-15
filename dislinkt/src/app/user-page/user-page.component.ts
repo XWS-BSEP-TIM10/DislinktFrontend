@@ -33,6 +33,7 @@ import { isContainsUppercase } from '../validators/isContainsUppercase-validator
 import { isValidLengthPassword } from '../validators/isValidLengthPassword-validator'
 import { isWhitespace } from '../validators/isWhitespace-validator'
 import * as zxcvbn from 'zxcvbn'
+import { Change2FAStatusDTO } from '../dto/Change2FAStatusDTO';
 
 
 @Component({
@@ -106,6 +107,11 @@ export class UserPageComponent implements OnInit {
     token: new UntypedFormControl(''),
   })
 
+  twoFAForm = new UntypedFormGroup({
+    twoFAEnabled: new UntypedFormControl(false),
+    secret: new UntypedFormControl(''),
+  })
+
 
   profile!: Profile
   oldPasswordError = "";
@@ -130,7 +136,10 @@ export class UserPageComponent implements OnInit {
       this.posts = data
       this.posts = this.posts.map(post => (post.image === '') ? post : { ...post, image: this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + post.image) })
       this.postsAndJobAds = this.postsAndJobAds.concat(this.posts).sort((a:any,b:any) => moment(b.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() - moment(a.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() )
+    })
 
+    this.authService.get2FAStatus(this.userId).subscribe((data:any) => {
+      this.twoFAForm.get('twoFAEnabled')?.setValue(data.enabled2FA)
     })
     this.profileService.getProfile(this.userId).subscribe((data: any) => {
       this.profile = data
@@ -219,7 +228,7 @@ export class UserPageComponent implements OnInit {
       case 2: {this.strengthClass = "alert alert-warning"; strength = "Weak"; break;}
       case 3: {this.strengthClass = "alert alert-info"; strength = "Good"; break;}
       default: {this.strengthClass = "alert alert-success"; strength = "Strong"; break;}
-        
+
     }
     this.passwordStrength = "Strength: " + strength + " " + result.feedback.warning + ". " + result.feedback.suggestions;
   }
@@ -331,6 +340,25 @@ export class UserPageComponent implements OnInit {
     this.experienceService.deleteInterest(id).subscribe((data:any) => {
       this.profile.experiences = this.profile.experiences.filter(exp => exp.id !== id)
     })
+  }
+
+  change2FAStatus() {
+    if (this.twoFAForm.invalid)
+      return
+    let change2FAStatusDTO : Change2FAStatusDTO = {
+      enable2FA: this.twoFAForm.get('twoFAEnabled')?.value,
+      userId: this.userId
+    }
+    this.authService.change2FAStatus(change2FAStatusDTO).subscribe((data:any) => {
+      this.twoFAForm.get('twoFAEnabled')?.setValue(change2FAStatusDTO.enable2FA)
+      if (data.secret) {
+        this.twoFAForm.get('secret')?.setValue(data.secret)
+      } else {
+        this.twoFAForm.get('secret')?.setValue('')
+      }
+
+    })
+
   }
 
 
