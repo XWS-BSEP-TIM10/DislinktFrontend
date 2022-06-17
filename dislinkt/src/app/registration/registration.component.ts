@@ -44,6 +44,7 @@ export class RegistrationComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    // TODO document why this method 'ngOnInit' is empty
   }
 
   get firstName() { return this.registerForm.get('firstName'); }
@@ -122,7 +123,7 @@ export class RegistrationComponent implements OnInit {
       confirmPassword: this.registerForm.get('confirmPassword')?.value,
       biography: ""
     }
-    this.authService.signup(registrationDTO).subscribe((response) => {
+    this.authService.signup(registrationDTO).subscribe((_res) => {
       this.router.navigateByUrl('/')
     },
       (error) => {

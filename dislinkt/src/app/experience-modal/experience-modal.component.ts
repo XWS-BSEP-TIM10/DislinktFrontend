@@ -28,7 +28,7 @@ export class ExperienceModalComponent implements OnInit {
     if (this.experience) {
       this.experienceForm.get('institution')?.setValue(this.experience.institution)
       this.experienceForm.get('position')?.setValue(this.experience.position)
-      this.experienceForm.get('fromDate')?.setValue(moment(this.experience.fromDate, 'DD/MM/YYYY').format('YYYY-MM-DD') )
+      this.experienceForm.get('fromDate')?.setValue(moment(this.experience.fromDate, 'DD/MM/YYYY').format('YYYY-MM-DD'))
       this.experienceForm.get('toDate')?.setValue(this.experience.toDate ? moment(this.experience.toDate, 'DD/MM/YYYY').format('YYYY-MM-DD') : '')
       this.experienceForm.get('description')?.setValue(this.experience.description)
     }
@@ -39,15 +39,15 @@ export class ExperienceModalComponent implements OnInit {
   passBack() {
     if (this.experienceForm.invalid)
       return
-      let createExperienceDTO: CreateExperienceDTO = {
-        userId: '',
-        institution: this.experienceForm.get('institution')?.value,
-        position: this.experienceForm.get('position')?.value,
-        fromDate: this.experienceForm.get('fromDate')?.value,
-        toDate: this.experienceForm.get('toDate')?.value,
-        description: this.experienceForm.get('description')?.value,
-        type: 'WORK'
-      }
+    let createExperienceDTO: CreateExperienceDTO = {
+      userId: '',
+      institution: this.experienceForm.get('institution')?.value,
+      position: this.experienceForm.get('position')?.value,
+      fromDate: this.experienceForm.get('fromDate')?.value,
+      toDate: this.experienceForm.get('toDate')?.value,
+      description: this.experienceForm.get('description')?.value,
+      type: 'WORK'
+    }
     this.activeModal.close(createExperienceDTO);
   }
 

@@ -37,27 +37,27 @@ export class AuthenticationService {
     return this.http.put(`${config.baseUrl}${this.changePasswordUrl}`, changePasswordDTO)
   }
 
-  activateAccount(token: String) {
+  activateAccount(token: string) {
     return this.http.get(`${config.baseUrl}${this.acctivateAccountUrl}/${token}`)
   }
 
-  sendRecoveryEmail(email: String) {
+  sendRecoveryEmail(email: string) {
     return this.http.get(`${config.baseUrl}${this.sendRecoveryEmailUrl}?email=${email}`)
   }
 
-  changePasswordRecovery(token: String, newPasswordDTO: NewPasswordDTO) {
+  changePasswordRecovery(token: string, newPasswordDTO: NewPasswordDTO) {
     return this.http.put(`${config.baseUrl}${this.changePasswordRecoveryUrl}/${token}`, newPasswordDTO)
   }
 
-  sendPasswordlessLoginEmail(email: String) {
+  sendPasswordlessLoginEmail(email: string) {
     return this.http.get(`${config.baseUrl}${this.sendPasswordlessLoginEmailUrl}?email=${email}`)
   }
 
-  passwordlessLogin(token: String){
+  passwordlessLogin(token: string){
     return this.http.get(`${config.baseUrl}${this.passwordlessLoginUrl}/${token}`)
   }
 
-  checkToken(token: String){
+  checkToken(token: string){
     return this.http.get(`${config.baseUrl}${this.checkTokenUrl}/${token}`)
   }
 

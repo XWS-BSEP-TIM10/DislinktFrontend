@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-front-page-component',
@@ -13,8 +13,6 @@ export class FrontPageComponentComponent implements OnInit {
   ngOnInit(): void {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
-
-
 
   findPerson(){
     this.router.navigate(['search-users']);

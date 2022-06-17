@@ -3,7 +3,7 @@
         <form [formGroup]="recoveryForm">
             <input (input) = "checkPass()" type="password" id="password1" class="fadeIn second" name="newPassword" placeholder="new password"
                 formControlName="newPassword" />
-            <i class="bi bi-eye-slash" id="togglePassword1" (click)="togglePass('password1','togglePassword1')"></i>
+            <em class="bi bi-eye-slash" id="togglePassword1" (click)="togglePass('password1','togglePassword1')"></em>
             <div *ngIf="isValid(f.newPassword)" class="alert alert-danger">
                 <div *ngIf="f.newPassword.errors?.required">
                     Password is required.
@@ -35,7 +35,7 @@
             </div>
             <input type="password" id="password2" class="fadeIn third" name="repeatedNewPassword"
                 placeholder="repeated new password" formControlName="repeatedNewPassword" />
-            <i class="bi bi-eye-slash" id="togglePassword2" (click)="togglePass('password2', 'togglePassword2')"></i>
+            <em class="bi bi-eye-slash" id="togglePassword2" (click)="togglePass('password2', 'togglePassword2')"></em>
             <div *ngIf="confirmPasswordError" class="alert alert-danger">
                 {{confirmPasswordError}}
             </div>

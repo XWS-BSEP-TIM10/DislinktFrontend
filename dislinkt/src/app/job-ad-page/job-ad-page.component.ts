@@ -19,11 +19,8 @@ export class JobAdPageComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.jobAdService.getAllJobAds(this.searchForm.get('value')?.value).subscribe((data:any) => {
-      this.jobAds = data
-    })
+    this.search()
   }
-
 
   search() {
     this.jobAdService.getAllJobAds(this.searchForm.get('value')?.value).subscribe((data:any) => {

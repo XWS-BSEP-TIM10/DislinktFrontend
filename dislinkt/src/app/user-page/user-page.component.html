@@ -5,13 +5,10 @@
       <div class="col-md-3">
         <section class="panel">
           <div class="panel-body noradius padding-10">
-            <!-- <figure class="margin-bottom-10 pfp-container"> -->
             <div class="pfp-container">
               <app-profile-picture [scale]="7" [initials]="getInitials(profile.firstName, profile.lastName)">
               </app-profile-picture>
             </div>
-            <!-- </figure> -->
-
             <div class="connection-container" (click)="follow()"
               [ngStyle]="{ cursor: connectionStatus === '' ? 'pointer' : '' }" *ngIf="!isProfileOwner()">
               <span *ngIf="connectionStatus === 'CONNECTED'">Following</span>
@@ -84,7 +81,7 @@
                   </button>
                   <input type="file" id="file-upload" class="file-upload" data-toggle="tooltip" data-placement="bottom"
                     title="" (change)="fileChange($event)" accept=".jpg" data-original-title="Add Photo" />
-                  <label for="file-upload"><i class="fa fa-camera"></i></label>
+                  <label for="file-upload"><em class="fa fa-camera"></em></label>
                   <label *ngIf="file">{{ file.name }}</label>
                 </div>
               </form>
@@ -104,6 +101,7 @@
               <form class="form-horizontal padding-10" [formGroup]="profileForm">
                 <h4>Personal Information</h4>
                 <fieldset>
+                  <legend></legend>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Username</label>
                     <div class="col-md-8">
@@ -211,7 +209,7 @@
                       <label class="checkbox">
                         <input type="checkbox" value="1" checked="checked" id="profilePublic"
                           [attr.disabled]="!isProfileOwner() ? '' : null" />
-                        <i></i>
+                        <em></em>
                       </label>
                     </div>
                   </div>
@@ -228,13 +226,13 @@
               <form *ngIf="isProfileOwner()" class="form-horizontal padding-10" [formGroup]="twoFAForm">
                 <h4>Two Factor Authentication</h4>
                 <fieldset>
-
+                  <legend></legend>
                   <div class="form-group">
                     <label class="col-xs-3 control-label">2FA Enabled</label>
                     <div class="col-md-8">
                       <label class="checkbox">
                         <input type="checkbox" value="0" id="2faenabled" formControlName="twoFAEnabled">
-                        <i></i>
+                        <em></em>
                       </label>
                     </div>
                   </div>
@@ -258,6 +256,7 @@
               <form *ngIf="isProfileOwner()" class="form-horizontal padding-10" [formGroup]="passwordForm">
                 <h4>Change Password</h4>
                 <fieldset class="mb-xl">
+                  <legend></legend>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Current Password</label>
                     <div class="col-md-8">
@@ -327,6 +326,7 @@
               <form class="form-horizontal padding-10" [formGroup]="newJobAdForm">
                 <h4>New Job Ad</h4>
                 <fieldset>
+                  <legend></legend>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Title</label>
                     <div class="col-md-8">
@@ -407,8 +407,7 @@
               <form class="form-horizontal padding-10" [formGroup]="apiTokenForm">
                 <h4>Agent API Token Generation</h4>
                 <fieldset>
-
-
+                  <legend></legend>
                   <div class="form-group">
                     <label class="col-md-3 control-label">API Token</label>
                     <div class="col-md-8">
@@ -437,7 +436,7 @@
         <section class="panel panel-default">
           <header class="experience-title">
             <div class="education-and-experience">
-              <i class="fa fa-rss"></i> Education & Experience
+              <em class="fa fa-rss"></em> Education & Experience
               <i class="fa fa-plus" [ngStyle]="{ 'margin-left': '10px', cursor: 'pointer' }" *ngIf="isProfileOwner()"
                 (click)="addExperienceModal()" aria-hidden="true"></i>
             </div>

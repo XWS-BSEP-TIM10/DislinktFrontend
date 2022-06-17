@@ -19,12 +19,8 @@ export class SearchUsersComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.profileService.getProfiles(this.searchForm.get('firstName')?.value, this.searchForm.get('firstName')?.value).subscribe((data:any) => {
-      this.profiles = data
-    })
-
+    this.search()
   }
-
 
   search() {
     this.profileService.getProfiles(this.searchForm.get('firstName')?.value, this.searchForm.get('firstName')?.value).subscribe((data:any) => {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators, FormArray } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreatePostDTO } from '../dto/CreatePostDTO';
@@ -147,17 +147,21 @@ export class UserPageComponent implements OnInit {
       this.twoFAForm.get('twoFAEnabled')?.setValue(data.enabled2FA)
     })
     this.profileService.getProfile(this.userId).subscribe((data: any) => {
-      this.profile = data
-      this.profileForm.get('firstName')?.setValue(this.profile.firstName)
-      this.profileForm.get('lastName')?.setValue(this.profile.lastName)
-      this.profileForm.get('email')?.setValue(this.profile.email)
-      this.profileForm.get('phoneNumber')?.setValue(this.profile.phoneNumber)
-      this.profileForm.get('gender')?.setValue(this.profile.gender)
-      this.profileForm.get('dateOfBirth')?.setValue(moment(this.profile.dateOfBirth, 'DD/MM/YYYY').format('YYYY-MM-DD'))
-      this.profileForm.get('username')?.setValue(this.profile.username)
-      this.profileForm.get('biography')?.setValue(this.profile.biography)
-    })
+      this.setUserData(data);
 
+    })
+  }
+
+  setUserData(data: any) {
+    this.profile = data;
+    this.profileForm.get('firstName')?.setValue(this.profile.firstName);
+    this.profileForm.get('lastName')?.setValue(this.profile.lastName);
+    this.profileForm.get('email')?.setValue(this.profile.email);
+    this.profileForm.get('phoneNumber')?.setValue(this.profile.phoneNumber);
+    this.profileForm.get('gender')?.setValue(this.profile.gender);
+    this.profileForm.get('dateOfBirth')?.setValue(moment(this.profile.dateOfBirth, 'DD/MM/YYYY').format('YYYY-MM-DD'));
+    this.profileForm.get('username')?.setValue(this.profile.username);
+    this.profileForm.get('biography')?.setValue(this.profile.biography);
   }
 
   fileChange(event: Event) {
@@ -188,15 +192,7 @@ export class UserPageComponent implements OnInit {
       biography: this.profileForm.get('biography')?.value
     }
     this.profileService.putProfile(profileDTO).subscribe((data: any) => {
-      this.profile = data
-      this.profileForm.get('firstName')?.setValue(this.profile.firstName)
-      this.profileForm.get('lastName')?.setValue(this.profile.lastName)
-      this.profileForm.get('email')?.setValue(this.profile.email)
-      this.profileForm.get('phoneNumber')?.setValue(this.profile.phoneNumber)
-      this.profileForm.get('gender')?.setValue(this.profile.gender)
-      this.profileForm.get('dateOfBirth')?.setValue(moment(this.profile.dateOfBirth, 'DD/MM/YYYY').format('YYYY-MM-DD'))
-      this.profileForm.get('username')?.setValue(this.profile.username)
-      this.profileForm.get('biography')?.setValue(this.profile.biography)
+      this.setUserData(data)
     })
   }
 
@@ -212,7 +208,7 @@ export class UserPageComponent implements OnInit {
       type: "application/json"
     }));
     formData.append("image", this.file ?? new File([""], "filename"));
-    this.postService.createPost(formData).subscribe((data: any) => {
+    this.postService.createPost(formData).subscribe((_data: any) => {
       window.location.reload()
     })
   }
@@ -256,7 +252,7 @@ export class UserPageComponent implements OnInit {
       newPassword: this.passwordForm.get('newPassword')?.value,
       repeatedNewPassword: this.passwordForm.get('newPasswordRepeat')?.value
     }
-    this.authService.changePassword(changePasswordDTO).subscribe((data: any) => {
+    this.authService.changePassword(changePasswordDTO).subscribe((_data: any) => {
       alert('success')
       this.passwordForm.get('currentPassword')?.setValue('')
       this.passwordForm.get('newPassword')?.setValue('')
@@ -267,7 +263,7 @@ export class UserPageComponent implements OnInit {
       this.passwordStrength = "";
       this.strengthClass = "";
       this.isSubmitted = true;
-    }, (err: Error) => {
+    }, (_err: Error) => {
       this.oldPasswordError = "Wrong password!"
     })
   }
@@ -279,8 +275,8 @@ export class UserPageComponent implements OnInit {
 
   deleteInterest(interest: Interest) {
     let id = interest.id
-    this.interestService.deleteInterest(id, this.userId).subscribe((data: any) => {
-      this.profile.interests = this.profile.interests.filter(interest => interest.id !== id)
+    this.interestService.deleteInterest(id, this.userId).subscribe((_data: any) => {
+      this.profile.interests = this.profile.interests.filter(int => int.id !== id)
     })
   }
 
@@ -298,7 +294,9 @@ export class UserPageComponent implements OnInit {
             this.profile.interests = [... this.profile.interests, data]
         })
       }
-    }, (reason: any) => {
+    }, (_reason: any) => {
+      // TODO document why this arrow function is empty
+    
 
     });
   }
@@ -316,8 +314,8 @@ export class UserPageComponent implements OnInit {
           this.profile.experiences = [... this.profile.experiences, data]
         })
       }
-    }, (reason: any) => {
-
+    }, (_reason: any) => {
+      // TODO document why this arrow function is empty
     });
   }
 
@@ -336,13 +334,13 @@ export class UserPageComponent implements OnInit {
           this.profile.experiences = [... this.profile.experiences, data]
         })
       }
-    }, (reason: any) => {
-
+    }, (_reason: any) => {
+      // TODO document why this arrow function is empty
     });
   }
 
   deleteExperience(id: number) {
-    this.experienceService.deleteInterest(id).subscribe((data:any) => {
+    this.experienceService.deleteInterest(id).subscribe((_data:any) => {
       this.profile.experiences = this.profile.experiences.filter(exp => exp.id !== id)
     })
   }
@@ -374,7 +372,7 @@ export class UserPageComponent implements OnInit {
       initiatorId: this.storageService.getIdFromToken(),
       receiverId: this.userId
     }
-    this.connectionService.createConnection(createConnectionDTO).subscribe(data => {
+    this.connectionService.createConnection(createConnectionDTO).subscribe(_data => {
       this.connectionStatus = "CONNECTED"
     })
   }
@@ -402,7 +400,7 @@ export class UserPageComponent implements OnInit {
       company: this.newJobAdForm.get('company')?.value,
       requirements: this.requirements
     }
-    this.jobAdService.addJobAd(createJobAdDTO).subscribe(data => {
+    this.jobAdService.addJobAd(createJobAdDTO).subscribe(_data => {
       this.reloadComponent()
     })
   }

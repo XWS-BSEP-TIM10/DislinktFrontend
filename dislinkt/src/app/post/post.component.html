@@ -19,24 +19,25 @@
         <p class="text" [innerHTML]="post.text | linky">
         </p>
         <img
+          alt="post image"
           *ngIf="post.image"
           [src]="post.image"
           class="img-responsive"
         />
         <div class="btn-group">
           <button class="btn btn-white btn-xs thumb-button" (click)=" isLiked() ? removeReaction() : like()">
-            <i
+            <em
               class="fa fa-thumbs-up "
               [style.color]="isLiked() ? 'green' : 'black'"
-            ></i>
+            ></em>
             Like {{ getNumOfLikes() }}
 
           </button>
           <button class="btn btn-white btn-xs thumb-button"  (click)=" isDisliked() ? removeReaction() : dislike()">
-            <i
+            <em
               class="fa fa-thumbs-down"
               [style.color]="isDisliked() ? 'red' : 'black'"
-            ></i>
+            ></em>
             Dislike {{ getNumOfDislikes() }}
           </button>
         </div>

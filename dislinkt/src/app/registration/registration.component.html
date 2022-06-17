@@ -40,7 +40,6 @@
         </div>
       </div>
       <div style="margin-top: 2%; margin-bottom: 2%; margin-right: 15%;">
-        <!--<label style="font-weight: normal; font-size: medium;"> gender: </label>-->
         <div style="margin-left: 15%;" class="form-check form-check-inline">
           <input class="form-check-input" type="radio" name="inlineRadioOptions" id="maleRadio" value="male" checked>
           <label class="form-check-label" for="inlineRadio1" style="font-weight: normal; font-size: medium;">male</label>
@@ -61,7 +60,7 @@
         {{responseError}}
       </div>
       <input (input) = "checkPass()" style="margin-left: 5%;" type="password" id="password1" class="fadeIn third" placeholder="password" formControlName="password">
-      <i class="bi bi-eye-slash" id="togglePassword1" (click) = "togglePass('password1','togglePassword1')"></i>
+      <em class="bi bi-eye-slash" id="togglePassword1" (click) = "togglePass('password1','togglePassword1')"></em>
       <div *ngIf="isValid(f.password)"
       class="alert alert-danger">
         <div *ngIf="f.password.errors?.required">
@@ -93,7 +92,7 @@
         {{passwordStrength}}
       </div>
       <input style="margin-left: 5%;" type="password" id="password2" class="fadeIn third" placeholder="confirm password" formControlName="confirmPassword">
-      <i class="bi bi-eye-slash" id="togglePassword2" (click) = "togglePass('password2', 'togglePassword2')"></i>
+      <em class="bi bi-eye-slash" id="togglePassword2" (click) = "togglePass('password2', 'togglePassword2')"></em>
       <div *ngIf="confirmPasswordError" class="alert alert-danger">
         {{confirmPasswordError}}
       </div>

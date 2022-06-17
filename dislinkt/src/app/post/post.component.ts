@@ -23,7 +23,6 @@ export class PostComponent implements OnInit {
     text: new UntypedFormControl('', Validators.required),
   })
 
-
   isLiked() {
     return this.post.likes.includes(this.userId)
   }
@@ -59,8 +58,6 @@ export class PostComponent implements OnInit {
 
   }
 
-
-
   like() {
     if (this.isLiked())
       return
@@ -68,10 +65,10 @@ export class PostComponent implements OnInit {
       userId: this.userId,
       like: true
     }
-    this.postService.addReaction(this.post.id, reactionDTO).subscribe((data:any) => {
+    this.postService.addReaction(this.post.id, reactionDTO).subscribe((_data:any) => {
       this.post.likes = [...this.post.likes, this.userId];
       this.removeFromDislikes(this.userId)
-    }, (err: Error) => {
+    }, (_err: Error) => {
       void(0)
     })
   }
@@ -83,10 +80,10 @@ export class PostComponent implements OnInit {
     userId: this.userId,
     like: false
   }
-  this.postService.addReaction(this.post.id, reactionDTO).subscribe((data:any) => {
+  this.postService.addReaction(this.post.id, reactionDTO).subscribe((_data:any) => {
     this.post.dislikes = [...this.post.dislikes, this.userId];
     this.removeFromLikes(this.userId)
-  }, (err: Error) => {
+  }, (_err: Error) => {
     void(0)
   })
   }
@@ -95,29 +92,26 @@ export class PostComponent implements OnInit {
     let removeReactionDTO : RemoveReactionDTO = {
       userId: this.userId
     }
-    this.postService.removeReaction(this.post.id, removeReactionDTO).subscribe((data:any) => {
+    this.postService.removeReaction(this.post.id, removeReactionDTO).subscribe((_data:any) => {
       this.removeFromLikes(this.userId)
       this.removeFromDislikes(this.userId)
-    }, (err: Error) => {
+    }, (_err: Error) => {
       void(0)
     })
   }
-
 
   viewProfile(ownerId: string) {
     this.router.navigate([`users/${ownerId}`])
   }
 
-
-
-  private removeFromLikes(userId: string) {
+  private removeFromLikes(_userId: string) {
     const index = this.post.likes.indexOf(this.userId);
       if (index > -1) {
         this.post.likes.splice(index, 1);
       }
   }
 
-  private removeFromDislikes(userId: string) {
+  private removeFromDislikes(_userId: string) {
     const index = this.post.dislikes.indexOf(this.userId);
       if (index > -1) {
         this.post.dislikes.splice(index, 1);
