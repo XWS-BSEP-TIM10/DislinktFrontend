@@ -34,6 +34,7 @@ import { isValidLengthPassword } from '../validators/isValidLengthPassword-valid
 import { isWhitespace } from '../validators/isWhitespace-validator'
 import * as zxcvbn from 'zxcvbn'
 import { Change2FAStatusDTO } from '../dto/Change2FAStatusDTO';
+import { phoneNumberValidator } from '../validators/phoneNumber-validator'
 
 
 @Component({
@@ -77,12 +78,14 @@ export class UserPageComponent implements OnInit {
     firstName: new UntypedFormControl('', Validators.required),
     lastName: new UntypedFormControl('', Validators.required),
     email: new UntypedFormControl('', [Validators.required, Validators.email]),
-    phoneNumber: new UntypedFormControl('', Validators.required),
+    phoneNumber: new UntypedFormControl('', [Validators.required, phoneNumberValidator]),
     gender: new UntypedFormControl('', Validators.required),
     dateOfBirth: new UntypedFormControl('', Validators.required),
     username: new UntypedFormControl('', Validators.required),
     biography: new UntypedFormControl('', Validators.required),
   })
+
+  get fe() { return this.profileForm.controls; }
 
 
   passwordForm = new UntypedFormGroup({
@@ -102,6 +105,8 @@ export class UserPageComponent implements OnInit {
     company: new UntypedFormControl('', Validators.required),
     requirement: new UntypedFormControl('')
   })
+
+  get fad() { return this.newJobAdForm.controls; }
 
   apiTokenForm = new UntypedFormGroup({
     token: new UntypedFormControl(''),
