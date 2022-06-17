@@ -3,8 +3,6 @@
     <div class="container d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo"><img src="/assets/img/logo.jpg" alt="" class="img-fluid"></a>
-      <!-- Uncomment below if you prefer to use text as a logo -->
-      <!-- <h1 class="logo"><a href="index.html">Butterfly</a></h1> -->
 
       <nav id="navbar" class="navbar">
         <ul>
@@ -17,7 +15,7 @@
           <li><a class="nav-link scrollto " (click)="login()" *ngIf="!isLoggedIn()" style="cursor: pointer;">Sign in</a></li>
           <li><a class="nav-link scrollto " (click)="logout()" *ngIf="isLoggedIn()" style="cursor: pointer;">Log out</a></li>
         </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
+        <em class="bi bi-list mobile-nav-toggle"></em>
       </nav><!-- .navbar -->
 
     </div>
