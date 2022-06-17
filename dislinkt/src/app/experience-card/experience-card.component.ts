@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CreateExperienceDTO } from '../dto/CreateExperienceDTO';
 import { Experience } from '../model/Experience';
 import { StorageService } from '../service/storage.service';
 
@@ -17,6 +16,8 @@ export class ExperienceCardComponent implements OnInit {
   constructor(private storageService: StorageService) { }
 
   ngOnInit(): void {
+    // TODO document why this method 'ngOnInit' is empty
+  
   }
 
   deleteExperience() {

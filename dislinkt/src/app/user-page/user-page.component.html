@@ -5,21 +5,12 @@
       <div class="col-md-3">
         <section class="panel">
           <div class="panel-body noradius padding-10">
-            <!-- <figure class="margin-bottom-10 pfp-container"> -->
             <div class="pfp-container">
-              <app-profile-picture
-                [scale]="7"
-                [initials]="getInitials(profile.firstName, profile.lastName)"
-              ></app-profile-picture>
+              <app-profile-picture [scale]="7" [initials]="getInitials(profile.firstName, profile.lastName)">
+              </app-profile-picture>
             </div>
-            <!-- </figure> -->
-
-            <div
-              class="connection-container"
-              (click)="follow()"
-              [ngStyle]="{ cursor: connectionStatus === '' ? 'pointer' : '' }"
-              *ngIf="!isProfileOwner()"
-            >
+            <div class="connection-container" (click)="follow()"
+              [ngStyle]="{ cursor: connectionStatus === '' ? 'pointer' : '' }" *ngIf="!isProfileOwner()">
               <span *ngIf="connectionStatus === 'CONNECTED'">Following</span>
               <span *ngIf="connectionStatus === ''">Follow</span>
             </div>
@@ -38,40 +29,21 @@
             <hr class="half-margins" />
             <div class="skills-and-interests">
               <div>Skills & Interests</div>
-              <i
-                class="fa fa-plus"
-                [ngStyle]="{
+              <i class="fa fa-plus" [ngStyle]="{
                   color: '#057642',
                   'margin-left': '8px',
                   cursor: 'pointer'
-                }"
-                *ngIf="isProfileOwner()"
-                (click)="addInterestModal()"
-                aria-hidden="true"
-              ></i>
-              <i
-                class="fa fa-pencil"
-                [ngStyle]="{
+                }" *ngIf="isProfileOwner()" (click)="addInterestModal()" aria-hidden="true"></i>
+              <i class="fa fa-pencil" [ngStyle]="{
                   color: '#057642',
                   'margin-left': '5px',
                   cursor: 'pointer'
-                }"
-                *ngIf="isProfileOwner()"
-                (click)="toggleEdit()"
-                aria-hidden="true"
-              ></i>
+                }" *ngIf="isProfileOwner()" (click)="toggleEdit()" aria-hidden="true"></i>
             </div>
             <div class="interest-container">
-              <div
-                *ngFor="let interest of profile.interests"
-                class="interest-item"
-              >
-                <app-interest
-                  [editMode]="editMode"
-                  [interest]="interest"
-                  *ngIf="isProfileOwner()"
-                  (deleteEvent)="deleteInterest($event)"
-                ></app-interest>
+              <div *ngFor="let interest of profile.interests" class="interest-item">
+                <app-interest [editMode]="editMode" [interest]="interest" *ngIf="isProfileOwner()"
+                  (deleteEvent)="deleteInterest($event)"></app-interest>
               </div>
             </div>
           </div>
@@ -84,76 +56,32 @@
         <div class="tabs white nomargin-top">
           <ul class="nav nav-tabs tabs-primary">
             <li [ngClass]="tab === 1 ? 'active' : ''">
-              <a
-                [ngStyle]="{ cursor: 'pointer' }"
-                (click)="tab = 1"
-                data-toggle="tab"
-                >Overview</a
-              >
+              <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 1" data-toggle="tab">Overview</a>
             </li>
             <li [ngClass]="tab === 2 ? 'active' : ''">
-              <a
-                [ngStyle]="{ cursor: 'pointer' }"
-                (click)="tab = 2"
-                data-toggle="tab"
-                >Profile</a
-              >
+              <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 2" data-toggle="tab">Profile</a>
             </li>
             <li *ngIf="isProfileOwner()" [ngClass]="tab === 3 ? 'active' : ''">
-              <a
-                [ngStyle]="{ cursor: 'pointer' }"
-                (click)="tab = 3"
-                data-toggle="tab"
-                >Add Job Ad</a
-              >
+              <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 3" data-toggle="tab">Add Job Ad</a>
             </li>
             <li *ngIf="isProfileOwner()" [ngClass]="tab === 4 ? 'active' : ''">
-              <a
-                [ngStyle]="{ cursor: 'pointer' }"
-                (click)="tab = 4"
-                data-toggle="tab"
-                >Agent API Token</a
-              >
+              <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 4" data-toggle="tab">Agent API Token</a>
             </li>
           </ul>
 
           <div class="tab-content">
             <!-- Overview -->
-            <div
-              id="overview"
-              [ngClass]="tab === 1 ? 'tab-pane active' : 'tab-pane'"
-            >
-              <form
-                class="well"
-                [formGroup]="postForm"
-                *ngIf="isProfileOwner()"
-              >
-                <textarea
-                  rows="2"
-                  class="form-control"
-                  formControlName="text"
-                  placeholder="What's on your mind?"
-                ></textarea>
+            <div id="overview" [ngClass]="tab === 1 ? 'tab-pane active' : 'tab-pane'">
+              <form class="well" [formGroup]="postForm" *ngIf="isProfileOwner()">
+                <textarea rows="2" class="form-control" formControlName="text"
+                  placeholder="What's on your mind?"></textarea>
                 <div class="margin-top-10">
-                  <button
-                    type="submit"
-                    class="btn btn-sm btn-primary pull-right"
-                    (click)="createPost()"
-                  >
+                  <button type="submit" class="btn btn-sm btn-primary pull-right" (click)="createPost()">
                     Post
                   </button>
-                  <input
-                    type="file"
-                    id="file-upload"
-                    class="file-upload"
-                    data-toggle="tooltip"
-                    data-placement="bottom"
-                    title=""
-                    (change)="fileChange($event)"
-                    accept=".jpg"
-                    data-original-title="Add Photo"
-                  />
-                  <label for="file-upload"><i class="fa fa-camera"></i></label>
+                  <input type="file" id="file-upload" class="file-upload" data-toggle="tooltip" data-placement="bottom"
+                    title="" (change)="fileChange($event)" accept=".jpg" data-original-title="Add Photo" />
+                  <label for="file-upload"><em class="fa fa-camera"></em></label>
                   <label *ngIf="file">{{ file.name }}</label>
                 </div>
               </form>
@@ -162,97 +90,95 @@
 
               <div>
                 <div *ngFor="let item of postsAndJobAds">
-                <app-job-ad-card [jobAd]="item" *ngIf="item.company"></app-job-ad-card>
-                <app-post [post]="item" *ngIf="item.text"></app-post>
+                  <app-job-ad-card [jobAd]="item" *ngIf="item.company"></app-job-ad-card>
+                  <app-post [post]="item" *ngIf="item.text"></app-post>
                 </div>
               </div>
             </div>
 
             <!-- Edit -->
-            <div
-              id="edit"
-              [ngClass]="tab === 2 ? 'tab-pane active' : 'tab-pane'"
-            >
-              <form
-                class="form-horizontal padding-10"
-                [formGroup]="profileForm"
-              >
+            <div id="edit" [ngClass]="tab === 2 ? 'tab-pane active' : 'tab-pane'">
+              <form class="form-horizontal padding-10" [formGroup]="profileForm">
                 <h4>Personal Information</h4>
                 <fieldset>
+                  <legend></legend>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Username</label>
                     <div class="col-md-8">
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="username"
-                        [readonly]="!isProfileOwner()"
-                      />
+                      <input type="text" class="form-control" formControlName="username"
+                        [readonly]="!isProfileOwner()" />
                     </div>
                   </div>
+                  <div *ngIf="isValid(fe.username)" class="alert alert-danger">
+                    <div *ngIf="fe.username.hasError('required')">
+                      Username is required.
+                    </div>
+                  </div>
+
                   <div class="form-group">
                     <label class="col-md-3 control-label">First Name</label>
                     <div class="col-md-8">
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="firstName"
-                        [readonly]="!isProfileOwner()"
-                      />
+                      <input type="text" class="form-control" formControlName="firstName"
+                        [readonly]="!isProfileOwner()" />
+                    </div>
+                  </div>
+                  <div *ngIf="isValid(fe.firstName)" class="alert alert-danger">
+                    <div *ngIf="fe.firstName.hasError('required')">
+                      First name is required.
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Last Name</label>
                     <div class="col-md-8">
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="lastName"
-                        [readonly]="!isProfileOwner()"
-                      />
+                      <input type="text" class="form-control" formControlName="lastName"
+                        [readonly]="!isProfileOwner()" />
+                    </div>
+                  </div>
+                  <div *ngIf="isValid(fe.lastName)" class="alert alert-danger">
+                    <div *ngIf="fe.lastName.hasError('required')">
+                      Last name is required.
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Email</label>
                     <div class="col-md-8">
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="email"
-                        [readonly]="!isProfileOwner()"
-                      />
+                      <input type="text" class="form-control" formControlName="email" [readonly]="!isProfileOwner()" />
+                    </div>
+                  </div>
+                  <div *ngIf="isValid(fe.email)" class="alert alert-danger">
+                    <div *ngIf="fe.email.hasError('required')">
+                      Email is required.
+                    </div>
+                    <div *ngIf="fe.email.hasError('email')">
+                      Email is not valid.
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Phone Number</label>
                     <div class="col-md-8">
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="phoneNumber"
-                        [readonly]="!isProfileOwner()"
-                      />
+                      <input type="text" class="form-control" formControlName="phoneNumber"
+                        [readonly]="!isProfileOwner()" />
+                    </div>
+                  </div>
+                  <div *ngIf="isValid(fe.phoneNumber)" class="alert alert-danger">
+                    <div *ngIf="fe.phoneNumber.errors?.required">
+                      Phone number is required.
+                    </div>
+                    <div *ngIf="fe.phoneNumber.errors?.invalidNumber">
+                      Phone number could start with + and must be 8-15 Digits Long.
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Gender</label>
                     <div class="col-md-8">
                       <label class="gender-radio-button">
-                        <input
-                          type="radio"
-                          value="MALE"
-                          formControlName="gender"
-                          [attr.disabled]="!isProfileOwner() ? '' : null"
-                        />
+                        <input type="radio" value="MALE" formControlName="gender"
+                          [attr.disabled]="!isProfileOwner() ? '' : null" />
                         <span>Male</span>
                       </label>
                       <label class="gender-radio-button">
-                        <input
-                          type="radio"
-                          value="FEMALE"
-                          formControlName="gender"
-                          [attr.disabled]="!isProfileOwner() ? '' : null"
-                        />
+                        <input type="radio" value="FEMALE" formControlName="gender"
+                          [attr.disabled]="!isProfileOwner() ? '' : null" />
                         <span>Female</span>
                       </label>
                     </div>
@@ -260,22 +186,20 @@
                   <div class="form-group">
                     <label class="col-md-3 control-label">Date of Birth</label>
                     <div class="col-md-8">
-                      <input
-                        type="date"
-                        class="form-control"
-                        formControlName="dateOfBirth"
-                        [readonly]="!isProfileOwner()"
-                      />
+                      <input type="date" class="form-control" formControlName="dateOfBirth"
+                        [readonly]="!isProfileOwner()" />
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Biography</label>
                     <div class="col-md-8">
-                      <textarea
-                        class="form-control"
-                        formControlName="biography"
-                        [readonly]="!isProfileOwner()"
-                      ></textarea>
+                      <textarea class="form-control" formControlName="biography"
+                        [readonly]="!isProfileOwner()"></textarea>
+                    </div>
+                  </div>
+                  <div *ngIf="isValid(fe.biography)" class="alert alert-danger">
+                    <div *ngIf="fe.biography.hasError('required')">
+                      Biography is required.
                     </div>
                   </div>
 
@@ -283,49 +207,60 @@
                     <label class="col-xs-3 control-label">Public Profile</label>
                     <div class="col-md-8">
                       <label class="checkbox">
-                        <input
-                          type="checkbox"
-                          value="1"
-                          checked="checked"
-                          id="profilePublic"
-                          [attr.disabled]="!isProfileOwner() ? '' : null"
-                        />
-                        <i></i>
+                        <input type="checkbox" value="1" checked="checked" id="profilePublic"
+                          [attr.disabled]="!isProfileOwner() ? '' : null" />
+                        <em></em>
                       </label>
                     </div>
                   </div>
                 </fieldset>
                 <div class="row">
                   <div class="col-md-9 col-md-offset-3">
-                    <button
-                      type="submit"
-                      (click)="updateProfile()"
-                      *ngIf="isProfileOwner()"
-                      class="btn btn-primary"
-                    >
+                    <button type="submit" (click)="updateProfile()" *ngIf="isProfileOwner()" class="btn btn-primary">
                       Submit
                     </button>
                   </div>
                 </div>
               </form>
               <hr />
-              <form
-                *ngIf="isProfileOwner()"
-                class="form-horizontal padding-10"
-                [formGroup]="passwordForm"
-              >
+              <form *ngIf="isProfileOwner()" class="form-horizontal padding-10" [formGroup]="twoFAForm">
+                <h4>Two Factor Authentication</h4>
+                <fieldset>
+                  <legend></legend>
+                  <div class="form-group">
+                    <label class="col-xs-3 control-label">2FA Enabled</label>
+                    <div class="col-md-8">
+                      <label class="checkbox">
+                        <input type="checkbox" value="0" id="2faenabled" formControlName="twoFAEnabled">
+                        <em></em>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-3 control-label">Secret</label>
+                    <div class="col-md-8">
+                      <input type="text" class="form-control" formControlName="secret">
+                    </div>
+                  </div>
+
+                </fieldset>
+                <div class="row">
+                  <div class="col-md-9 col-md-offset-3">
+                    <button type="submit" (click)="change2FAStatus()" *ngIf="isProfileOwner()" class="btn btn-primary">
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <hr *ngIf="isProfileOwner()" />
+              <form *ngIf="isProfileOwner()" class="form-horizontal padding-10" [formGroup]="passwordForm">
                 <h4>Change Password</h4>
                 <fieldset class="mb-xl">
+                  <legend></legend>
                   <div class="form-group">
-                    <label class="col-md-3 control-label"
-                      >Current Password</label
-                    >
+                    <label class="col-md-3 control-label">Current Password</label>
                     <div class="col-md-8">
-                      <input
-                        type="password"
-                        class="form-control"
-                        formControlName="currentPassword"
-                      />
+                      <input type="password" class="form-control" formControlName="currentPassword" />
                     </div>
                   </div>
                   <div *ngIf="oldPasswordError" class="alert alert-danger">
@@ -334,53 +269,43 @@
                   <div class="form-group">
                     <label class="col-md-3 control-label">New Password</label>
                     <div class="col-md-8">
-                      <input
-                        (input) = "checkPass()"
-                        type="password"
-                        class="form-control"
-                        formControlName="newPassword"
-                      />
+                      <input (input)="checkPass()" type="password" class="form-control" formControlName="newPassword" />
                     </div>
                   </div>
                   <div *ngIf="isValid(f.newPassword) && !isSubmitted" class="alert alert-danger">
                     <div *ngIf="f.newPassword.errors?.required && !isSubmitted">
-                        Password is required.
+                      Password is required.
                     </div>
                     <div *ngIf="f.newPassword.errors?.whiteSpace && !f.newPassword.errors?.required">
-                        Password must not contain Whitespaces.
+                      Password must not contain Whitespaces.
                     </div>
                     <div *ngIf="f.newPassword.errors?.containsUppercase && !f.newPassword.errors?.required">
-                        Password must have at least one Uppercase Character.
+                      Password must have at least one Uppercase Character.
                     </div>
                     <div *ngIf="f.newPassword.errors?.containsLowercase && !f.newPassword.errors?.required">
-                        Password must have at least one Lowercase Character.
+                      Password must have at least one Lowercase Character.
                     </div>
                     <div *ngIf="f.newPassword.errors?.containsNumber && !f.newPassword.errors?.required">
-                        Password must contain at least one Digit.
+                      Password must contain at least one Digit.
                     </div>
                     <div *ngIf="f.newPassword.errors?.containsSimbol && !f.newPassword.errors?.required">
-                        Password must contain at least one Special Symbol.
+                      Password must contain at least one Special Symbol.
                     </div>
                     <div *ngIf="f.newPassword.errors?.validLengthPass && !f.newPassword.errors?.required">
-                        Password must be at least 10 Characters Long.
+                      Password must be at least 10 Characters Long.
                     </div>
                   </div>
                   <div *ngIf="passwordError && !f.newPassword.errors?.required" class="alert alert-danger">
-                      {{passwordError}}
+                    {{passwordError}}
                   </div>
-                  <div *ngIf="passwordStrength && !f.newPassword.errors?.required" id= "strenght" [class] = "strengthClass">
-                      {{passwordStrength}}
+                  <div *ngIf="passwordStrength && !f.newPassword.errors?.required" id="strenght"
+                    [class]="strengthClass">
+                    {{passwordStrength}}
                   </div>
                   <div class="form-group">
-                    <label class="col-md-3 control-label"
-                      >Confirm New Password</label
-                    >
+                    <label class="col-md-3 control-label">Confirm New Password</label>
                     <div class="col-md-8">
-                      <input
-                        type="password"
-                        class="form-control"
-                        formControlName="newPasswordRepeat"
-                      />
+                      <input type="password" class="form-control" formControlName="newPasswordRepeat" />
                     </div>
                   </div>
                   <div *ngIf="confirmPasswordError" class="alert alert-danger">
@@ -390,73 +315,66 @@
 
                 <div class="row">
                   <div class="col-md-9 col-md-offset-3">
-                    <button
-                      type="submit"
-                      class="btn btn-primary"
-                      (click)="changePassword()"
-                    >
+                    <button type="submit" class="btn btn-primary" (click)="changePassword()">
                       Submit
                     </button>
                   </div>
                 </div>
               </form>
             </div>
-            <div
-              id="job-ad"
-              [ngClass]="tab === 3 ? 'tab-pane active' : 'tab-pane'"
-            >
-            <form
-                class="form-horizontal padding-10"
-                [formGroup]="newJobAdForm"
-              >
+            <div id="job-ad" [ngClass]="tab === 3 ? 'tab-pane active' : 'tab-pane'">
+              <form class="form-horizontal padding-10" [formGroup]="newJobAdForm">
                 <h4>New Job Ad</h4>
                 <fieldset>
+                  <legend></legend>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Title</label>
                     <div class="col-md-8">
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="title"
-                      />
+                      <input type="text" class="form-control" formControlName="title" />
+                    </div>
+                  </div>
+                  <div *ngIf="isValid(fad.title)" class="alert alert-danger">
+                    <div *ngIf="fad.title.hasError('required')">
+                      Title is required.
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Position</label>
                     <div class="col-md-8">
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="position"
-                      />
+                      <input type="text" class="form-control" formControlName="position" />
+                    </div>
+                  </div>
+                  <div *ngIf="isValid(fad.position)" class="alert alert-danger">
+                    <div *ngIf="fad.position.hasError('required')">
+                      Position is required.
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Description</label>
                     <div class="col-md-8">
-                      <textarea type="text"
-                      class="form-control"
-                      formControlName="description"></textarea>
+                      <textarea type="text" class="form-control" formControlName="description"></textarea>
+                    </div>
+                  </div>
+                  <div *ngIf="isValid(fad.description)" class="alert alert-danger">
+                    <div *ngIf="fad.description.hasError('required')">
+                      Description is required.
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Company</label>
                     <div class="col-md-8">
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="company"
-                      />
+                      <input type="text" class="form-control" formControlName="company" />
+                    </div>
+                  </div>
+                  <div *ngIf="isValid(fad.company)" class="alert alert-danger">
+                    <div *ngIf="fad.company.hasError('required')">
+                      Company is required.
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-3 control-label">Requirement</label>
                     <div class="col-md-8 requirements-input">
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="requirement"
-                      />
+                      <input type="text" class="form-control" formControlName="requirement" />
                       <button class="btn btn-primary" (click)="addRequirement()">Add</button>
                     </div>
                   </div>
@@ -465,12 +383,9 @@
                     <label class="col-md-3 control-label" *ngIf="requirements.length > 0">Requirements</label>
                     <div class="col-md-8 requirements-input">
                       <div class="requirement-list">
-                        <app-interest
-                          [editMode]="true"
-                          (deleteEvent)="deleteRequirement($event)"
-                          [interest]="{ id: -1, description: requirement }"
-                          *ngFor="let requirement of requirements"
-                        ></app-interest>
+                        <app-interest [editMode]="true" (deleteEvent)="deleteRequirement($event)"
+                          [interest]="{ id: -1, description: requirement }" *ngFor="let requirement of requirements">
+                        </app-interest>
                       </div>
                     </div>
                   </div>
@@ -481,48 +396,29 @@
                 </fieldset>
                 <div class="row">
                   <div class="col-md-9 col-md-offset-3">
-                    <button
-                      type="submit"
-                      (click)="createJobAd()"
-                      *ngIf="isProfileOwner()"
-                      class="btn btn-primary"
-                    >
+                    <button type="submit" (click)="createJobAd()" *ngIf="isProfileOwner()" class="btn btn-primary">
                       Submit
                     </button>
                   </div>
                 </div>
               </form>
             </div>
-            <div
-              id="job-ad"
-              [ngClass]="tab === 4 ? 'tab-pane active' : 'tab-pane'"
-            >
-            <form
-                class="form-horizontal padding-10"
-                [formGroup]="apiTokenForm"
-              >
+            <div id="job-ad" [ngClass]="tab === 4 ? 'tab-pane active' : 'tab-pane'">
+              <form class="form-horizontal padding-10" [formGroup]="apiTokenForm">
                 <h4>Agent API Token Generation</h4>
                 <fieldset>
-
-
+                  <legend></legend>
                   <div class="form-group">
                     <label class="col-md-3 control-label">API Token</label>
                     <div class="col-md-8">
-                      <textarea type="text"
-                      class="form-control API-token-textarea"
-                      formControlName="token"></textarea>
+                      <textarea type="text" class="form-control API-token-textarea" formControlName="token"></textarea>
                     </div>
                   </div>
 
                 </fieldset>
                 <div class="row">
                   <div class="col-md-9 col-md-offset-3">
-                    <button
-                      type="submit"
-                      (click)="generateAPIToken()"
-                      *ngIf="isProfileOwner()"
-                      class="btn btn-primary"
-                    >
+                    <button type="submit" (click)="generateAPIToken()" *ngIf="isProfileOwner()" class="btn btn-primary">
                       Generate
                     </button>
                   </div>
@@ -540,27 +436,15 @@
         <section class="panel panel-default">
           <header class="experience-title">
             <div class="education-and-experience">
-              <i class="fa fa-rss"></i> Education & Experience
-              <i
-                class="fa fa-plus"
-                [ngStyle]="{ 'margin-left': '10px', cursor: 'pointer' }"
-                *ngIf="isProfileOwner()"
-                (click)="addExperienceModal()"
-                aria-hidden="true"
-              ></i>
+              <em class="fa fa-rss"></em> Education & Experience
+              <i class="fa fa-plus" [ngStyle]="{ 'margin-left': '10px', cursor: 'pointer' }" *ngIf="isProfileOwner()"
+                (click)="addExperienceModal()" aria-hidden="true"></i>
             </div>
           </header>
           <hr />
-          <div
-            class="experience-card-item"
-            *ngFor="let experience of this.profile.experiences"
-          >
-            <app-experience-card
-              [experience]="experience"
-              [userId]="userId"
-              (deleteEvent)="deleteExperience($event)"
-              (editEvent)="editExperienceModal($event)"
-            ></app-experience-card>
+          <div class="experience-card-item" *ngFor="let experience of this.profile.experiences">
+            <app-experience-card [experience]="experience" [userId]="userId" (deleteEvent)="deleteExperience($event)"
+              (editEvent)="editExperienceModal($event)"></app-experience-card>
           </div>
         </section>
         <!-- /projects -->

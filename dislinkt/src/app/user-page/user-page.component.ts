@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators, FormArray } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreatePostDTO } from '../dto/CreatePostDTO';
@@ -33,6 +33,8 @@ import { isContainsUppercase } from '../validators/isContainsUppercase-validator
 import { isValidLengthPassword } from '../validators/isValidLengthPassword-validator'
 import { isWhitespace } from '../validators/isWhitespace-validator'
 import * as zxcvbn from 'zxcvbn'
+import { Change2FAStatusDTO } from '../dto/Change2FAStatusDTO';
+import { phoneNumberValidator } from '../validators/phoneNumber-validator'
 
 
 @Component({
@@ -76,12 +78,14 @@ export class UserPageComponent implements OnInit {
     firstName: new UntypedFormControl('', Validators.required),
     lastName: new UntypedFormControl('', Validators.required),
     email: new UntypedFormControl('', [Validators.required, Validators.email]),
-    phoneNumber: new UntypedFormControl('', Validators.required),
+    phoneNumber: new UntypedFormControl('', [Validators.required, phoneNumberValidator]),
     gender: new UntypedFormControl('', Validators.required),
     dateOfBirth: new UntypedFormControl('', Validators.required),
     username: new UntypedFormControl('', Validators.required),
     biography: new UntypedFormControl('', Validators.required),
   })
+
+  get fe() { return this.profileForm.controls; }
 
 
   passwordForm = new UntypedFormGroup({
@@ -102,8 +106,15 @@ export class UserPageComponent implements OnInit {
     requirement: new UntypedFormControl('')
   })
 
+  get fad() { return this.newJobAdForm.controls; }
+
   apiTokenForm = new UntypedFormGroup({
     token: new UntypedFormControl(''),
+  })
+
+  twoFAForm = new UntypedFormGroup({
+    twoFAEnabled: new UntypedFormControl(false),
+    secret: new UntypedFormControl(''),
   })
 
 
@@ -130,20 +141,27 @@ export class UserPageComponent implements OnInit {
       this.posts = data
       this.posts = this.posts.map(post => (post.image === '') ? post : { ...post, image: this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + post.image) })
       this.postsAndJobAds = this.postsAndJobAds.concat(this.posts).sort((a:any,b:any) => moment(b.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() - moment(a.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() )
+    })
 
+    this.authService.get2FAStatus(this.userId).subscribe((data:any) => {
+      this.twoFAForm.get('twoFAEnabled')?.setValue(data.enabled2FA)
     })
     this.profileService.getProfile(this.userId).subscribe((data: any) => {
-      this.profile = data
-      this.profileForm.get('firstName')?.setValue(this.profile.firstName)
-      this.profileForm.get('lastName')?.setValue(this.profile.lastName)
-      this.profileForm.get('email')?.setValue(this.profile.email)
-      this.profileForm.get('phoneNumber')?.setValue(this.profile.phoneNumber)
-      this.profileForm.get('gender')?.setValue(this.profile.gender)
-      this.profileForm.get('dateOfBirth')?.setValue(moment(this.profile.dateOfBirth, 'DD/MM/YYYY').format('YYYY-MM-DD'))
-      this.profileForm.get('username')?.setValue(this.profile.username)
-      this.profileForm.get('biography')?.setValue(this.profile.biography)
-    })
+      this.setUserData(data);
 
+    })
+  }
+
+  setUserData(data: any) {
+    this.profile = data;
+    this.profileForm.get('firstName')?.setValue(this.profile.firstName);
+    this.profileForm.get('lastName')?.setValue(this.profile.lastName);
+    this.profileForm.get('email')?.setValue(this.profile.email);
+    this.profileForm.get('phoneNumber')?.setValue(this.profile.phoneNumber);
+    this.profileForm.get('gender')?.setValue(this.profile.gender);
+    this.profileForm.get('dateOfBirth')?.setValue(moment(this.profile.dateOfBirth, 'DD/MM/YYYY').format('YYYY-MM-DD'));
+    this.profileForm.get('username')?.setValue(this.profile.username);
+    this.profileForm.get('biography')?.setValue(this.profile.biography);
   }
 
   fileChange(event: Event) {
@@ -174,15 +192,7 @@ export class UserPageComponent implements OnInit {
       biography: this.profileForm.get('biography')?.value
     }
     this.profileService.putProfile(profileDTO).subscribe((data: any) => {
-      this.profile = data
-      this.profileForm.get('firstName')?.setValue(this.profile.firstName)
-      this.profileForm.get('lastName')?.setValue(this.profile.lastName)
-      this.profileForm.get('email')?.setValue(this.profile.email)
-      this.profileForm.get('phoneNumber')?.setValue(this.profile.phoneNumber)
-      this.profileForm.get('gender')?.setValue(this.profile.gender)
-      this.profileForm.get('dateOfBirth')?.setValue(moment(this.profile.dateOfBirth, 'DD/MM/YYYY').format('YYYY-MM-DD'))
-      this.profileForm.get('username')?.setValue(this.profile.username)
-      this.profileForm.get('biography')?.setValue(this.profile.biography)
+      this.setUserData(data)
     })
   }
 
@@ -198,7 +208,7 @@ export class UserPageComponent implements OnInit {
       type: "application/json"
     }));
     formData.append("image", this.file ?? new File([""], "filename"));
-    this.postService.createPost(formData).subscribe((data: any) => {
+    this.postService.createPost(formData).subscribe((_data: any) => {
       window.location.reload()
     })
   }
@@ -219,7 +229,7 @@ export class UserPageComponent implements OnInit {
       case 2: {this.strengthClass = "alert alert-warning"; strength = "Weak"; break;}
       case 3: {this.strengthClass = "alert alert-info"; strength = "Good"; break;}
       default: {this.strengthClass = "alert alert-success"; strength = "Strong"; break;}
-        
+
     }
     this.passwordStrength = "Strength: " + strength + " " + result.feedback.warning + ". " + result.feedback.suggestions;
   }
@@ -242,7 +252,7 @@ export class UserPageComponent implements OnInit {
       newPassword: this.passwordForm.get('newPassword')?.value,
       repeatedNewPassword: this.passwordForm.get('newPasswordRepeat')?.value
     }
-    this.authService.changePassword(changePasswordDTO).subscribe((data: any) => {
+    this.authService.changePassword(changePasswordDTO).subscribe((_data: any) => {
       alert('success')
       this.passwordForm.get('currentPassword')?.setValue('')
       this.passwordForm.get('newPassword')?.setValue('')
@@ -253,7 +263,7 @@ export class UserPageComponent implements OnInit {
       this.passwordStrength = "";
       this.strengthClass = "";
       this.isSubmitted = true;
-    }, (err: Error) => {
+    }, (_err: Error) => {
       this.oldPasswordError = "Wrong password!"
     })
   }
@@ -265,8 +275,8 @@ export class UserPageComponent implements OnInit {
 
   deleteInterest(interest: Interest) {
     let id = interest.id
-    this.interestService.deleteInterest(id, this.userId).subscribe((data: any) => {
-      this.profile.interests = this.profile.interests.filter(interest => interest.id !== id)
+    this.interestService.deleteInterest(id, this.userId).subscribe((_data: any) => {
+      this.profile.interests = this.profile.interests.filter(int => int.id !== id)
     })
   }
 
@@ -284,7 +294,9 @@ export class UserPageComponent implements OnInit {
             this.profile.interests = [... this.profile.interests, data]
         })
       }
-    }, (reason: any) => {
+    }, (_reason: any) => {
+      // TODO document why this arrow function is empty
+    
 
     });
   }
@@ -302,8 +314,8 @@ export class UserPageComponent implements OnInit {
           this.profile.experiences = [... this.profile.experiences, data]
         })
       }
-    }, (reason: any) => {
-
+    }, (_reason: any) => {
+      // TODO document why this arrow function is empty
     });
   }
 
@@ -322,15 +334,34 @@ export class UserPageComponent implements OnInit {
           this.profile.experiences = [... this.profile.experiences, data]
         })
       }
-    }, (reason: any) => {
-
+    }, (_reason: any) => {
+      // TODO document why this arrow function is empty
     });
   }
 
   deleteExperience(id: number) {
-    this.experienceService.deleteInterest(id).subscribe((data:any) => {
+    this.experienceService.deleteInterest(id).subscribe((_data:any) => {
       this.profile.experiences = this.profile.experiences.filter(exp => exp.id !== id)
     })
+  }
+
+  change2FAStatus() {
+    if (this.twoFAForm.invalid)
+      return
+    let change2FAStatusDTO : Change2FAStatusDTO = {
+      enable2FA: this.twoFAForm.get('twoFAEnabled')?.value,
+      userId: this.userId
+    }
+    this.authService.change2FAStatus(change2FAStatusDTO).subscribe((data:any) => {
+      this.twoFAForm.get('twoFAEnabled')?.setValue(change2FAStatusDTO.enable2FA)
+      if (data.secret) {
+        this.twoFAForm.get('secret')?.setValue(data.secret)
+      } else {
+        this.twoFAForm.get('secret')?.setValue('')
+      }
+
+    })
+
   }
 
 
@@ -341,7 +372,7 @@ export class UserPageComponent implements OnInit {
       initiatorId: this.storageService.getIdFromToken(),
       receiverId: this.userId
     }
-    this.connectionService.createConnection(createConnectionDTO).subscribe(data => {
+    this.connectionService.createConnection(createConnectionDTO).subscribe(_data => {
       this.connectionStatus = "CONNECTED"
     })
   }
@@ -369,7 +400,7 @@ export class UserPageComponent implements OnInit {
       company: this.newJobAdForm.get('company')?.value,
       requirements: this.requirements
     }
-    this.jobAdService.addJobAd(createJobAdDTO).subscribe(data => {
+    this.jobAdService.addJobAd(createJobAdDTO).subscribe(_data => {
       this.reloadComponent()
     })
   }

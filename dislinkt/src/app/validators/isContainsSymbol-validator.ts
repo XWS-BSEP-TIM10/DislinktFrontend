@@ -1,4 +1,4 @@
-import { AbstractControl, ControlContainer } from '@angular/forms'
+import { AbstractControl } from '@angular/forms'
 
 export function isContainsSymbol(
   control: AbstractControl

@@ -12,9 +12,11 @@ export class InterestComponent implements OnInit {
   @Input() editMode: boolean = false
   @Input() interest!: Interest
   @Output() deleteEvent = new EventEmitter<Interest>();
-  constructor() { }
+  constructor() { /* TODO document why this constructor is empty */  }
 
   ngOnInit(): void {
+    // TODO document why this method 'ngOnInit' is empty
+  
   }
 
 

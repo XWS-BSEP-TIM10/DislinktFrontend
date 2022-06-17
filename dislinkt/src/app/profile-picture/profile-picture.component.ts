@@ -10,7 +10,7 @@ export class ProfilePictureComponent implements OnInit {
   colors = ['#dda0dd', '#FF7F50', '#483D8B', '#1E90FF', '#CD853F', '#008080']
   color: any
 
-  constructor() { }
+  constructor() { /* TODO document why this constructor is empty */  }
   @Input() ownerId!: string
   @Input() initials!: string
   @Input() scale: number = 1

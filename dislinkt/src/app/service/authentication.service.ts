@@ -5,6 +5,7 @@ import { LoginDTO } from "../dto/LoginDTO";
 import { RegistrationDTO } from "../dto/RegistrationDTO";
 import { NewPasswordDTO } from "../dto/NewPasswordDto";
 import { ChangePasswordDTO } from "../dto/ChangePasswordDTO";
+import { Change2FAStatusDTO } from "../dto/Change2FAStatusDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -36,34 +37,43 @@ export class AuthenticationService {
     return this.http.put(`${config.baseUrl}${this.changePasswordUrl}`, changePasswordDTO)
   }
 
-  activateAccount(token: String) {
+  activateAccount(token: string) {
     return this.http.get(`${config.baseUrl}${this.acctivateAccountUrl}/${token}`)
   }
 
-  sendRecoveryEmail(email: String) {
+  sendRecoveryEmail(email: string) {
     return this.http.get(`${config.baseUrl}${this.sendRecoveryEmailUrl}?email=${email}`)
   }
 
-  changePasswordRecovery(token: String, newPasswordDTO: NewPasswordDTO) {
+  changePasswordRecovery(token: string, newPasswordDTO: NewPasswordDTO) {
     return this.http.put(`${config.baseUrl}${this.changePasswordRecoveryUrl}/${token}`, newPasswordDTO)
   }
 
-  sendPasswordlessLoginEmail(email: String) {
+  sendPasswordlessLoginEmail(email: string) {
     return this.http.get(`${config.baseUrl}${this.sendPasswordlessLoginEmailUrl}?email=${email}`)
   }
 
-  passwordlessLogin(token: String){
+  passwordlessLogin(token: string){
     return this.http.get(`${config.baseUrl}${this.passwordlessLoginUrl}/${token}`)
   }
 
-  checkToken(token: String){
+  checkToken(token: string){
     return this.http.get(`${config.baseUrl}${this.checkTokenUrl}/${token}`)
   }
 
   generateAPIToken(userId: string) {
     return this.http.post(`${config.baseUrl}/auth/api-token`, {userId: userId})
-
   }
+
+  get2FAStatus(userId: string) {
+    return this.http.get(`${config.baseUrl}/auth/2fa/status/${userId}`)
+  }
+
+  change2FAStatus(change2FAStatusDTO: Change2FAStatusDTO) {
+    return this.http.put(`${config.baseUrl}/auth/2fa`, change2FAStatusDTO)
+  }
+
+
 
   refreshToken(refreshToken: any){
     const headers= new HttpHeaders()

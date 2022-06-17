@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,6 +18,7 @@ export class InterestModalComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    // TODO document why this method 'ngOnInit' is empty
   }
 
 

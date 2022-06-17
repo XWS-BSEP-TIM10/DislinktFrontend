@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { config } from 'src/shared';
 import { CreateJobDTO } from '../dto/CreateJobAdDTO';
-import { ReactionDTO } from '../dto/ReactionDTO';
 
 @Injectable({
   providedIn: 'root'

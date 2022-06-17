@@ -1,9 +1,8 @@
 import { HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { StorageService } from './service/storage.service';
 import { PlatformLocation } from '@angular/common';
-import { config } from "src/shared"
 import { AuthenticationService } from './service/authentication.service';
 
 @Injectable({

@@ -16,9 +16,9 @@ export class AccountActivatedComponent implements OnInit {
   ngOnInit(): void {
     let token = decodeURI(this.route.snapshot.paramMap.get('token') || "")
     this.authService.activateAccount(token).subscribe(
-      (data: any) => {
+      (_data: any) => {
         this.activationSucceeded = true;
-      }, (err: Error) => {
+      }, (_err: Error) => {
         this.activationSucceeded = false;
       });
   }

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Experience } from '../model/Experience';
 import { JobAd } from '../model/JobAd';
 import { StorageService } from '../service/storage.service';
 
@@ -18,6 +17,7 @@ export class JobAdCardComponent implements OnInit {
   constructor(private storageService: StorageService, private router: Router) { }
 
   ngOnInit(): void {
+    // TODO document why this method 'ngOnInit' is empty 
   }
 
   viewProfile(ownerId: string) {
