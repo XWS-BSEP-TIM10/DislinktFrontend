@@ -13,7 +13,7 @@
 }
 .bx
 {
-    font-family: 'boxicons' !important;
+    font-family: 'boxicons', sans-serif !important;
     font-weight: normal;
     font-style: normal;
     font-variant: normal;
@@ -22,8 +22,6 @@
     display: inline-block;
 
     text-transform: none;
-
-    speak: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
