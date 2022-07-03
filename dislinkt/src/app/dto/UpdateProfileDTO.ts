@@ -8,4 +8,5 @@ export interface UpdateProfileDTO {
   dateOfBirth: string;
   username: string;
   biography: string;
+  profilePublic: boolean;
 }
