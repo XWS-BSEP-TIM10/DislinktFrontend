@@ -71,7 +71,7 @@ export class ChatPageComponent implements OnInit {
         timestamp: new Date(),
       };
       console.log(this.stompClient)
-      this.stompClient.send("/app/chat", {}, JSON.stringify(message)); 
+      this.stompClient.publish({destination:"/app/chat", body: JSON.stringify(message)}); 
       this.newMessages.push(message);
     
     }
