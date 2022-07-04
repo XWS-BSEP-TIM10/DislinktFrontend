@@ -31,4 +31,7 @@ export class ConnectionService {
   getPendingConnections(userId: string) {
     return this.http.get(`${config.baseUrl}${this.connectionsUrl}/pending/${userId}`)
   }
+  getMutuals(initiatorId: string) {
+    return this.http.get(`${config.baseUrl}${this.connectionsUrl}/mutuals/${initiatorId}`)
+  }
 }
