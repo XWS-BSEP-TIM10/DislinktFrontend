@@ -35,6 +35,10 @@ import { isWhitespace } from '../validators/isWhitespace-validator'
 import * as zxcvbn from 'zxcvbn'
 import { Change2FAStatusDTO } from '../dto/Change2FAStatusDTO';
 import { phoneNumberValidator } from '../validators/phoneNumber-validator'
+import { CreateBlockDTO } from '../dto/CreateBlockDTO';
+import { PendingProfile } from '../model/PendingProfile';
+import { ConnectionPendingResponseDTO } from '../dto/ConnectionPendingResponseDTO';
+import { ConnectionRequestDTO } from '../dto/ConnectionRequestDTO';
 
 
 @Component({
@@ -52,7 +56,7 @@ export class UserPageComponent implements OnInit {
   connectionStatus: string = ""
   jobAds!: JobAd[]
 
-  postsAndJobAds:any = []
+  postsAndJobAds: any = []
 
 
   requirements: string[] = []
@@ -83,6 +87,7 @@ export class UserPageComponent implements OnInit {
     dateOfBirth: new UntypedFormControl('', Validators.required),
     username: new UntypedFormControl('', Validators.required),
     biography: new UntypedFormControl('', Validators.required),
+    profilePublic: new UntypedFormControl(true, Validators.required),
   })
 
   get fe() { return this.profileForm.controls; }
@@ -118,6 +123,7 @@ export class UserPageComponent implements OnInit {
   })
 
 
+  pendingProfiles!: PendingProfile[]
   profile!: Profile
   oldPasswordError = "";
   passwordError = "";
@@ -129,21 +135,26 @@ export class UserPageComponent implements OnInit {
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id') || "";
     if (this.userId !== this.storageService.getIdFromToken()) {
-      this.connectionService.getConnectionStatus(this.storageService.getIdFromToken(), this.userId).subscribe((data:any) => {
+      this.connectionService.getConnectionStatus(this.storageService.getIdFromToken(), this.userId).subscribe((data: any) => {
         this.connectionStatus = data.connectionStatus
       })
     }
-    this.jobAdService.getJobAds(this.userId).subscribe((data:any) => {
+    if (this.isProfileOwner()) {
+      this.connectionService.getPendingConnections(this.userId).subscribe((data:any) => {
+        this.pendingProfiles = data
+      })
+    }
+    this.jobAdService.getJobAds(this.userId).subscribe((data: any) => {
       this.jobAds = data
-      this.postsAndJobAds = this.postsAndJobAds.concat(this.jobAds).sort((a:any,b:any) => moment(b.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() - moment(a.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() )
+      this.postsAndJobAds = this.postsAndJobAds.concat(this.jobAds).sort((a: any, b: any) => moment(b.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() - moment(a.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime())
     })
     this.postService.getPosts(this.userId).subscribe((data: any) => {
       this.posts = data
       this.posts = this.posts.map(post => (post.image === '') ? post : { ...post, image: this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + post.image) })
-      this.postsAndJobAds = this.postsAndJobAds.concat(this.posts).sort((a:any,b:any) => moment(b.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() - moment(a.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() )
+      this.postsAndJobAds = this.postsAndJobAds.concat(this.posts).sort((a: any, b: any) => moment(b.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime() - moment(a.creationDate, 'DD/MM/YYYY HH:mm:ss').toDate().getTime())
     })
 
-    this.authService.get2FAStatus(this.userId).subscribe((data:any) => {
+    this.authService.get2FAStatus(this.userId).subscribe((data: any) => {
       this.twoFAForm.get('twoFAEnabled')?.setValue(data.enabled2FA)
     })
     this.profileService.getProfile(this.userId).subscribe((data: any) => {
@@ -162,6 +173,7 @@ export class UserPageComponent implements OnInit {
     this.profileForm.get('dateOfBirth')?.setValue(moment(this.profile.dateOfBirth, 'DD/MM/YYYY').format('YYYY-MM-DD'));
     this.profileForm.get('username')?.setValue(this.profile.username);
     this.profileForm.get('biography')?.setValue(this.profile.biography);
+    this.profileForm.get('profilePublic')?.setValue(this.profile.profilePublic);
   }
 
   fileChange(event: Event) {
@@ -189,10 +201,19 @@ export class UserPageComponent implements OnInit {
       gender: this.profileForm.get('gender')?.value,
       dateOfBirth: moment(this.profileForm.get('dateOfBirth')?.value, 'YYYY-MM-DD').format('DD/MM/YYYY'),
       username: this.profileForm.get('username')?.value,
-      biography: this.profileForm.get('biography')?.value
+      biography: this.profileForm.get('biography')?.value,
+      profilePublic: this.profileForm.get('profilePublic')?.value
     }
     this.profileService.putProfile(profileDTO).subscribe((data: any) => {
-      this.setUserData(data)
+      this.profile.biography = data.biography
+      this.profile.dateOfBirth = data.dateOfBirth
+      this.profile.email = data.email
+      this.profile.firstName = data.firstName
+      this.profile.gender = data.gender
+      this.profile.lastName = data.lastName
+      this.profile.phoneNumber = data.phoneNumber
+      this.profile.profilePublic = data.profilePublic
+      this.profile.username = data.username
     })
   }
 
@@ -224,11 +245,11 @@ export class UserPageComponent implements OnInit {
     const result = zxcvbn(password?.value);
     let strength = "";
     switch (result.score) {
-      case 0: { this.strengthClass = "alert alert-danger"; strength = "Worst"; break;}
-      case 1: { this.strengthClass = "alert alert-danger"; strength = "Bad"; break;}
-      case 2: {this.strengthClass = "alert alert-warning"; strength = "Weak"; break;}
-      case 3: {this.strengthClass = "alert alert-info"; strength = "Good"; break;}
-      default: {this.strengthClass = "alert alert-success"; strength = "Strong"; break;}
+      case 0: { this.strengthClass = "alert alert-danger"; strength = "Worst"; break; }
+      case 1: { this.strengthClass = "alert alert-danger"; strength = "Bad"; break; }
+      case 2: { this.strengthClass = "alert alert-warning"; strength = "Weak"; break; }
+      case 3: { this.strengthClass = "alert alert-info"; strength = "Good"; break; }
+      default: { this.strengthClass = "alert alert-success"; strength = "Strong"; break; }
 
     }
     this.passwordStrength = "Strength: " + strength + " " + result.feedback.warning + ". " + result.feedback.suggestions;
@@ -296,18 +317,46 @@ export class UserPageComponent implements OnInit {
       }
     }, (_reason: any) => {
       // TODO document why this arrow function is empty
-    
+
 
     });
   }
+
+
+  getConnectionStatusText() {
+    if (this.connectionStatus == '') {
+      return 'Follow'
+    } else if (this.connectionStatus == 'CONNECTED') {
+      return 'Following'
+    }
+    else if (this.connectionStatus == 'BLOCKED') {
+      return 'Blocked'
+    }
+    else if (this.connectionStatus == 'PENDING') {
+      return 'Pending'
+    }
+    return ''
+  }
+
+  respondToPending(connectionPendingResponseDTO : ConnectionPendingResponseDTO) {
+    let response : ConnectionRequestDTO = {
+      initiatorId: connectionPendingResponseDTO.userId,
+      receiverId: this.storageService.getIdFromToken()
+
+    }
+    this.connectionService.respondToConnectionRequest(response, connectionPendingResponseDTO.approve).subscribe((data:any) => {
+      this.pendingProfiles = this.pendingProfiles.filter(el => el.userId !== connectionPendingResponseDTO.userId)
+    })
+  }
+
 
   addExperienceModal() {
     const modalRef = this.modalService.open(ExperienceModalComponent, { centered: true });
     modalRef.result.then((result: CreateExperienceDTO) => {
       if (result) {
         let createExperienceDTO = result
-        createExperienceDTO.fromDate =  moment(result.fromDate, 'YYYY-MM-DD').format('DD/MM/YYYY')
-        createExperienceDTO.toDate = result.toDate ?  moment(result.toDate, 'YYYY-MM-DD').format('DD/MM/YYYY') : ''
+        createExperienceDTO.fromDate = moment(result.fromDate, 'YYYY-MM-DD').format('DD/MM/YYYY')
+        createExperienceDTO.toDate = result.toDate ? moment(result.toDate, 'YYYY-MM-DD').format('DD/MM/YYYY') : ''
         createExperienceDTO.userId = this.userId
         this.experienceService.addExperience(createExperienceDTO).subscribe((data: any) => {
 
@@ -325,8 +374,8 @@ export class UserPageComponent implements OnInit {
     modalRef.result.then((result: CreateExperienceDTO) => {
       if (result) {
         let createExperienceDTO = result
-        createExperienceDTO.fromDate =  moment(result.fromDate, 'YYYY-MM-DD').format('DD/MM/YYYY')
-        createExperienceDTO.toDate = result.toDate ?  moment(result.toDate, 'YYYY-MM-DD').format('DD/MM/YYYY') : ''
+        createExperienceDTO.fromDate = moment(result.fromDate, 'YYYY-MM-DD').format('DD/MM/YYYY')
+        createExperienceDTO.toDate = result.toDate ? moment(result.toDate, 'YYYY-MM-DD').format('DD/MM/YYYY') : ''
         createExperienceDTO.userId = this.userId
 
         this.experienceService.updateExperience(experience.id, createExperienceDTO).subscribe((data: any) => {
@@ -340,7 +389,7 @@ export class UserPageComponent implements OnInit {
   }
 
   deleteExperience(id: number) {
-    this.experienceService.deleteInterest(id).subscribe((_data:any) => {
+    this.experienceService.deleteInterest(id).subscribe((_data: any) => {
       this.profile.experiences = this.profile.experiences.filter(exp => exp.id !== id)
     })
   }
@@ -348,11 +397,11 @@ export class UserPageComponent implements OnInit {
   change2FAStatus() {
     if (this.twoFAForm.invalid)
       return
-    let change2FAStatusDTO : Change2FAStatusDTO = {
+    let change2FAStatusDTO: Change2FAStatusDTO = {
       enable2FA: this.twoFAForm.get('twoFAEnabled')?.value,
       userId: this.userId
     }
-    this.authService.change2FAStatus(change2FAStatusDTO).subscribe((data:any) => {
+    this.authService.change2FAStatus(change2FAStatusDTO).subscribe((data: any) => {
       this.twoFAForm.get('twoFAEnabled')?.setValue(change2FAStatusDTO.enable2FA)
       if (data.secret) {
         this.twoFAForm.get('secret')?.setValue(data.secret)
@@ -364,16 +413,26 @@ export class UserPageComponent implements OnInit {
 
   }
 
+  block() {
+    let createBlockDTO: CreateBlockDTO = {
+      initiatorId: this.storageService.getIdFromToken(),
+      receiverId: this.userId
+    }
+    this.connectionService.createBlock(createBlockDTO).subscribe(_data => {
+      this.connectionStatus = "BLOCKED"
+    })
+  }
+
 
   follow() {
     if (this.connectionStatus)
       return
-    let createConnectionDTO : CreateConnectionDTO = {
+    let createConnectionDTO: CreateConnectionDTO = {
       initiatorId: this.storageService.getIdFromToken(),
       receiverId: this.userId
     }
-    this.connectionService.createConnection(createConnectionDTO).subscribe(_data => {
-      this.connectionStatus = "CONNECTED"
+    this.connectionService.createConnection(createConnectionDTO).subscribe((data:any) => {
+      this.connectionStatus = data.connectionStatus
     })
   }
 
@@ -393,7 +452,7 @@ export class UserPageComponent implements OnInit {
     if (this.newJobAdForm.invalid)
       return
 
-    let createJobAdDTO : CreateJobDTO = {
+    let createJobAdDTO: CreateJobDTO = {
       title: this.newJobAdForm.get('title')?.value,
       position: this.newJobAdForm.get('position')?.value,
       description: this.newJobAdForm.get('description')?.value,
@@ -411,7 +470,7 @@ export class UserPageComponent implements OnInit {
 
 
   generateAPIToken() {
-    this.authenticationService.generateAPIToken(this.userId).subscribe((data:any) => {
+    this.authenticationService.generateAPIToken(this.userId).subscribe((data: any) => {
       this.apiTokenForm.get('token')?.setValue(data.token)
     })
   }

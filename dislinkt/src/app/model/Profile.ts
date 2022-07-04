@@ -13,4 +13,5 @@ export interface Profile {
   biography: string;
   experiences: Experience[];
   interests: Interest[];
+  profilePublic: boolean;
 }

@@ -10,9 +10,12 @@
               </app-profile-picture>
             </div>
             <div class="connection-container" (click)="follow()"
-              [ngStyle]="{ cursor: connectionStatus === '' ? 'pointer' : '' }" *ngIf="!isProfileOwner()">
-              <span *ngIf="connectionStatus === 'CONNECTED'">Following</span>
-              <span *ngIf="connectionStatus === ''">Follow</span>
+              [ngStyle]="{ cursor: connectionStatus === '' ? 'pointer' : '', 'background-color': connectionStatus == 'BLOCKED' ? 'red' : '#057642' }" *ngIf="!isProfileOwner()">
+              <span>{{getConnectionStatusText()}}</span>
+            </div>
+            <div class="block-container" *ngIf="!isProfileOwner() && connectionStatus !== 'BLOCKED'" (click)="block()"
+              [ngStyle]="{ cursor: 'pointer' }">
+              <span>Block</span>
             </div>
 
             <hr class="half-margins" />
@@ -66,6 +69,9 @@
             </li>
             <li *ngIf="isProfileOwner()" [ngClass]="tab === 4 ? 'active' : ''">
               <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 4" data-toggle="tab">Agent API Token</a>
+            </li>
+            <li *ngIf="isProfileOwner()" [ngClass]="tab === 5 ? 'active' : ''">
+              <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 5" data-toggle="tab">Connection Requests</a>
             </li>
           </ul>
 
@@ -207,7 +213,7 @@
                     <label class="col-xs-3 control-label">Public Profile</label>
                     <div class="col-md-8">
                       <label class="checkbox">
-                        <input type="checkbox" value="1" checked="checked" id="profilePublic"
+                        <input type="checkbox" value="1" checked="checked" id="profilePublic" formControlName="profilePublic"
                           [attr.disabled]="!isProfileOwner() ? '' : null" />
                         <em></em>
                       </label>
@@ -424,6 +430,12 @@
                   </div>
                 </div>
               </form>
+            </div>
+            <div id="connection-requests" [ngClass]="tab === 5 ? 'tab-pane active' : 'tab-pane'">
+                <h4>Connection Requests</h4>
+                <div *ngFor="let pendingProfile of pendingProfiles">
+                  <app-pending-profile-card [userId]="pendingProfile.userId" [profile]="pendingProfile" (response)="respondToPending($event)"></app-pending-profile-card>
+                </div>
             </div>
           </div>
         </div>
