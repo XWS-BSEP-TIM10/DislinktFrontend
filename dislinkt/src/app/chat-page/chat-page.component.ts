@@ -24,7 +24,7 @@ export class ChatPageComponent implements OnInit {
   ngOnInit(): void {
     this.connectionService.getMutuals(this.currentUserId).subscribe((data:any) => {
       this.mutuals = data
-      console.log(this.mutuals)
+      if(this.mutuals.length!=0)this.selectedPerson = this.mutuals[0]
     })
     this.connect();
   }

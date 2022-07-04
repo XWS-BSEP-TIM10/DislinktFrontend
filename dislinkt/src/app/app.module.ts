@@ -66,7 +66,9 @@ import { ChatPageComponent } from './chat-page/chat-page.component';
         LinkyModule,
         NgbModule,
     ],
-    providers: [{
+    
+    providers: [ChatPageComponent,
+        {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptorService,
             multi: true
