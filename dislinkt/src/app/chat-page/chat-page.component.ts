@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Stomp } from '@stomp/stompjs';
-import {SockJS} from 'sockjs-client'
+//import {SockJS} from 'sockjs-client'
+import * as SockJS from 'sockjs-client';
 import { StorageService } from '../service/storage.service';
 import { config } from 'src/shared';
 declare var require: any;
@@ -23,6 +24,7 @@ export class ChatPageComponent implements OnInit {
     //const Stomp = require("stompjs");
     //var SockJS = require("sockjs-client");
     this.stompClient = Stomp.over(new SockJS("https://localhost:8678/ws"));
+    //const socket = new SockJS('http://localhost:8678/ws')
     this.stompClient.connect({}, this.onConnected, this.onError);
   };
   
