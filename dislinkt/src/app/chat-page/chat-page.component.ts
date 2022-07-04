@@ -3,6 +3,8 @@ import { Stomp } from '@stomp/stompjs';
 //import {SockJS} from 'sockjs-client'
 import * as SockJS from 'sockjs-client';
 import { StorageService } from '../service/storage.service';
+import { ConnectionService } from '../service/connection.service';
+import { MessagingService } from '../service/messaging.service';
 import { config } from 'src/shared';
 declare var require: any;
 @Component({
@@ -15,9 +17,20 @@ export class ChatPageComponent implements OnInit {
   stompClient: any = null
   currentUserId: string = this.storageService.getIdFromToken()
   newMessages: any = []
-  constructor(private storageService: StorageService) { }
+  mutuals: any = []
+  msg: string = ""
+  selectedPerson: any = {}
+  constructor(private storageService: StorageService, private connectionService : ConnectionService, private messagingService: MessagingService ) { }
   ngOnInit(): void {
+    this.connectionService.getMutuals(this.currentUserId).subscribe((data:any) => {
+      this.mutuals = data
+      console.log(this.mutuals)
+    })
     this.connect();
+  }
+
+  ngOnDestroy(): void{
+    this.selectedPerson = null
   }
 
    connect = () => {
@@ -43,6 +56,7 @@ export class ChatPageComponent implements OnInit {
 
    onMessageReceived = (msg: { body: string; }) => {
     const notification = JSON.parse(msg.body);
+    console.log(notification)
     /*const active = JSON.parse(sessionStorage.getItem("recoil-persist"))
       .chatActiveContact;
 
@@ -57,17 +71,22 @@ export class ChatPageComponent implements OnInit {
       message.info("Received a new message from " + notification.senderName);
     }
     loadContacts();*/
-    alert("Poruka")
+    if (this.selectedPerson != null && this.selectedPerson.userId === notification.senderId) {
+        this.showChat(this.selectedPerson)
+
+      }
+     else {
+      alert("Received a new message from " + notification.senderName);
+    }
   };
 
-   sendMessage = (msg: string) => {
-    if (msg.trim() !== "") {
+   sendMessage = () => {
+    if (this.msg.trim() !== "") {
       const message = {
         senderId: this.currentUserId,
-        recipientId: "2",
-        senderName: "Posiljalac",
-        recipientName: "Primalac",
-        content: msg,
+        recipientId: this.selectedPerson.userId,
+        recipientName: this.selectedPerson.firstName + " "+ this.selectedPerson.lastName,
+        content: this.msg,
         timestamp: new Date(),
       };
       console.log(this.stompClient)
@@ -76,7 +95,21 @@ export class ChatPageComponent implements OnInit {
     
     }
   };
-  
+  getInitials(firstName: string, lastName: string) {
+    return firstName.charAt(0) + lastName.charAt(0)
+  }
+
+  showChat(person: any){
+    this.messagingService.getMessagesWithUser(this.currentUserId,person.userId).subscribe((data:any) => {
+      this.newMessages = data
+      this.selectedPerson = person
+      console.log(this.newMessages)
+    })
+  }
+
+  getInitialsFromOneWord(FullName: string) {
+    return FullName.split(' ')[0].charAt(0) + FullName.split(' ')[1].charAt(0)
+  }
 
 }
 

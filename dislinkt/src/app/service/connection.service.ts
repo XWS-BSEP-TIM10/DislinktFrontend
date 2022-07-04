@@ -20,4 +20,7 @@ export class ConnectionService {
     return this.http.post(`${config.baseUrl}${this.connectionsUrl}`, createConnectionDTO)
   }
 
+  getMutuals(initiatorId: string) {
+    return this.http.get(`${config.baseUrl}${this.connectionsUrl}/mutuals/${initiatorId}`)
+  }
 }
