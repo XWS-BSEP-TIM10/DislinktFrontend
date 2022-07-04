@@ -35,6 +35,10 @@ import { isWhitespace } from '../validators/isWhitespace-validator'
 import * as zxcvbn from 'zxcvbn'
 import { Change2FAStatusDTO } from '../dto/Change2FAStatusDTO';
 import { phoneNumberValidator } from '../validators/phoneNumber-validator'
+import { CreateBlockDTO } from '../dto/CreateBlockDTO';
+import { PendingProfile } from '../model/PendingProfile';
+import { ConnectionPendingResponseDTO } from '../dto/ConnectionPendingResponseDTO';
+import { ConnectionRequestDTO } from '../dto/ConnectionRequestDTO';
 
 
 @Component({
@@ -119,6 +123,7 @@ export class UserPageComponent implements OnInit {
   })
 
 
+  pendingProfiles!: PendingProfile[]
   profile!: Profile
   oldPasswordError = "";
   passwordError = "";
@@ -132,6 +137,11 @@ export class UserPageComponent implements OnInit {
     if (this.userId !== this.storageService.getIdFromToken()) {
       this.connectionService.getConnectionStatus(this.storageService.getIdFromToken(), this.userId).subscribe((data: any) => {
         this.connectionStatus = data.connectionStatus
+      })
+    }
+    if (this.isProfileOwner()) {
+      this.connectionService.getPendingConnections(this.userId).subscribe((data:any) => {
+        this.pendingProfiles = data
       })
     }
     this.jobAdService.getJobAds(this.userId).subscribe((data: any) => {
@@ -312,6 +322,34 @@ export class UserPageComponent implements OnInit {
     });
   }
 
+
+  getConnectionStatusText() {
+    if (this.connectionStatus == '') {
+      return 'Follow'
+    } else if (this.connectionStatus == 'CONNECTED') {
+      return 'Following'
+    }
+    else if (this.connectionStatus == 'BLOCKED') {
+      return 'Blocked'
+    }
+    else if (this.connectionStatus == 'PENDING') {
+      return 'Pending'
+    }
+    return ''
+  }
+
+  respondToPending(connectionPendingResponseDTO : ConnectionPendingResponseDTO) {
+    let response : ConnectionRequestDTO = {
+      initiatorId: connectionPendingResponseDTO.userId,
+      receiverId: this.storageService.getIdFromToken()
+
+    }
+    this.connectionService.respondToConnectionRequest(response, connectionPendingResponseDTO.approve).subscribe((data:any) => {
+      this.pendingProfiles = this.pendingProfiles.filter(el => el.userId !== connectionPendingResponseDTO.userId)
+    })
+  }
+
+
   addExperienceModal() {
     const modalRef = this.modalService.open(ExperienceModalComponent, { centered: true });
     modalRef.result.then((result: CreateExperienceDTO) => {
@@ -375,6 +413,16 @@ export class UserPageComponent implements OnInit {
 
   }
 
+  block() {
+    let createBlockDTO: CreateBlockDTO = {
+      initiatorId: this.storageService.getIdFromToken(),
+      receiverId: this.userId
+    }
+    this.connectionService.createBlock(createBlockDTO).subscribe(_data => {
+      this.connectionStatus = "BLOCKED"
+    })
+  }
+
 
   follow() {
     if (this.connectionStatus)
@@ -383,8 +431,8 @@ export class UserPageComponent implements OnInit {
       initiatorId: this.storageService.getIdFromToken(),
       receiverId: this.userId
     }
-    this.connectionService.createConnection(createConnectionDTO).subscribe(_data => {
-      this.connectionStatus = "CONNECTED"
+    this.connectionService.createConnection(createConnectionDTO).subscribe((data:any) => {
+      this.connectionStatus = data.connectionStatus
     })
   }
 
