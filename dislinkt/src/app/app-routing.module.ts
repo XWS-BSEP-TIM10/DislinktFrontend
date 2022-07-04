@@ -13,6 +13,7 @@ import { AuthenticationGuard } from './auth-guards/authentication.guard';
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { AdminGuard } from './auth-guards/admin.guard';
 import { JobAdPageComponent } from './job-ad-page/job-ad-page.component';
+import { ChatPageComponent } from './chat-page/chat-page.component';
 
 const routes: Routes = [{path:'', component: FrontPageComponentComponent},
                         {path:'login', component:LoginComponent},
@@ -24,7 +25,8 @@ const routes: Routes = [{path:'', component: FrontPageComponentComponent},
                         {path: 'confirm/:token', component: AccountActivatedComponent},
                         {path: 'recover/:token', component: AccountRecoveryComponent},
                         {path: 'job-ads', component: JobAdPageComponent},
-                        {path: 'login/passwordless/:token', component: PasswordlessLoginComponent}
+                        {path: 'login/passwordless/:token', component: PasswordlessLoginComponent},
+                        {path: 'chat-page', component: ChatPageComponent}
                       ];
 
 @NgModule({

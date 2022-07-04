@@ -28,6 +28,7 @@ import { JobAdCardComponent } from './job-ad-card/job-ad-card.component';
 import { JobAdPageComponent } from './job-ad-page/job-ad-page.component';
 import { ProfileCardComponent } from './profile-card/profile-card.component';
 import { PendingProfileCardComponent } from './pending-profile-card/pending-profile-card.component';
+import { ChatPageComponent } from './chat-page/chat-page.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { PendingProfileCardComponent } from './pending-profile-card/pending-prof
         JobAdCardComponent,
         JobAdPageComponent,
         ProfileCardComponent,
-        PendingProfileCardComponent
+        PendingProfileCardComponent,
+        ChatPageComponent
     ],
     imports: [
         BrowserModule,
@@ -64,7 +66,9 @@ import { PendingProfileCardComponent } from './pending-profile-card/pending-prof
         LinkyModule,
         NgbModule,
     ],
-    providers: [{
+    
+    providers: [ChatPageComponent,
+        {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptorService,
             multi: true
