@@ -131,6 +131,7 @@ export class UserPageComponent implements OnInit {
   passwordStrength = "";
   strengthClass = "";
   isSubmitted = false;
+  profiles!: Profile[]
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('id') || "";
@@ -159,8 +160,9 @@ export class UserPageComponent implements OnInit {
     })
     this.profileService.getProfile(this.userId).subscribe((data: any) => {
       this.setUserData(data);
-
     })
+    this.getRecommendations();
+
   }
 
   setUserData(data: any) {
@@ -183,6 +185,12 @@ export class UserPageComponent implements OnInit {
     if (!files || files?.length === 0)
       return
     this.file = files[0]
+  }
+
+  getRecommendations(){
+    this.connectionService.getRecommendations(this.storageService.getIdFromToken()).subscribe((data:any) => {
+      this.profiles = data
+    })
   }
 
   isProfileOwner() {

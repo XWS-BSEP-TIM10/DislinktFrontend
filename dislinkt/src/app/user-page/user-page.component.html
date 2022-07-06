@@ -73,6 +73,9 @@
             <li *ngIf="isProfileOwner()" [ngClass]="tab === 5 ? 'active' : ''">
               <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 5" data-toggle="tab">Connection Requests</a>
             </li>
+            <li *ngIf="isProfileOwner()" [ngClass]="tab === 6 ? 'active' : ''">
+              <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 6" data-toggle="tab">Recommendations</a>
+            </li>
           </ul>
 
           <div class="tab-content">
@@ -436,6 +439,13 @@
                 <div *ngFor="let pendingProfile of pendingProfiles">
                   <app-pending-profile-card [userId]="pendingProfile.userId" [profile]="pendingProfile" (response)="respondToPending($event)"></app-pending-profile-card>
                 </div>
+            </div>
+            <br/>
+            <div id="overview" [ngClass]="tab === 6 ? 'tab-pane active' : 'tab-pane'">
+              <div class="profiles-container" *ngFor="let profile of profiles">
+                <app-profile-card [profile]="profile" [userId]="profile.id"></app-profile-card>
+                <br/>
+              </div>
             </div>
           </div>
         </div>

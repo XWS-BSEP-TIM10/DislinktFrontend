@@ -34,4 +34,7 @@ export class ConnectionService {
   getMutuals(initiatorId: string) {
     return this.http.get(`${config.baseUrl}${this.connectionsUrl}/mutuals/${initiatorId}`)
   }
+  getRecommendations(initiatorId: string) {
+    return this.http.get(`${config.baseUrl}${this.connectionsUrl}/recommendation/${initiatorId}`)
+  }
 }
