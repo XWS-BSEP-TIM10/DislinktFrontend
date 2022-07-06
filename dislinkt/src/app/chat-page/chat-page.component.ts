@@ -22,11 +22,11 @@ export class ChatPageComponent implements OnInit {
   msg: string = ""
   newMessages: any = null
   
-  constructor(private storageService: StorageService, private connectionService : ConnectionService, private messagingService: MessagingService, private appComponent:AppComponent, private messageTextService: MessageTextService ) { }
+  constructor(private storageService: StorageService, private connectionService : ConnectionService, private messagingService: MessagingService, public appComponent:AppComponent, private messageTextService: MessageTextService ) { }
   ngOnInit(): void {
     this.connectionService.getMutuals(this.currentUserId).subscribe((data:any) => {
       this.mutuals = data
-      if(this.mutuals.length!=0)this.appComponent.selectedPerson = this.mutuals[0]
+     // if(this.mutuals.length!=0)this.appComponent.selectedPerson = this.mutuals[0]
     })
 
     this.messageTextService.currentValue.subscribe(value =>{
@@ -40,6 +40,7 @@ export class ChatPageComponent implements OnInit {
 
    sendMessage = () => {
     this.appComponent.sendMessage(this.msg)
+    this.msg = ''
   };
   getInitials(firstName: string, lastName: string) {
     return firstName.charAt(0) + lastName.charAt(0)

@@ -45,7 +45,9 @@ export class LoginComponent implements OnInit {
     this.authService.login(loginDTO).subscribe((data: any) => {
       this.storageService.storeTokenData(data.jwt, data.refreshToken);
       if (this.storageService.getRoleFromToken() == 'ROLE_USER') {
-          this.router.navigateByUrl('/home')
+          this.router.navigateByUrl('/home') .then(() => {
+            window.location.reload();
+          });
       } else {
           this.router.navigateByUrl('/')
       }

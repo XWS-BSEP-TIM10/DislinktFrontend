@@ -16,7 +16,7 @@ export class AppComponent implements OnInit{
   currentUserId: string = this.storageService.getIdFromToken()
   constructor(private storageService: StorageService, private messagingService: MessagingService, private messageTextService: MessageTextService) { }
   title = 'dislinkt';
-  selectedPerson: any = {}
+  selectedPerson: any = null
 
   ngOnInit(): void {
     this.connect();
@@ -69,7 +69,7 @@ export class AppComponent implements OnInit{
 
       }
      else {
-      alert("You've received  a new message!");
+      alert("You've received a new message from "+ notification.senderName+"!");
       console.log(notification)
     }
   };
@@ -92,7 +92,7 @@ export class AppComponent implements OnInit{
     }
     loadContacts();*/
       if(notification.id != this.currentUserId)
-      alert("One of the people you follow has created a new post.");
+      alert(notification.senderName+" has created a new post.");
   };
 
   showChat(person: any){
