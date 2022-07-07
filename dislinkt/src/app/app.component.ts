@@ -5,6 +5,7 @@ import * as SockJS from 'sockjs-client';
 import { StorageService } from './service/storage.service';
 import { MessagingService } from './service/messaging.service';
 import { MessageTextService } from './service/message-text.service';
+import {NotificationService} from './service/notification.service'
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ import { MessageTextService } from './service/message-text.service';
 export class AppComponent implements OnInit{
   stompClient: any = null
   currentUserId: string = this.storageService.getIdFromToken()
-  constructor(private storageService: StorageService, private messagingService: MessagingService, private messageTextService: MessageTextService) { }
+  constructor(private storageService: StorageService, private messagingService: MessagingService, private messageTextService: MessageTextService, private notificationService:NotificationService) { }
   title = 'dislinkt';
   selectedPerson: any = null
 
@@ -50,20 +51,8 @@ export class AppComponent implements OnInit{
    onMessageReceived = (msg: { body: string; }) => {
     const notification = JSON.parse(msg.body);
     console.log(notification)
-    /*const active = JSON.parse(sessionStorage.getItem("recoil-persist"))
-      .chatActiveContact;
-
-    if (active.id === notification.senderId) {
-      findChatMessage(notification.id).then((message) => {
-        const newMessages = JSON.parse(sessionStorage.getItem("recoil-persist"))
-          .chatMessages;
-        newMessages.push(message);
-        setMessages(newMessages);
-      });
-    } else {
-      message.info("Received a new message from " + notification.senderName);
-    }
-    loadContacts();*/
+    
+    this.notificationService.addValue();
     if (this.selectedPerson != null && this.selectedPerson.userId === notification.senderId) {
       this.showChat(this.selectedPerson)
 
@@ -77,20 +66,7 @@ export class AppComponent implements OnInit{
   onMessageReceivedPost= (msg: { body: string; }) => {
     const notification = JSON.parse(msg.body);
     console.log(notification)
-    /*const active = JSON.parse(sessionStorage.getItem("recoil-persist"))
-      .chatActiveContact;
-
-    if (active.id === notification.senderId) {
-      findChatMessage(notification.id).then((message) => {
-        const newMessages = JSON.parse(sessionStorage.getItem("recoil-persist"))
-          .chatMessages;
-        newMessages.push(message);
-        setMessages(newMessages);
-      });
-    } else {
-      message.info("Received a new message from " + notification.senderName);
-    }
-    loadContacts();*/
+    this.notificationService.addValue();
       if(notification.id != this.currentUserId)
       alert(notification.senderName+" has created a new post.");
   };
