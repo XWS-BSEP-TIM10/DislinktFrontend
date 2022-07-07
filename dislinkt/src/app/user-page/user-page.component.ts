@@ -55,6 +55,7 @@ export class UserPageComponent implements OnInit {
   file!: File
   connectionStatus: string = ""
   jobAds!: JobAd[]
+  jobRecommendations!: JobAd[]
 
   postsAndJobAds: any = []
 
@@ -190,6 +191,10 @@ export class UserPageComponent implements OnInit {
   getRecommendations(){
     this.connectionService.getRecommendations(this.storageService.getIdFromToken()).subscribe((data:any) => {
       this.profiles = data
+    })
+    this.jobAdService.getRecommendationJobAds(this.storageService.getIdFromToken()).subscribe((data:any) => {
+      this.jobRecommendations = data
+      console.log(this.jobRecommendations)
     })
   }
 

@@ -74,7 +74,10 @@
               <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 5" data-toggle="tab">Connection Requests</a>
             </li>
             <li *ngIf="isProfileOwner()" [ngClass]="tab === 6 ? 'active' : ''">
-              <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 6" data-toggle="tab">Recommendations</a>
+              <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 6" data-toggle="tab">Connections recommendations</a>
+            </li>
+            <li *ngIf="isProfileOwner()" [ngClass]="tab === 7 ? 'active' : ''">
+              <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 7" data-toggle="tab">Jobs recommendations</a>
             </li>
           </ul>
 
@@ -445,6 +448,13 @@
               <div class="profiles-container" *ngFor="let profile of profiles">
                 <app-profile-card [profile]="profile" [userId]="profile.id"></app-profile-card>
                 <br/>
+              </div>
+            </div>
+            <div id="overview" [ngClass]="tab === 7 ? 'tab-pane active' : 'tab-pane'">
+              <div>
+                <div *ngFor="let item of jobRecommendations">
+                  <app-job-ad-card [jobAd]="item" *ngIf="item.company"></app-job-ad-card>
+                </div>
               </div>
             </div>
           </div>

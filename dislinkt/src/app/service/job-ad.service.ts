@@ -23,4 +23,8 @@ export class JobAdService {
   getAllJobAds(search: string) {
     return this.http.get(`${config.baseUrl}${this.jobAdUrl}`, {params:{search:search}})
   }
+
+  getRecommendationJobAds(userId: string) {
+    return this.http.get(`${config.baseUrl}${this.jobAdUrl}/recommendations/${userId}`)
+  }
 }
