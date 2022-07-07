@@ -8,9 +8,16 @@
         <ul>
           <li><a class="nav-link scrollto " routerLink="" style="cursor: pointer;">Main Page</a></li>
           <li><a class="nav-link scrollto " routerLink="/job-ads" style="cursor: pointer;">Job Ads</a></li>
-          <li><a class="nav-link scrollto " routerLink="/chat-page" style="cursor: pointer;">Chat</a></li>
+          <li><a class="nav-link scrollto " routerLink="/chat-page" *ngIf="isLoggedIn()" style="cursor: pointer;">Chat</a></li>
           <li><a class="nav-link scrollto " routerLink="/home" *ngIf="isLoggedIn()" style="cursor: pointer;">Home</a></li>
           <li><a class="nav-link scrollto" (click)="goToUsersPage()" *ngIf="isLoggedIn()" style="cursor: pointer;">Profile</a></li>
+          <li *ngIf="isLoggedIn()">
+        <!--    <a style="zoom:1.7" class="btn-notification"><i class="fa fa-bell"></i></a><span class=" counter counter-lg">10</span>-->
+        <a (click)="showNotifications()" class="notification">
+          <span><i style="zoom:2" class="fa fa-bell"></i></span>
+          <span class="badge">{{UnreadNotifications}}</span>
+        </a>
+      </li>
           <div class="vl"></div>
           <li><a class="nav-link scrollto" (click)="registration()" *ngIf="!isLoggedIn()" style="cursor: pointer;">Join now</a></li>
           <li><a class="nav-link scrollto " (click)="login()" *ngIf="!isLoggedIn()" style="cursor: pointer;">Sign in</a></li>
@@ -20,4 +27,11 @@
       </nav><!-- .navbar -->
 
     </div>
+    <div class="notificationDiv" *ngIf="showNotificationsDiv">
+      <ul class="list-group">
+        <li class="list-group-item" [class]="notif.read? 'readNotification' : 'unreadNotification'" *ngFor="let notif of notifications">{{notif.text}}</li>
+      </ul>
+    </div>
   </header><!-- End Header -->
+
+

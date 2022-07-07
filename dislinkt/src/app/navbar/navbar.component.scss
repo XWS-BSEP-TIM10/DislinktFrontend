@@ -21,3 +21,54 @@
   bottom: 0.2em;
   float: right;
 }
+
+.counter.counter-lg {
+  position: relative;
+  top:-2em
+}
+
+.btn-notification{
+  position: relative;
+  top:0.3em
+}
+
+.notification {
+  background-color: white;
+  color: black;
+  text-decoration: none;
+  padding: 15px 26px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+  margin-left:1em
+}
+
+.notification:hover {
+  background: white;
+  cursor: pointer;
+}
+
+.notification .badge {
+  position: absolute;
+  top: 0px;
+  right: 16px;
+  padding: 3px 6px;
+  border-radius: 50%;
+  background-color: lightcoral;
+  color: black;
+  zoom: 1.0
+}
+
+.notificationDiv{
+  position: absolute;
+  right: 21%;
+  top:60%
+}
+
+.readNotification{
+  background-color: white;
+}
+
+.unreadNotification{
+  background-color: rgb(228, 255, 255);
+}
