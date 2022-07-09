@@ -7,13 +7,13 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a class="nav-link scrollto " routerLink="" style="cursor: pointer;">Main Page</a></li>
-          <li><a class="nav-link scrollto " routerLink="/job-ads" style="cursor: pointer;">Job Ads</a></li>
-          <li><a class="nav-link scrollto " routerLink="/chat-page" *ngIf="isLoggedIn()" style="cursor: pointer;">Chat</a></li>
-          <li><a class="nav-link scrollto " routerLink="/home" *ngIf="isLoggedIn()" style="cursor: pointer;">Home</a></li>
-          <li><a class="nav-link scrollto" (click)="goToUsersPage()" *ngIf="isLoggedIn()" style="cursor: pointer;">Profile</a></li>
+          <li><a class="nav-link scrollto " routerLink="/job-ads" style="cursor: pointer;" *ngIf="!isLoggedInAdmin()">Job Ads</a></li>
+          <li><a class="nav-link scrollto " routerLink="/chat-page" *ngIf="isLoggedIn() && !isLoggedInAdmin()" style="cursor: pointer;">Chat</a></li>
+          <li><a class="nav-link scrollto " routerLink="/home" *ngIf="isLoggedIn() && !isLoggedInAdmin()" style="cursor: pointer;" >Home</a></li>
+          <li><a class="nav-link scrollto" (click)="goToUsersPage()" *ngIf="isLoggedIn() && !isLoggedInAdmin()" style="cursor: pointer;">Profile</a></li>
           <li *ngIf="isLoggedIn()">
         <!--    <a style="zoom:1.7" class="btn-notification"><i class="fa fa-bell"></i></a><span class=" counter counter-lg">10</span>-->
-        <a (click)="showNotifications()" class="notification">
+        <a (click)="showNotifications()" class="notification" *ngIf="isLoggedIn() && !isLoggedInAdmin()">
           <span><i style="zoom:2" class="fa fa-bell"></i></span>
           <span class="badge">{{UnreadNotifications}}</span>
         </a>

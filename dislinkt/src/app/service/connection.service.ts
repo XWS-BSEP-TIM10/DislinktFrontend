@@ -37,4 +37,8 @@ export class ConnectionService {
   getRecommendations(initiatorId: string) {
     return this.http.get(`${config.baseUrl}${this.connectionsUrl}/recommendation/${initiatorId}`)
   }
+
+  getEvents() {
+    return this.http.get(`${config.baseUrl}/events`)
+  }
 }

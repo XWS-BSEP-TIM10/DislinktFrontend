@@ -73,7 +73,9 @@ export class AuthenticationService {
     return this.http.put(`${config.baseUrl}/auth/2fa`, change2FAStatusDTO)
   }
 
-
+  getEvents() {
+    return this.http.get(`${config.baseUrl}/auth/events`)
+  }
 
   refreshToken(refreshToken: any){
     const headers= new HttpHeaders()

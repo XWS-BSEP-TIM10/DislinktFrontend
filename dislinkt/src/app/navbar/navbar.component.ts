@@ -35,6 +35,10 @@ export class NavbarComponent implements OnInit {
     return this.storageService.getRoleFromToken() !== ""
   }
 
+  isLoggedInAdmin() {
+    return this.storageService.getRoleFromToken() === "ROLE_ADMIN"
+  }
+
 
   goToUsersPage() {
     let userId = this.storageService.getIdFromToken()

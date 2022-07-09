@@ -1,1 +1,113 @@
-<p>admin-page works!</p>
+<table style="width: 100%;">
+
+    <thead>
+        <th></th>
+    </thead>
+
+    <tbody>
+
+        <tr>
+
+            <td style="width: 50%;">
+                <table class="table" style="width: 80%; margin: 5em">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Authentication microservice</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let authEvent of authEvents">
+                            <th>{{authEvent}}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+
+            <td>
+                <table class="table" style="width: 80%; margin: 5em">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Profile microservice</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let profileEvent of profileEvents">
+                            <th>{{profileEvent}}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td style="width: 50%;">
+                <table class="table" style="width: 80%; margin: 5em">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Connections microservice</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let connectionsEvent of connectionsEvents">
+                            <th>{{connectionsEvent}}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+
+            <td>
+                <table class="table" style="width: 80%; margin: 5em">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Post microservice</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let postEvent of postEvents">
+                            <th>{{postEvent}}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td style="width: 50%;">
+                <table class="table" style="width: 80%; margin: 5em">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Job recommendations microservice</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let jobEvent of jobEvents">
+                            <th>{{jobEvent}}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+
+            <td>
+                <table class="table" style="width: 80%; margin: 5em">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Messaging microservice</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let messagingEvent of messagingEvents">
+                            <th>{{messagingEvent}}</th>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>

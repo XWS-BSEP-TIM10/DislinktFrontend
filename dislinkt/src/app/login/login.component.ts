@@ -48,8 +48,8 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('/home') .then(() => {
             window.location.reload();
           });
-      } else {
-          this.router.navigateByUrl('/')
+      } else if (this.storageService.getRoleFromToken() == 'ROLE_ADMIN'){
+          this.router.navigateByUrl('/admin')
       }
     }, (err) => {
       if(err.status == 300) {

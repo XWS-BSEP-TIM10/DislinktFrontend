@@ -27,4 +27,8 @@ export class JobAdService {
   getRecommendationJobAds(userId: string) {
     return this.http.get(`${config.baseUrl}${this.jobAdUrl}/recommendations/${userId}`)
   }
+
+  getEvents() {
+    return this.http.get(`${config.baseUrl}/job_recommendation/events`)
+  }
 }
