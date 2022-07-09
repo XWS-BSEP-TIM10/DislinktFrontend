@@ -55,7 +55,7 @@ export class UserPageComponent implements OnInit {
   file!: File
   connectionStatus: string = ""
   jobAds!: JobAd[]
-  jobRecommendations!: JobAd[]
+  jobRecommendations!: JobAd[] 
 
   postsAndJobAds: any = []
 
@@ -89,6 +89,9 @@ export class UserPageComponent implements OnInit {
     username: new UntypedFormControl('', Validators.required),
     biography: new UntypedFormControl('', Validators.required),
     profilePublic: new UntypedFormControl(true, Validators.required),
+    muteMessageNotifications: new UntypedFormControl(true),
+    mutePostNotifications: new UntypedFormControl(true),
+    muteConnectionsNotifications: new UntypedFormControl(true)
   })
 
   get fe() { return this.profileForm.controls; }
@@ -177,6 +180,9 @@ export class UserPageComponent implements OnInit {
     this.profileForm.get('username')?.setValue(this.profile.username);
     this.profileForm.get('biography')?.setValue(this.profile.biography);
     this.profileForm.get('profilePublic')?.setValue(this.profile.profilePublic);
+    this.profileForm.get('muteConnectionsNotifications')?.setValue(this.profile.muteConnectionsNotifications);
+    this.profileForm.get('mutePostNotifications')?.setValue(this.profile.mutePostNotifications);
+    this.profileForm.get('muteMessageNotifications')?.setValue(this.profile.muteMessageNotifications);
   }
 
   fileChange(event: Event) {
@@ -215,7 +221,10 @@ export class UserPageComponent implements OnInit {
       dateOfBirth: moment(this.profileForm.get('dateOfBirth')?.value, 'YYYY-MM-DD').format('DD/MM/YYYY'),
       username: this.profileForm.get('username')?.value,
       biography: this.profileForm.get('biography')?.value,
-      profilePublic: this.profileForm.get('profilePublic')?.value
+      profilePublic: this.profileForm.get('profilePublic')?.value,
+      muteMessageNotifications: this.profileForm.get('muteMessageNotifications')?.value,
+      muteConnectionsNotifications: this.profileForm.get('muteConnectionsNotifications')?.value,
+      mutePostNotifications: this.profileForm.get('mutePostNotifications')?.value,
     }
     this.profileService.putProfile(profileDTO).subscribe((data: any) => {
       this.profile.biography = data.biography
@@ -227,6 +236,9 @@ export class UserPageComponent implements OnInit {
       this.profile.phoneNumber = data.phoneNumber
       this.profile.profilePublic = data.profilePublic
       this.profile.username = data.username
+      this.profile.muteMessageNotifications = data.muteMessageNotifications
+      this.profile.mutePostNotifications = data.mutePostNotifications
+      this.profile.muteConnectionsNotifications = data.muteConnectionsNotifications
     })
   }
 

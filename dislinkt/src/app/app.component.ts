@@ -42,6 +42,10 @@ export class AppComponent implements OnInit{
       "/user/" + this.currentUserId + "/queue/posts",
       this.onMessageReceivedPost
     );
+    this.stompClient.subscribe(
+      "/user/" + this.currentUserId + "/queue/connections",
+      this.onMessageReceivedConnection
+    );
   };
 
    onError = (err: any) => {
@@ -69,6 +73,17 @@ export class AppComponent implements OnInit{
     this.notificationService.addValue();
       if(notification.id != this.currentUserId)
       alert(notification.senderName+" has created a new post.");
+  };
+
+  onMessageReceivedConnection= (msg: { body: string; }) => {
+    const notification = JSON.parse(msg.body);
+    console.log(notification)
+    this.notificationService.addValue();
+      if(notification.id === "connect"){
+        alert(notification.senderName+" wants to connect.");
+      }else if(notification.id === "approve"){
+        alert(notification.senderName+" accepted connection reques.");
+      }
   };
 
   showChat(person: any){
