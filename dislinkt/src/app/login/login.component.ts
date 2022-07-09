@@ -45,9 +45,11 @@ export class LoginComponent implements OnInit {
     this.authService.login(loginDTO).subscribe((data: any) => {
       this.storageService.storeTokenData(data.jwt, data.refreshToken);
       if (this.storageService.getRoleFromToken() == 'ROLE_USER') {
-          this.router.navigateByUrl('/home')
-      } else {
-          this.router.navigateByUrl('/')
+          this.router.navigateByUrl('/home') .then(() => {
+            window.location.reload();
+          });
+      } else if (this.storageService.getRoleFromToken() == 'ROLE_ADMIN'){
+          this.router.navigateByUrl('/admin')
       }
     }, (err) => {
       if(err.status == 300) {

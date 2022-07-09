@@ -9,4 +9,7 @@ export interface UpdateProfileDTO {
   username: string;
   biography: string;
   profilePublic: boolean;
+  mutePostNotifications: boolean;
+  muteConnectionsNotifications: boolean;
+  muteMessageNotifications: boolean;
 }

@@ -67,7 +67,7 @@ import { ChatPageComponent } from './chat-page/chat-page.component';
         NgbModule,
     ],
     
-    providers: [ChatPageComponent,
+    providers: [AppComponent,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptorService,

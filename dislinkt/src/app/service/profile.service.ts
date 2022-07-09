@@ -25,4 +25,8 @@ export class ProfileService {
     return this.http.get(`${config.baseUrl}${this.profileUrl}/find`, {params:{first_name:firstName, last_name:lastName}})
   }
 
+  getEvents() {
+    return this.http.get(`${config.baseUrl}${this.profileUrl}/events`)
+  }
+
 }

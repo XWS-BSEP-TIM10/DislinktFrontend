@@ -32,4 +32,8 @@ export class PostService {
   getFeed(id: string) {
     return this.http.get(`${config.baseUrl}/users/${id}/feed`)
   }
+  
+  getEvents() {
+    return this.http.get(`${config.baseUrl}${this.postUrl}/events`)
+  }
 }

@@ -73,6 +73,12 @@
             <li *ngIf="isProfileOwner()" [ngClass]="tab === 5 ? 'active' : ''">
               <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 5" data-toggle="tab">Connection Requests</a>
             </li>
+            <li *ngIf="isProfileOwner()" [ngClass]="tab === 6 ? 'active' : ''">
+              <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 6" data-toggle="tab">Connections recommendations</a>
+            </li>
+            <li *ngIf="isProfileOwner()" [ngClass]="tab === 7 ? 'active' : ''">
+              <a [ngStyle]="{ cursor: 'pointer' }" (click)="tab = 7" data-toggle="tab">Jobs recommendations</a>
+            </li>
           </ul>
 
           <div class="tab-content">
@@ -214,6 +220,39 @@
                     <div class="col-md-8">
                       <label class="checkbox">
                         <input type="checkbox" value="1" checked="checked" id="profilePublic" formControlName="profilePublic"
+                          [attr.disabled]="!isProfileOwner() ? '' : null" />
+                        <em></em>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-xs-3 control-label">Mute message notifications</label>
+                    <div class="col-md-8">
+                      <label class="checkbox">
+                        <input type="checkbox" value="1" checked="checked"  id="muteMessageNotifications" formControlName="muteMessageNotifications"
+                          [attr.disabled]="!isProfileOwner() ? '' : null" />
+                        <em></em>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-xs-3 control-label">Mute connection noifications</label>
+                    <div class="col-md-8">
+                      <label class="checkbox">
+                        <input type="checkbox" value="1" checked="checked"  id="muteConnectionsNotifications" formControlName="muteConnectionsNotifications"
+                          [attr.disabled]="!isProfileOwner() ? '' : null" />
+                        <em></em>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="col-xs-3 control-label">Mute post notifications</label>
+                    <div class="col-md-8">
+                      <label class="checkbox">
+                        <input type="checkbox" value="1" checked="checked"  id="mutePostNotifications" formControlName="mutePostNotifications"
                           [attr.disabled]="!isProfileOwner() ? '' : null" />
                         <em></em>
                       </label>
@@ -436,6 +475,20 @@
                 <div *ngFor="let pendingProfile of pendingProfiles">
                   <app-pending-profile-card [userId]="pendingProfile.userId" [profile]="pendingProfile" (response)="respondToPending($event)"></app-pending-profile-card>
                 </div>
+            </div>
+            <br/>
+            <div id="overview" [ngClass]="tab === 6 ? 'tab-pane active' : 'tab-pane'">
+              <div class="profiles-container" *ngFor="let profile of profiles">
+                <app-profile-card [profile]="profile" [userId]="profile.id"></app-profile-card>
+                <br/>
+              </div>
+            </div>
+            <div id="overview" [ngClass]="tab === 7 ? 'tab-pane active' : 'tab-pane'">
+              <div>
+                <div *ngFor="let item of jobRecommendations">
+                  <app-job-ad-card [jobAd]="item" *ngIf="item.company"></app-job-ad-card>
+                </div>
+              </div>
             </div>
           </div>
         </div>
