@@ -79,10 +79,10 @@ export class AppComponent implements OnInit{
     const notification = JSON.parse(msg.body);
     console.log(notification)
     this.notificationService.addValue();
-      if(notification.id === "connect"){
+      if(notification.id === "connect" && notification.userId != this.currentUserId){
         alert(notification.senderName+" wants to connect.");
-      }else if(notification.id === "approve"){
-        alert(notification.senderName+" accepted connection reques.");
+      }else if(notification.id === "approve" && notification.userId != this.currentUserId){
+        alert(notification.senderName+" accepted connection request.");
       }
   };
 
