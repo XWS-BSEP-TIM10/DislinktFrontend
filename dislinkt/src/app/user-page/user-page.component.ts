@@ -196,7 +196,13 @@ export class UserPageComponent implements OnInit {
 
   getRecommendations(){
     this.connectionService.getRecommendations(this.storageService.getIdFromToken()).subscribe((data:any) => {
-      this.profiles = data
+      var cons = []
+      for(let i = 0; i < data.length; i++){
+        if(data[i].id != this.storageService.getIdFromToken()){
+          cons.push(data[i])
+        }
+      }
+      this.profiles = cons
     })
     this.jobAdService.getRecommendationJobAds(this.storageService.getIdFromToken()).subscribe((data:any) => {
       this.jobRecommendations = data
